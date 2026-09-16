@@ -1,0 +1,44 @@
+﻿# Roblox Studio & Rojo
+*.rbxl.lock
+*.rbxlx.lock
+*.rbxmx.lock
+*_autosave*.rbxl*
+*.tmp
+*.rbxlx.bak
+*.rbxl.bak
+
+# Residual migration folder
+Dustbound-0.5.0/
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# IDE & Editor Files
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Python Cache & Virtual Environments
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.cache/
+.venv/
+venv/
+env/
+.coverage
+htmlcov/
+
+# Logs
+*.log

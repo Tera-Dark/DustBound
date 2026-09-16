@@ -1,0 +1,19 @@
+COMPILE PASS src/Art.lua
+COMPILE PASS src/ArtData.lua
+COMPILE PASS src/Audio.lua
+COMPILE PASS src/Boot.client.lua
+COMPILE PASS src/Catalog.lua
+COMPILE PASS src/Client.client.lua
+COMPILE PASS src/Config.lua
+COMPILE PASS src/Core.lua
+COMPILE PASS src/Guide.lua
+COMPILE PASS src/Motion.lua
+COMPILE PASS src/Panels.lua
+COMPILE PASS src/ProfileStore.lua
+COMPILE PASS src/Rules.lua
+COMPILE PASS src/Server.server.lua
+COMPILE PASS src/Tech.lua
+COMPILE PASS src/Telemetry.lua
+COMPILE PASS src/UI.lua
+ANALYZE PASS: Config, Rules, Core, Tech, Catalog, Guide
+17 source files compiled; 6 pure modules analyzed. Not native Roblox API validation.

@@ -1,0 +1,111 @@
+{
+  "name": "Dustbound-0.5.0",
+  "tree": {
+    "$className": "DataModel",
+    "Workspace": {
+      "$className": "Workspace",
+      "$properties": {
+        "StreamingEnabled": false
+      }
+    },
+    "Players": {
+      "$className": "Players",
+      "$properties": {
+        "CharacterAutoLoads": false
+      }
+    },
+    "ReplicatedFirst": {
+      "$className": "ReplicatedFirst",
+      "FrontierBoot": {
+        "$path": "src/Boot.client.lua"
+      }
+    },
+    "ReplicatedStorage": {
+      "$className": "ReplicatedStorage",
+      "FrontierShared": {
+        "$className": "Folder",
+        "Config": {
+          "$path": "src/Config.lua"
+        },
+        "Rules": {
+          "$path": "src/Rules.lua"
+        },
+        "Core": {
+          "$path": "src/Core.lua"
+        },
+        "Art": {
+          "$path": "src/Art.lua"
+        },
+        "ArtData": {
+          "$path": "src/ArtData.lua"
+        },
+        "Tech": {
+          "$path": "src/Tech.lua"
+        },
+        "Catalog": {
+          "$path": "src/Catalog.lua"
+        },
+        "Motion": {
+          "$path": "src/Motion.lua"
+        },
+        "Panels": {
+          "$path": "src/Panels.lua"
+        },
+        "UI": {
+          "$path": "src/UI.lua"
+        },
+        "Guide": {
+          "$path": "src/Guide.lua"
+        },
+        "Audio": {
+          "$path": "src/Audio.lua"
+        }
+      },
+      "FrontierNetwork": {
+        "$className": "Folder",
+        "Action": {
+          "$className": "RemoteEvent"
+        },
+        "State": {
+          "$className": "RemoteEvent"
+        },
+        "FX": {
+          "$className": "RemoteEvent"
+        },
+        "BootStatus": {
+          "$className": "StringValue",
+          "$properties": {
+            "Value": "WAITING_FOR_SERVER"
+          }
+        },
+        "BootError": {
+          "$className": "StringValue",
+          "$properties": {
+            "Value": ""
+          }
+        }
+      }
+    },
+    "ServerScriptService": {
+      "$className": "ServerScriptService",
+      "FrontierServer": {
+        "$path": "src/Server.server.lua",
+        "ProfileStore": {
+          "$path": "src/ProfileStore.lua"
+        },
+        "Telemetry": {
+          "$path": "src/Telemetry.lua"
+        }
+      }
+    },
+    "StarterPlayer": {
+      "$className": "StarterPlayer",
+      "StarterPlayerScripts": {
+        "$className": "StarterPlayerScripts",
+        "FrontierClient": {
+          "$path": "src/Client.client.lua"
+        }
+      }
+    }
+  }
+}
