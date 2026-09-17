@@ -5,8 +5,12 @@ from lupa import LuaRuntime
 ROOT=Path(__file__).resolve().parents[1]
 def host(**options):
  lua=LuaRuntime(unpack_returned_tuples=True)
- names={**{x:x+'.lua' for x in ['Config','Rules','Core','Art','ArtData','Tech','Catalog','Panels','Motion','UI','Guide','Audio']},'ProfileStore':'ProfileStore.lua','Telemetry':'Telemetry.lua','Server':'Server.server.lua'}
- lua.globals().SOURCES=lua.table_from({k:(ROOT/'src'/v).read_text() for k,v in names.items()})
+ source_root=Path(options.pop("sourceRoot",ROOT))
+ names={**{x:x+'.lua' for x in ['Runtime','Config','RunSystems','ResearchWeb','Economy','BattleView','Rules','Core','Art','ArtData','Tech','Catalog','Panels','TechMap','Gallery','GalleryData','Animation','WeaponRig','Motion','UI','Guide','Audio']},'ProfileStore':'ProfileStore.lua','Telemetry':'Telemetry.lua','Server':'Server.server.lua'}
+ if options.pop('shippingOnly',False):
+  shipped=json.loads((ROOT/'default.project.json').read_text())['tree']['ReplicatedStorage']['FrontierShared']
+  names={k:v for k,v in names.items() if k in shipped or k in ['ProfileStore','Telemetry','Server']}
+ lua.globals().SOURCES=lua.table_from({k:(source_root/'src'/v).read_text() for k,v in names.items()})
  if options.pop('strictAPI',False):lua.globals().API_CONTRACT=lua.table_from(json.loads((ROOT/'tests/roblox_api_contract.json').read_text()),recursive=True)
  lua.globals().MOCK=lua.table_from(options)
  t=lua.execute((ROOT/'tests/mock_engine.lua').read_text());p=t.join(42);return lua,t,p
@@ -58,11 +62,15 @@ def test_desktop_has_48_nodes_and_preserves_scroll():
  assert modal(p).TechTree.CanvasPosition.Y==420
  assert by_name(modal(p),'ResearchNode').Active is False
 
-def test_mobile_tech_is_branch_list_not_scaled_48_grid():
+def test_mobile_tech_is_full_pan_zoom_graph():
  _,t,p=host();client(t,p,True);visit(t,p,'研究中心');tree=modal(p).TechTree
- assert len([o for o in tree.GetChildren(tree).values() if str(o.Name).startswith('Tech_')])==8
+ assert len([o for o in tree.GetChildren(tree).values() if str(o.Name).startswith('Tech_')])==48
  assert p.PlayerGui.DustboundHUD.Canvas.Stage.Size.xo>=960
- click_name(t,p,'NextBranch');assert by_name(modal(p),'BranchName').Text=='补给后勤'
+ assert tree.ScrollingDirection=='XY'
+ before=tree.CanvasSize.xo;click_name(t,p,'ZoomIn')
+ assert modal(p).TechTree.CanvasSize.xo>before
+ click_name(t,p,'FitTree');assert modal(p).TechTree.CanvasSize.xo==pytest.approx(before)
+ healthy(t,p)
 
 def test_mobile_paged_investment_navigation():
  _,t,p=host();client(t,p,True);visit(t,p,'▶  开始标准远征')
@@ -82,8 +90,8 @@ def test_codex_search(category,label,entry):
 def test_pause_settings_persist_and_resume(touch):
  _,t,p=host();client(t,p,touch);visit(t,p,'3 波教学 · 推荐');t.step(10);t.render(.2)
  visit(t,p,'Ⅱ');s=t.session(p).game;assert s.paused
- elapsed=s.elapsed;visit(t,p,'设置');visit(t,p,'轻量动效：关闭');visit(t,p,'伤害数字：显示');click_name(t,p,'Less_sfx')
- assert s.profile.settings.reducedMotion and not s.profile.settings.damageNumbers and s.profile.settings.sfx==pytest.approx(.45)
+ elapsed=s.elapsed;visit(t,p,'设置');click_name(t,p,'SettingsTab_display');click_name(t,p,'Motion');click_name(t,p,'DamageNumbers');click_name(t,p,'SettingsTab_audio');click_name(t,p,'Less_sfx')
+ assert s.profile.settings.reducedMotion and not s.profile.settings.damageNumbers and s.profile.settings.sfx==pytest.approx(.55)
  t.step(3);assert s.elapsed==elapsed
  visit(t,p,'×');assert t.findGui(p,'远征已暂停') is not None
  visit(t,p,'继续远征');assert not s.paused;t.step(.2);assert s.elapsed>elapsed;healthy(t,p)
@@ -128,7 +136,7 @@ def test_cloud_saved_settings_loadout_target_and_presets():
  assert r.persistent and r.data.loadout=='arc' and r.data.settings.sfx==.2 and r.data.targetResearch=='fort_3' and r.data.presets[1]=='arc'
 
 def test_settings_diagnostics_and_audio_are_real_calls():
- lua,t,p=host();client(t,p);visit(t,p,'设置');visit(t,p,'试听反馈音')
+ lua,t,p=host();client(t,p);visit(t,p,'设置');click_name(t,p,'SettingsTab_audio');visit(t,p,'试听反馈音')
  service=lua.globals().game.GetService(lua.globals().game,'SoundService')
  audio=service.DustboundAudio
  assert audio.SFX_upgrade.playCount>0

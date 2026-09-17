@@ -1,0 +1,447 @@
+test,status,message,review_bucket
+tests.test_animation::test_five_mounts_only_two_active,FAILED,"AssertionError: assert False
+ +  where False = execute('M.sync(G.snapshot(S,C0,R));return #M.weapons.slots==5 and M.weapons.activeCount==2 and M.weapons.slots[3].empty.Visible and not M.weapons.slots[5].mount.Visible')
+ +    where execute = <lupa.lua55.LuaRuntime object at 0x7f4c11462ac0>.execute",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_campaign::test_all_24_nodes_ramp_without_wave_or_stat_backtracking,FAILED,"assert ((3 - 3) <= 1 and 1.0 > 1.0)
+ +  where 3 = <Lua table at 0x564a7fb6f480>.waves
+ +  and   3 = <Lua table at 0x564a7fba0390>.waves
+ +  and   1.0 = <Lua table at 0x564a7fb6f480>.hp
+ +  and   1.0 = <Lua table at 0x564a7fba0390>.hp",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_campaign::test_failure_keeps_progress_rewards_but_no_core_and_no_unlock,FAILED,"assert (<Lua table at 0x564a7ff48ac0> and not False and 3 > 0 and 0 > 0)
+ +  where <Lua table at 0x564a7ff48ac0> = <Lua table at 0x564a80407680>.result
+ +  and   False = <Lua table at 0x564a7ff48ac0>.won
+ +    where <Lua table at 0x564a7ff48ac0> = <Lua table at 0x564a80407680>.result
+ +  and   3 = <Lua table at 0x564a7ff48ac0>.alloy
+ +    where <Lua table at 0x564a7ff48ac0> = <Lua table at 0x564a80407680>.result
+ +  and   0 = <Lua table at 0x564a7ff48ac0>.research
+ +    where <Lua table at 0x564a7ff48ac0> = <Lua table at 0x564a80407680>.result",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_campaign::test_legacy_five_migration_preserves_wallet_tech_and_new_progress,FAILED,"assert (7 == 6)
+ +  where 7 = <Lua table at 0x564a8012e780>.schema",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_campaign::test_unresearched_late_node_is_meaningfully_harder,FAILED,assert (not True),待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_campaign::test_campaign_ui_navigation_launch_lock_and_rewards[False],FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: ▶  星球远征 · 24 关
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_campaign::test_campaign_ui_navigation_launch_lock_and_rewards[True],FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: ▶  星球远征 · 24 关
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_campaign::test_gallery_lazy_load_reuse_and_native_fallback[False],FAILED,"AssertionError: assert 'cold' == 'embedded'
+  
+  - embedded
+  + cold",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_campaign::test_gallery_lazy_load_reuse_and_native_fallback[True],FAILED,"AssertionError: assert 'cold' == 'fallback'
+  
+  - fallback
+  + cold",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_campaign::test_tech_map_all_dependency_edges_and_desktop_drag,FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: 研究中心
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_campaign::test_fit_restores_whole_tree_after_focusing_outer_node,FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: 研究中心
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_core::test_buy_cost_cap_and_full_repair,FAILED,"AssertionError: assert False
+ +  where False = <Lua function at 0x564a7ff38190>(<Lua table at 0x564a7fe1e240>, <Lua table at 0x564a80ae0ed0>, <Lua table at 0x564a803ad010>, 'buy', 'drill')
+ +    where <Lua function at 0x564a7ff38190> = <Lua table at 0x564a82a45ae0>.act",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_core::test_supply_only_after_wave_and_halts_thirty_seconds,FAILED,"AssertionError: assert ('mining' == 'mining'
+  
+    mining and 0 == 30)
+ +  where 0 = <Lua table at 0x564a8239b180>.breakLeft",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_core::test_mining_robot_cargo_not_continuous,FAILED,"AssertionError: assert False
+ +  where False = <Lua function at 0x564a827dd430>(<Lua table at 0x564a8204f720>, <Lua table at 0x564a82ccd4c0>, <Lua table at 0x564a81d648c0>, 'supply', <Lua table at 0x564a81c0df80>)
+ +    where <Lua function at 0x564a827dd430> = <Lua table at 0x564a827deae0>.act
+ +    and   <Lua table at 0x564a81c0df80> = table(<lupa.lua55.LuaRuntime object at 0x7f4c112544a0>, token='1:1', id=('repair'))
+ +      where '1:1' = <Lua table at 0x564a81c0de90>.token
+ +        where <Lua table at 0x564a81c0de90> = <Lua table at 0x564a8204f720>.supply",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_core::test_break_exactly_thirty_unpaused_seconds,FAILED,"AssertionError: assert False
+ +  where False = <Lua function at 0x564a81cafac0>(<Lua table at 0x564a80426420>, <Lua table at 0x564a81bb39d0>, <Lua table at 0x564a81bd9640>, 'supply', <Lua table at 0x564a80ebe450>)
+ +    where <Lua function at 0x564a81cafac0> = <Lua table at 0x564a819c6660>.act
+ +    and   <Lua table at 0x564a80ebe450> = table(<lupa.lua55.LuaRuntime object at 0x7f4c11254ae0>, token='1:1', id=('repair'))
+ +      where '1:1' = <Lua table at 0x564a80ebe360>.token
+ +        where <Lua table at 0x564a80ebe360> = <Lua table at 0x564a80426420>.supply",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_core::test_buffs_only_consume_relevant_phase,FAILED,"AssertionError: assert False
+ +  where False = <Lua function at 0x564a80453310>(<Lua table at 0x564a82bfad90>, <Lua table at 0x564a82ccb490>, <Lua table at 0x564a80015fa0>, 'supply', <Lua table at 0x564a82c4d8c0>)
+ +    where <Lua function at 0x564a80453310> = <Lua table at 0x564a823bb370>.act
+ +    and   <Lua table at 0x564a82c4d8c0> = table(<lupa.lua55.LuaRuntime object at 0x7f4c11255440>, token='1:1', id=('ammo'))
+ +      where '1:1' = <Lua table at 0x564a82c4d7d0>.token
+ +        where <Lua table at 0x564a82c4d7d0> = <Lua table at 0x564a82bfad90>.supply",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_core::test_tenth_and_twelfth_wave_include_mining,FAILED,"AssertionError: assert ('mining' == 'mining'
+  
+    mining and 0 == 30)
+ +  where 0 = <Lua table at 0x564a82a53280>.breakLeft",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_core::test_settlement_once_and_abandon_zero_reward,FAILED,"AssertionError: assert ('mining' == 'mining'
+  
+    mining and 0 == 30)
+ +  where 0 = <Lua table at 0x564a81eaaef0>.breakLeft",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_core::test_machine_projectile_deferred,FAILED,AttributeError: 'NoneType' object has no attribute 'weapon',待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_core::test_weapon_unlock_real_damage[arc-energy_2],FAILED,"AssertionError: assert False
+ +  where False = <Lua function at 0x564a80756c90>(<Lua table at 0x564a819d9270>, <Lua table at 0x564a7ffbcc30>, <Lua table at 0x564a829914d0>, 'loadout', 'arc')
+ +    where <Lua function at 0x564a80756c90> = <Lua table at 0x564a7ffbb5f0>.act",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_core::test_weapon_unlock_real_damage[rail-ballistics_4],FAILED,"AssertionError: assert False
+ +  where False = <Lua function at 0x564a7f9ed9a0>(<Lua table at 0x564a7f97de90>, <Lua table at 0x564a805998b0>, <Lua table at 0x564a8040ac20>, 'loadout', 'rail')
+ +    where <Lua function at 0x564a7f9ed9a0> = <Lua table at 0x564a82a45ae0>.act",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_core::test_weapon_unlock_real_damage[flame-energy_4],FAILED,"AssertionError: assert False
+ +  where False = <Lua function at 0x564a80716050>(<Lua table at 0x564a80165bb0>, <Lua table at 0x564a7f969b90>, <Lua table at 0x564a823a54c0>, 'loadout', 'flame')
+ +    where <Lua function at 0x564a80716050> = <Lua table at 0x564a81cef4b0>.act",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_core::test_weapon_unlock_real_damage[mortar-expedition_3],FAILED,"AssertionError: assert False
+ +  where False = <Lua function at 0x564a80b36630>(<Lua table at 0x564a7ffe2310>, <Lua table at 0x564a8239b9a0>, <Lua table at 0x564a81ec0260>, 'loadout', 'mortar')
+ +    where <Lua function at 0x564a80b36630> = <Lua table at 0x564a81fc29e0>.act",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_core::test_spitter_acid_travels_before_base_damage,FAILED,AttributeError: 'NoneType' object has no attribute 'weapon',待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_core::test_all_enemy_types_spawn_at_safe_edges,FAILED,"assert 1396.9576461198553 <= 1347
+ +  where 1396.9576461198553 = <Lua table at 0x564a819dfba0>.x",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_core::test_tech_48_nodes_no_cycles_and_real_effects,FAILED,"AssertionError: robotCargo
+assert ('.' + 'robotCargo') in '-- 0.7 authoritative radial battle and robot-funded run economy. No client-side rewards.\nlocal G={}\nlocal function ...th.floor(out.research*(1+(refinery or 0)*.2))\n out.cores=won and node.reward.cores or 0\n return out\nend\nreturn R\n'",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_core::test_research_atomic_prereq_wave_and_rare_currency_gates,FAILED,"assert (True and True and 99938 == (100000 - 78))
+ +  where True = <Lua table at 0x564a82380fd0>.fort_1
+ +    where <Lua table at 0x564a82380fd0> = <Lua table at 0x564a819be8d0>.tech
+ +  and   99938 = <Lua table at 0x564a819be8d0>.alloy",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_core::test_research_applied_next_start[logistics_1-ore-160],FAILED,assert 120 == 160,待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_core::test_robot_count_speed_yield_and_remote_unload,FAILED,"assert 120 >= (120 + 17)
+ +  where 120 = <Lua table at 0x564a82239bc0>.ore",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_core::test_repair_shield_revive_and_reroll_tech,FAILED,"lupa.lua55.LuaError: [string ""<python>""]:60: attempt to index a nil value (local 'C')
+stack traceback:
+	[string ""<python>""]:60: in function <[string ""<python>""]:58>",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_core::test_unlock_supplies_discovered_and_functional,FAILED,"AssertionError: assert False
+ +  where False = <Lua function at 0x564a81bce520>(<Lua table at 0x564a805896b0>, <Lua table at 0x564a8194a610>, <Lua table at 0x564a81fc60b0>, 'supply', <Lua table at 0x564a82b93710>)
+ +    where <Lua function at 0x564a81bce520> = <Lua table at 0x564a8194a0a0>.act
+ +    and   <Lua table at 0x564a82b93710> = table(<lupa.lua55.LuaRuntime object at 0x7f4c11285260>, token='1:1', id=('drones'))
+ +      where '1:1' = <Lua table at 0x564a82b93530>.token
+ +        where <Lua table at 0x564a82b93530> = <Lua table at 0x564a805896b0>.supply",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_core::test_profile_sanitizes_nested_and_legacy[nan],FAILED,"assert (0 == 0 and 7 == 6)
+ +  where 0 = <Lua table at 0x564a82994790>.alloy
+ +  and   7 = <Lua table at 0x564a82994790>.schema",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_core::test_profile_sanitizes_nested_and_legacy[inf],FAILED,"assert (0 == 0 and 7 == 6)
+ +  where 0 = <Lua table at 0x564a806c0ea0>.alloy
+ +  and   7 = <Lua table at 0x564a806c0ea0>.schema",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_core::test_profile_sanitizes_nested_and_legacy[-50],FAILED,"assert (0 == 0 and 7 == 6)
+ +  where 0 = <Lua table at 0x564a82bef380>.alloy
+ +  and   7 = <Lua table at 0x564a82bef380>.schema",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_core::test_profile_sanitizes_nested_and_legacy[oops],FAILED,"assert (0 == 0 and 7 == 6)
+ +  where 0 = <Lua table at 0x564a8195f060>.alloy
+ +  and   7 = <Lua table at 0x564a8195f060>.schema",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_core::test_export_contains_current_sources_and_boot,FAILED,"AssertionError: Art.lua
+assert '-- Sprite rendering: one shared embedded EditableImage; optional uploaded atlas; safe GUI-raster fallback.\nlocal Art...ainer\nend\nfunction Art.close()\n    if imageObject then imageObject:Destroy();imageObject=nil end\nend\nreturn Art\n' in ['-- Standalone ReplicatedFirst UI. NO require(), NO DataStore, NO wait for a server remote.\n-- The screen remains vi...root:Destroy() end end\n  for _,f in ipairs(self.fxPool) do f:Destroy() end\n end\n return self\nend\nreturn B\n', ...]
+ +  where '-- Sprite rendering: one shared embedded EditableImage; optional uploaded atlas; safe GUI-raster fallback.\nlocal Art...ainer\nend\nfunction Art.close()\n    if imageObject then imageObject:Destroy();imageObject=nil end\nend\nreturn Art\n' = read_text()
+ +    where read_text = PosixPath('/home/user/DustBound/src/Art.lua').read_text",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_core::test_legacy_bonuses_migrate_without_double_application,FAILED,"assert (1080 == 1080 and 30 == 33.6 ± 3.4e-05
+ +  where 1080 = <Lua table at 0x564a82bf8d90>.maxHull
+  
+  comparison failed
+  Obtained: 30
+  Expected: 33.6 ± 3.4e-05)",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_core::test_mitigation_regen_and_start_shield_durations,FAILED,"assert None == 14.4 ± 1.4e-05
+  
+  comparison failed
+  Obtained: None
+  Expected: 14.4 ± 1.4e-05",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_core::test_fifth_shot_and_ballistic_velocity,FAILED,"assert 0.29807818114737045 == 0.47932871168002283 ± 4.8e-07
+  
+  comparison failed
+  Obtained: 0.29807818114737045
+  Expected: 0.47932871168002283 ± 4.8e-07",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_core::test_crystals_cores_rewards_and_expedition_multipliers,FAILED,"AssertionError: assert ('mining' == 'mining'
+  
+    mining and 0 == 30)
+ +  where 0 = <Lua table at 0x564a829d9df0>.breakLeft",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_core::test_burn_arc_bonus_and_aux_damage,FAILED,"assert 0 == 4
+ +  where 0 = sum(<generator object test_burn_arc_bonus_and_aux_damage.<locals>.<genexpr> at 0x7f4c1099e810>)",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_core::test_reroll_unlock_pool_and_overclock_duration,FAILED,"AssertionError: assert ('mining' == 'mining'
+  
+    mining and 0 == 30)
+ +  where 0 = <Lua table at 0x564a82060790>.breakLeft",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_core::test_no_investment_policy_is_not_guaranteed_victory,FAILED,"AssertionError: assert ('ended' == 'ended'
+  
+    ended and not True)
+ +  where True = <Lua table at 0x564a81f9c880>.won
+ +    where <Lua table at 0x564a81f9c880> = <Lua table at 0x564a81ee8c00>.result",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_demo::test_grid_has_short_axis_aligned_edges_and_cross_prerequisite_markers,FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: 研究中心
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_demo::test_ready_jump_and_precise_resource_gap,FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: 研究中心
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_demo::test_lobby_campaign_resumes_next_unfinished_node,FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: ▶  星球远征 · 24 关
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_demo::test_mobile_codex_reduces_portrait_scroll_cost,FAILED,AttributeError: 'NoneType' object has no attribute 'SafeCanvas',待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_performance::test_planner_retains_controls_and_scroll_position_while_values_update,FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: ▶  开始标准远征
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_performance::test_retained_allocation_button_uses_latest_state_not_captured_state,FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: ▶  开始标准远征
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_performance::test_idle_render_frames_do_not_rebuild_or_animate_hidden_battlefield[True],FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: ▶  开始标准远征
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_performance::test_packet_burst_coalesces_hud_paints_until_next_render,FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: ▶  开始标准远征
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_performance::test_f6_diagnostics_toggle_does_not_pause_game,FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: ▶  开始标准远征
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_performance::test_settings_diagnostics_refresh_does_not_rebuild_settings,FAILED,"AssertionError: SettingsTab_advanced
+assert (None is not None)",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_polish::test_recommendation_skips_capped_and_full_hull_repairs,FAILED,"AssertionError: assert ('cargo' == 'regen'
+  
+  - regen
+  + cargo)",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_polish::test_recommendation_no_affordable_upgrade_still_explains_gap,FAILED,"assert (not True)
+ +  where True = <Lua table at 0x564a823daad0>.can
+ +    where <Lua table at 0x564a823daad0> = <Lua table at 0x564a803e19c0>.info",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_polish::test_recommendation_all_capped_does_not_require_another_purchase,FAILED,"assert (not True)
+ +  where True = <Lua table at 0x564a82887c50>.can
+ +    where <Lua table at 0x564a82887c50> = <Lua table at 0x564a82887e20>.info",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_polish::test_supply_default_avoids_full_hull_repair,FAILED,"AssertionError: assert 'repairNet' == 'drill'
+  
+  - drill
+  + repairNet",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_polish::test_supply_heal_preview_respects_tech_and_missing_hull,FAILED,"lupa.lua55.LuaError: [string ""<python>""]:70: attempt to index a nil value (local 'd')
+stack traceback:
+	[string ""<python>""]:70: in function <[string ""<python>""]:67>",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_polish::test_last_tutorial_supply_does_not_recommend_combat_buff,FAILED,"AssertionError: assert ('mining' == 'mining'
+  
+    mining and 0 == 30)
+ +  where 0 = <Lua table at 0x564a7ff38580>.breakLeft",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_polish::test_wave_ten_supply_explains_overtime_only_use,FAILED,"AssertionError: assert ('mining' == 'mining'
+  
+    mining and 0 == 30)
+ +  where 0 = <Lua table at 0x564a7fbc4980>.breakLeft",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_polish::test_buffs_identify_waiting_and_active_phase,FAILED,AssertionError: assert ('钻机加速 30s·待机' in '无临时增益 · 补给可强化下一阶段'),待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_polish::test_run_ledger_tracks_purchases_rerolls_airdrops_and_resets,FAILED,"AssertionError: assert False
+ +  where False = <Lua function at 0x564a8011c1f0>(<Lua table at 0x564a8077c8e0>, <Lua table at 0x564a81ea3f30>, <Lua table at 0x564a809750f0>, 'supply', <Lua table at 0x564a80e35140>)
+ +    where <Lua function at 0x564a8011c1f0> = <Lua table at 0x564a8012fd20>.act
+ +    and   <Lua table at 0x564a80e35140> = table(<lupa.lua55.LuaRuntime object at 0x7f4c1129d9e0>, token='1:2', id=('ore'))
+ +      where '1:2' = <Lua table at 0x564a80e35090>.token
+ +        where <Lua table at 0x564a80e35090> = <Lua table at 0x564a8077c8e0>.supply",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_polish::test_salvage_ledger_tracks_actual_reward,FAILED,"assert (1 == 1 and 0 == 8)
+ +  where 1 = <Lua table at 0x564a82b852e0>.kills
+ +  and   0 = <Lua table at 0x564a81becfe0>.salvaged
+ +    where <Lua table at 0x564a81becfe0> = <Lua table at 0x564a82b852e0>.ledger",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_polish::test_wave_reports_preserved_and_lost_cargo_not_income,FAILED,"assert (0 > 0)
+ +  where 0 = <Lua table at 0x564a80cf9c50>.lostCargo
+ +    where <Lua table at 0x564a80cf9c50> = <Lua table at 0x564a81964b40>.ledger",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_polish::test_five_second_warning_once_and_paused_timer_frozen,FAILED,assert 0 == 1,待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_polish::test_effective_hull_damage_excludes_overkill,FAILED,"assert (None == 3)
+ +  where None = <Lua table at 0x564a80e35cc0>.waveTaken",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_polish::test_low_hull_warning_does_not_repeat_every_tick,FAILED,"assert 0 == 1
+ +  where 0 = sum(<generator object test_low_hull_warning_does_not_repeat_every_tick.<locals>.<genexpr> at 0x7f4c1090c1e0>)",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_polish::test_failure_settlement_explains_loss_retention,FAILED,"AssertionError: assert '35%' in '节点结算：首通 180% / 重打 80% 基准奖励，另计永久研究加成。\n精炼提高研究数据；失败按推进进度保留部分材料；核心仅胜利获得。剩余矿料不直接兑换。'
+ +  where '节点结算：首通 180% / 重打 80% 基准奖励，另计永久研究加成。\n精炼提高研究数据；失败按推进进度保留部分材料；核心仅胜利获得。剩余矿料不直接兑换。' = <Lua function at 0x564a7fc1fee0>(<Lua table at 0x564a7fabb6c0>, <Lua table at 0x564a80632680>, <Lua table at 0x564a7ff83920>)
+ +    where <Lua function at 0x564a7fc1fee0> = <Lua table at 0x564a82131610>.settlement
+ +      where <Lua table at 0x564a82131610> = guide(<lupa.lua55.LuaRuntime object at 0x7f4c112720c0>)
+ +    and   <Lua table at 0x564a7fabb6c0> = <Lua function at 0x564a805e9230>(<Lua table at 0x564a7fa3de70>, <Lua table at 0x564a80632680>, <Lua table at 0x564a7ff83920>)
+ +      where <Lua function at 0x564a805e9230> = <Lua table at 0x564a8090ce30>.snapshot",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_polish::test_help_panel_opens_and_closes_without_starting_game[False],FAILED,"AssertionError: Help
+assert (None is not None)",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_polish::test_help_panel_opens_and_closes_without_starting_game[True],FAILED,"AssertionError: Help
+assert (None is not None)",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_polish::test_contextual_supply_is_selected_in_ui[False],FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: 3 波教学 · 推荐
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_polish::test_contextual_supply_is_selected_in_ui[True],FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: 3 波教学 · 推荐
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_polish::test_compact_upgrade_text_does_not_overlap_buy_button,FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: ▶  开始标准远征
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_polish::test_combat_planner_does_not_claim_mining_income,FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: ▶  开始标准远征
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_polish::test_failed_tutorial_retry_stays_in_tutorial,FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: 3 波教学 · 推荐
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_polish::test_server_returns_specific_rejection_not_generic_error,FAILED,"AssertionError: assert '操作未生效：请检查状态、资源或解锁条件' == '耐久已满'
+  
+  - 耐久已满
+  + 操作未生效：请检查状态、资源或解锁条件",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_polish::test_result_contains_ledger_and_debrief[False],FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: ▶  开始标准远征
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_polish::test_result_contains_ledger_and_debrief[True],FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: ▶  开始标准远征
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_polish::test_energy_allocation_highlight_tracks_authoritative_state,FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: ▶  开始标准远征
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_polish::test_workshop_exposes_existing_second_preset_slot,FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: 武器工坊
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_qol::test_old_schema_five_keeps_existing_preferences_and_adds_safe_defaults,FAILED,"assert (7 == 6)
+ +  where 7 = <Lua table at 0x564a8064e800>.schema",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_qol::test_settings_open_on_general_with_advanced_out_of_the_way[False],FAILED,AttributeError: 'NoneType' object has no attribute 'SafeCanvas',待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_qol::test_settings_open_on_general_with_advanced_out_of_the_way[True],FAILED,AttributeError: 'NoneType' object has no attribute 'SafeCanvas',待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_qol::test_reset_dialog_cancel_then_confirm_from_settings,FAILED,"AssertionError: ShowTips
+assert (None is not None)",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_qol::test_focus_loss_pauses_immediately_and_return_does_not_auto_resume,FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: ▶  开始标准远征
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_qol::test_focus_loss_does_not_pause_by_default,FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: ▶  开始标准远征
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_qol::test_optional_tips_hide_but_tutorial_and_danger_notices_remain,FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: ▶  开始标准远征
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_qol::test_shortcuts_can_be_disabled_without_disabling_mouse_or_diagnostics,FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: ▶  开始标准远征
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_qol::test_back_returns_to_parent_but_close_dismisses_stack,FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: 武器工坊
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_qol::test_paid_reroll_is_not_charged_until_confirmed,FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: ▶  开始标准远征
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_qol::test_stale_paid_reroll_confirmation_cannot_charge,FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: ▶  开始标准远征
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_qol::test_advanced_view_retains_live_diagnostics_after_settings_change,FAILED,"AssertionError: SettingsTab_display
+assert (None is not None)",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_qol::test_main_cta_and_navigation_do_not_overlap[1440-810],FAILED,AttributeError: 'NoneType' object has no attribute 'Position',待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_qol::test_main_cta_and_navigation_do_not_overlap[844-390],FAILED,AttributeError: 'NoneType' object has no attribute 'Position',待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_qol::test_main_cta_and_navigation_do_not_overlap[667-375],FAILED,AttributeError: 'NoneType' object has no attribute 'Position',待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_ui::test_boot_modes_purchase_and_local_mode[False-False],FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: ▶  开始标准远征
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_ui::test_boot_modes_purchase_and_local_mode[False-True],FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: ▶  开始标准远征
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_ui::test_boot_modes_purchase_and_local_mode[True-False],FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: ▶  开始标准远征
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_ui::test_boot_modes_purchase_and_local_mode[True-True],FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: ▶  开始标准远征
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_ui::test_tech_target_research_and_early_function_unlock[False],FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: 研究中心
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_ui::test_tech_target_research_and_early_function_unlock[True],FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: 研究中心
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_ui::test_desktop_has_48_nodes_and_preserves_scroll,FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: 研究中心
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_ui::test_mobile_tech_is_full_pan_zoom_graph,FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: 研究中心
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_ui::test_mobile_paged_investment_navigation,FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: ▶  开始标准远征
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_ui::test_codex_search[weapons-\u6b66\u5668-\u78c1\u8f68\u67aa],FAILED,"AssertionError: Codex_weapons
+assert (None is not None)",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_ui::test_codex_search[supplies-\u8865\u7ed9-\u8d85\u8f7d\u6838\u5fc3],FAILED,"AssertionError: Codex_supplies
+assert (None is not None)",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_ui::test_codex_search[enemies-\u602a\u7269-\u77ff\u5de2\u5b88\u536b],FAILED,"AssertionError: Codex_enemies
+assert (None is not None)",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_ui::test_pause_settings_persist_and_resume[False],FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: 3 波教学 · 推荐
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_ui::test_pause_settings_persist_and_resume[True],FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: 3 波教学 · 推荐
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_ui::test_supply_invest_drawer_and_robot_progress,FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: 3 波教学 · 推荐
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_ui::test_abandon_confirmation_zero_rewards,FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: ▶  开始标准远征
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_ui::test_tutorial_result_direct_research_workshop_next_run[False],FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: 3 波教学 · 推荐
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_ui::test_tutorial_result_direct_research_workshop_next_run[True],FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: 3 波教学 · 推荐
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_ui::test_cloud_read_failure_is_blocked_until_explicit_guest,FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: 确认进入不保存的试玩
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_ui::test_cloud_saved_settings_loadout_target_and_presets,FAILED,"AssertionError: assert (True and 'machine' == 'arc'
+ +  where True = <Lua table at 0x564a84204740>.persistent
+  
+  - arc
+  + machine)",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_ui::test_settings_diagnostics_and_audio_are_real_calls,FAILED,"AssertionError: SettingsTab_audio
+assert (None is not None)",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_ui::test_api_contract_all_panels_and_battle[False],FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: 研究中心
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_ui::test_api_contract_all_panels_and_battle[True],FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: 研究中心
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_ui::test_unpublished_cloud_optin_stays_local,FAILED,"lupa.lua55.LuaError: [string ""<python>""]:259: GUI not found: 3 波教学 · 推荐
+stack traceback:
+	[string ""<python>""]:259: in function <[string ""<python>""]:258>
+	[C]: in global 'assert'",旧 UI 入口失配：需在当前入口重建同等行为验证
+tests.test_ui::test_dynamic_safe_areas_and_fullscreen_shade,FAILED,AttributeError: 'NoneType' object has no attribute 'ScreenInsets',待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_v05::test_tutorial_three_breaks_first_reward_only_once,FAILED,"assert (<Lua table at 0x564a8237bdc0> and True and True and 1 == 3)
+ +  where <Lua table at 0x564a8237bdc0> = <Lua table at 0x564a83bc4040>.result
+ +  and   True = <Lua table at 0x564a8237bdc0>.won
+ +    where <Lua table at 0x564a8237bdc0> = <Lua table at 0x564a83bc4040>.result
+ +  and   True = <Lua table at 0x564a8237bdc0>.firstClear
+ +    where <Lua table at 0x564a8237bdc0> = <Lua table at 0x564a83bc4040>.result",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_v05::test_explicit_request_ids_deduplicate_purchases,FAILED,"assert 120 == 20
+ +  where 120 = <Lua table at 0x564a8053aff0>.ore",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_v05::test_settings_sanitize_and_presets_unlock_validation,FAILED,"AssertionError: assert (False)
+ +  where False = <Lua function at 0x564a82669d40>(<Lua table at 0x564a83b76d50>, <Lua table at 0x564a8779edc0>, <Lua table at 0x564a8769cdb0>, 'preset', <Lua table at 0x564a83b771e0>)
+ +    where <Lua function at 0x564a82669d40> = <Lua table at 0x564a80b421d0>.act
+ +    and   <Lua table at 0x564a83b771e0> = table(<lupa.lua55.LuaRuntime object at 0x7f4c109572e0>, slot=1, mode='equip')",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_v05::test_forecast_no_income_and_upgrade_explanations,FAILED,"assert (False)
+ +  where False = <Lua table at 0x564a820245a0>.elite
+ +    where <Lua table at 0x564a820245a0> = <Lua function at 0x564a80f1aa60>(5, <Lua table at 0x564a82190740>)
+ +      where <Lua function at 0x564a80f1aa60> = <Lua table at 0x564a827e6e20>.intel",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_v05::test_wave_report_tracks_effective_damage,FAILED,AttributeError: 'NoneType' object has no attribute 'kills',待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_v05::test_tutorial_fixed_grant_and_unproductive_investment_blocked,FAILED,"AssertionError: assert ('mining' == 'mining'
+  
+    mining and 0 == 30)
+ +  where 0 = <Lua table at 0x564a815d2100>.breakLeft",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_v05::test_old_arc_owner_tutorial_targets_new_research,FAILED,"AssertionError: assert ('mining' == 'mining'
+  
+    mining and 0 == 30)
+ +  where 0 = <Lua table at 0x564a8267c290>.breakLeft",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_v05::test_zero_viewport_waits_without_claiming_ui_ready,FAILED,"AssertionError: assert 'WAITING_FOR_2D_STATE' == 'WAITING_FOR_VIEWPORT'
+  
+  - WAITING_FOR_VIEWPORT
+  + WAITING_FOR_2D_STATE",待复核：规则/接口迁移或真实回归，不能直接忽略
+tests.test_v05::test_pending_modal_blocks_double_click_and_timeout_recovers,FAILED,"AssertionError: SettingsTab_audio
+assert (None is not None)",旧 UI 入口失配：需在当前入口重建同等行为验证

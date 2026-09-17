@@ -1,5 +1,5 @@
 local C = {}
-C.Version = "0.5.0"
+C.Version = "0.7.0"
 C.EnableCloudSave = false -- Set true ONLY in your published test/production experience.
 C.EnableAnalytics = false -- Opt-in server AnalyticsService; local diagnostics always work.
 C.TutorialWaves = 3
@@ -9,11 +9,20 @@ C.SaveName = "Dustbound2D_Profile_v1"
 -- Optional: upload assets/dustbound-atlas.png as an IMAGE, then paste its image ID.
 -- 0 uses a runtime EditableImage with embedded pixels; failure falls back to GUI art.
 C.AtlasImageId = 0
+-- Legacy mount seed; Economy.configure supplies the current five radial mounts.
+C.WeaponMounts = {
+ {id=1,name="主炮",x=493,y=164,fireX=558,fireY=145,enabled=true},
+ {id=2,name="副武器 I",x=597,y=278,fireX=602,fireY=275,enabled=true},
+ {id=3,name="副武器 II",x=326,y=288,fireX=366,fireY=288,enabled=false},
+ {id=4,name="副武器 III",x=423,y=362,fireX=463,fireY=362,enabled=false},
+ {id=5,name="副武器 IV",x=588,y=369,fireX=628,fireY=369,enabled=false},
+}
+C.Animation = {delay=.10,maxExtrapolation=.20,eventLimit=192,projectileLimit=80,effectLimit=56}
 C.Tick = 0.1
 C.SnapshotInterval = 0.15
-C.WaveDuration = 28
+C.WaveDuration = 24
 C.TotalWaves = 10
-C.EnemyCap = 20
+C.EnemyCap = 28
 C.InitialOre = 120
 C.InitialHull = 900
 C.MiningDuration = 30

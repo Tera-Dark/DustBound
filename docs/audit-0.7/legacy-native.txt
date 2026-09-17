@@ -1,0 +1,5 @@
+./tests/native.luau:5: nested migration
+stacktrace:
+[C] function assert
+./tests/native.luau:5 function check
+./tests/native.luau:12

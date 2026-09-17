@@ -39,7 +39,7 @@ local function border(object,col)
 end
 box(root,"Accent",36,37,29,3,mint)
 text(root,"Kicker","DUSTBOUND / AUTOMATED OUTPOST",79,26,610,24,13,mint)
-text(root,"Version","BUILD 0.5.0  /  LOCAL FIRST",777,26,300,24,11,muted)
+text(root,"Version","BUILD 0.7.0  /  LOCAL FIRST",777,26,300,24,11,muted)
 text(root,"Title","荒星前哨",36,95,510,77,48,white).Font = Enum.Font.GothamBold
 text(root,"Tagline","前哨自动防御，机器人波间采矿。\n把每一份资源用在刀刃上。",39,182,480,77,23,muted)
 local labels = {{"01","机器人采矿","不需要驾驶或瞄准"},{"02","资源投入","基地 / 采矿 / 武器"},{"03","补给选择","维修 / 采矿 / 弹药"}}
@@ -93,7 +93,7 @@ output.TextWrapped = true; output.MultiLine = true; output.ClearTextOnFocus = fa
 output.TextXAlignment = Enum.TextXAlignment.Left; output.TextYAlignment = Enum.TextYAlignment.Top; output.Parent = diagnostics
 local forceVisible = false
 diagButton.Activated:Connect(function() diagnostics.Visible = not diagnostics.Visible; forceVisible = diagnostics.Visible end)
-local started = os.clock(); local interval = 0
+local started = os.clock(); local interval = 0; local polling=nil;local watchedNetwork=nil
 local function value(parent,name,fallback)
     local child = parent and parent:FindFirstChild(name)
     return child and child.Value or fallback
@@ -103,6 +103,13 @@ local function refresh()
     if camera then scale.Scale = math.min(camera.ViewportSize.X/1100,camera.ViewportSize.Y/660) end
     local age = os.clock()-started
     local network = RS:FindFirstChild("FrontierNetwork")
+    if network and network~=watchedNetwork then
+        watchedNetwork=network
+        for _,name in ipairs({"BootStatus","BootError"}) do
+            local field=network:FindFirstChild(name)
+            if field then field:GetPropertyChangedSignal("Value"):Connect(refresh) end
+        end
+    end
     local server = value(network,"BootStatus","NO_NETWORK")
     local serverError = value(network,"BootError","")
     local client = playerGui:GetAttribute("FrontierClientPhase") or "WAITING_FOR_CLIENT"
@@ -110,7 +117,8 @@ local function refresh()
     local ready = playerGui:GetAttribute("FrontierGameReady") == true
     local failed = server == "ERROR" or client == "ERROR" or clientError ~= ""
     screen.Enabled = not ready or failed or forceVisible
-    output.Text = "Frontier 0.5.0\nClient: "..client.."\nServer: "..server.."\nElapsed: "..math.floor(age).."s\n\n"..
+    if ready and not failed and not forceVisible and polling then polling:Disconnect();polling=nil end
+    output.Text = "Frontier 0.7.0\nClient: "..client.."\nServer: "..server.."\nElapsed: "..math.floor(age).."s\n\n"..
         (clientError ~= "" and ("CLIENT ERROR\n"..clientError.."\n\n") or "")..
         (serverError ~= "" and ("SERVER ERROR\n"..serverError.."\n\n") or "")..
         "如果停在这里，请截图本面板并附 Studio 输出窗口的第一条红色报错。\n本地试玩无需发布，无需开启 API。"
@@ -120,13 +128,13 @@ local function refresh()
         diagnostics.Visible = true
     elseif age > 15 and not ready then
         status.Text = "启动超时：尚未收到可玩的战局。"; status.TextColor3 = amber
-        detail.Text = "点击右下角“查看启动诊断”。请确认使用的是 0.5.0 完整工程和 Play / F5。"
+        detail.Text = "点击右下角“查看启动诊断”。请确认使用的是 0.7.0 完整工程和 Play / F5。"
     elseif ready then
         status.Text = "二维前哨系统已就绪"; progress.Size = UDim2.fromScale(1,1)
     else
         status.Text = server == "READY" and "服务端就绪，正在连接游戏界面…" or "正在启动二维前哨系统…"
-        detail.Text = "本地试玩不需要发布，也不需要开启 API。   /   "..client
-        progress.Size = UDim2.new(math.min(0.92,0.1+age*0.05),0,1,0)
+        detail.Text = playerGui:GetAttribute("FrontierLoadDetail") or ("本地试玩无需发布 / "..client)
+        progress.Size = UDim2.new(math.max(0,math.min(.98,playerGui:GetAttribute("FrontierLoadProgress") or 0)),0,1,0)
     end
 end
 -- Report runtime LocalScript errors as visible UI, where permitted by the engine.
@@ -139,8 +147,11 @@ pcall(function()
         end
     end)
 end)
-RunService.RenderStepped:Connect(function(dt)
+polling=RunService.Heartbeat:Connect(function(dt)
     interval = interval+dt
     if interval >= 0.2 then interval = 0; refresh() end
 end)
+for _,name in ipairs({"FrontierGameReady","FrontierClientError","FrontierClientPhase"}) do
+    playerGui:GetAttributeChangedSignal(name):Connect(refresh)
+end
 refresh()

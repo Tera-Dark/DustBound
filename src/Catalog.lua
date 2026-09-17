@@ -25,4 +25,31 @@ D.supplies={
  drones={name="机器人支援",detail="本次整备增加 1 台机器人",icon="drill",tech="logistics_4",desc="选取后立即出库，整备结束回收；不增加永久机器人数量。"},
  overclock={name="超载核心",detail="全部武器伤害 +35% · 35 秒战斗时间",icon="crystal",tech="logistics_8",desc="与强化弹药和武器研究叠加，适合后期精英波。"},
 }
+-- Presentation registry: adding a visual variant must not require editing Motion.lua.
+-- model: turret / ballistic / coil / rail / flame / mortar; sprite or imageId may override art.
+D.weapons.cannon.visual={model="turret",sprite="turret",restRotation=20,muzzle=70,kick=5,color={251,206,85},projectile="shell",length=17,width=7,arc=48,aimMin=-15,aimMax=38}
+D.weapons.machine.visual={model="ballistic",muzzle=42,kick=2,color={251,206,85},projectile="bullet",length=23,width=3,arc=0,aimMin=-25,aimMax=35}
+D.weapons.arc.visual={model="coil",muzzle=30,kick=1,color={135,226,185},projectile="beam",length=0,width=3,arc=0,aimMin=-20,aimMax=35}
+D.weapons.rail.visual={model="rail",muzzle=50,kick=6,color={211,240,223},projectile="rail",length=42,width=4,arc=0,aimMin=-20,aimMax=35}
+D.weapons.flame.visual={model="flame",muzzle=43,kick=1,color={235,137,61},projectile="flame",length=0,width=10,arc=0,aimMin=-20,aimMax=35}
+D.weapons.mortar.visual={model="mortar",muzzle=32,kick=7,color={235,137,61},projectile="shell",length=18,width=9,arc=160,aimMin=-55,aimMax=-35}
+D.enemyMotion={
+ crawler={stride=23,lift=8,bob=1.4,weight=1},runner={stride=18,lift=11,bob=2,weight=.7},
+ tank={stride=30,lift=4,bob=.8,weight=1.5},spitter={stride=24,lift=6,bob=1,weight=1},
+ elite={stride=34,lift=5,bob=1.2,weight=2},warden={stride=29,lift=5,bob=.7,weight=1.7},
+}
+D.planets={
+ {name="赤砂 · 起航带",art="planet1",theme="荒漠矿坑 / 基础火力与采矿",hint="先升级钻机与主炮；第 5 波开始留意精英。"},
+ {name="青岚 · 酸雾带",art="planet2",theme="绿晶矿脉 / 混合虫群",hint="电弧清群，磁轨处理重甲；不要忽略远程酸液。"},
+ {name="紫霜 · 核心带",art="planet3",theme="极寒晶原 / 持久战",hint="准备防御与维修科技，晶体和核心在此稳定产出。"},
+}
+D.campaign={}
+local waves={3,3,4,4,5,5,6,6,6,6,7,7,8,8,9,9,9,9,10,10,11,11,12,12}
+local labels={"着陆场","勘探线","矿脉哨站","补给通道","深层裂谷","前线平台","巢穴外围","行星中枢"}
+for i=1,24 do
+ local planet=math.floor((i-1)/8)+1;local node=(i-1)%8+1
+ D.campaign[i]={id=i,planet=planet,node=node,name=labels[node],waves=waves[i],boss=node==8,
+ hp=.8+i*.035+.012*i*i,attack=.8+i*.024,density=.88+i*.01,startOre=(i-1)*6,
+ reward={alloy=130+i*16,research=20+i*3,crystals=i>=5 and math.floor(i/4) or 0,cores=i>=17 and 1 or node==8 and 1 or 0}}
+end
 return D

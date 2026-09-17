@@ -24,7 +24,7 @@ function P.open(userId,retryToken)
   return record.store:UpdateAsync("u_"..userId,function(old)
    if old~=nil and (type(old)~="table" or type(old.data)~="table") then reason="云档结构异常，已阻止覆盖，请联系开发者检查";return nil end
    old=old or {}
-   if type(old.data)=="table" and type(old.data.schema)=="number" and old.data.schema>5 then reason="云档版本较新，请更新游戏工程";return nil end
+   if type(old.data)=="table" and type(old.data.schema)=="number" and old.data.schema>7 then reason="云档版本较新，请更新游戏工程";return nil end
    local lock=type(old.lock)=="table" and old.lock or nil
    if lock and R.finite(lock.untilTime) and lock.untilTime>os.time() and lock.token~=record.token then reason="另一服务器仍持有存档；稍后重试";return nil end
    return {data=R.cleanProfile(old.data),lock={token=record.token,untilTime=os.time()+180},lastWriteId=old.lastWriteId}

@@ -1,0 +1,66 @@
+[DUSTBOUND 0.7.0] native GUI + tutorial + planning console ready
+[DUSTBOUND 0.7.0] native GUI + tutorial + planning console ready
+[DUSTBOUND 0.7.0] native GUI + tutorial + planning console ready
+[DUSTBOUND 0.7.0] native GUI + tutorial + planning console ready
+[
+  {
+    "version": "before",
+    "fallback": false,
+    "hostAndClientWallMs": 83.52,
+    "bootCounters": {
+      "instances": 203,
+      "assignments": 1916,
+      "destroyed": 0,
+      "yields": 32,
+      "pixelWrites": 32
+    },
+    "idle180FrameAssignments": 1260,
+    "gold20UpdatesNewInstances": 600,
+    "gold20UpdatesDestroyed": 600
+  },
+  {
+    "version": "before",
+    "fallback": true,
+    "hostAndClientWallMs": 35.0,
+    "bootCounters": {
+      "instances": 1832,
+      "assignments": 14939,
+      "destroyed": 0,
+      "yields": 7,
+      "pixelWrites": 0
+    },
+    "idle180FrameAssignments": 1260,
+    "gold20UpdatesNewInstances": 600,
+    "gold20UpdatesDestroyed": 600
+  },
+  {
+    "version": "after",
+    "fallback": false,
+    "hostAndClientWallMs": 82.65,
+    "bootCounters": {
+      "instances": 203,
+      "assignments": 1904,
+      "destroyed": 0,
+      "yields": 32,
+      "pixelWrites": 32
+    },
+    "idle180FrameAssignments": 0,
+    "gold20UpdatesNewInstances": 0,
+    "gold20UpdatesDestroyed": 0
+  },
+  {
+    "version": "after",
+    "fallback": true,
+    "hostAndClientWallMs": 36.25,
+    "bootCounters": {
+      "instances": 1832,
+      "assignments": 14927,
+      "destroyed": 0,
+      "yields": 14,
+      "pixelWrites": 0
+    },
+    "idle180FrameAssignments": 0,
+    "gold20UpdatesNewInstances": 0,
+    "gold20UpdatesDestroyed": 0
+  }
+]

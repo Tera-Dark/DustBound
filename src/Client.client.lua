@@ -1,243 +1,224 @@
--- DUSTBOUND 0.5.0 | native adaptive 2D client. No HTML and no avatar dependency.
-local Players=game:GetService("Players");local pg=Players.LocalPlayer:WaitForChild("PlayerGui")
-pg:SetAttribute("FrontierGameReady",false);pg:SetAttribute("FrontierClientPhase","BUILDING_2D_UI");pg:SetAttribute("FrontierClientError","")
-local function fail(err) pg:SetAttribute("FrontierClientPhase","ERROR");pg:SetAttribute("FrontierClientError",tostring(err):sub(1,3000));warn("[DUSTBOUND UI] "..tostring(err)) end
+-- DUSTBOUND 0.7: centered 2D battlefield; free drafts; three-currency research.
+local pg=game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
+pg:SetAttribute("FrontierGameReady",false)
+local function fail(e) pg:SetAttribute("FrontierClientError",tostring(e));pg:SetAttribute("FrontierClientPhase","ERROR");warn(e) end
 local function launch()
- local RS=game:GetService("ReplicatedStorage");local RunService=game:GetService("RunService");local UIS=game:GetService("UserInputService")
- local shared=RS:WaitForChild("FrontierShared",10);assert(shared,"FrontierShared missing")
- local C=require(shared:WaitForChild("Config",10));local R=require(shared:WaitForChild("Rules",10));C.Tech=require(shared:WaitForChild("Tech",10));C.Catalog=require(shared:WaitForChild("Catalog",10))
- pcall(function() pg.ScreenOrientation=Enum.ScreenOrientation.LandscapeSensor end)
- local U=require(shared:WaitForChild("UI",10));local Guide=require(shared:WaitForChild("Guide",10));local Art=require(shared:WaitForChild("Art",10));local Motion=require(shared:WaitForChild("Motion",10));local Panels=require(shared:WaitForChild("Panels",10));local Audio=require(shared:WaitForChild("Audio",10))
- pg:SetAttribute("FrontierClientPhase","LOADING_CARTOON_ART");Art.init();local audio=Audio.new(C)
- local c=U.colors
- local function screen(name,order,safe)
-  local g=Instance.new("ScreenGui");g.Name=name;g.ResetOnSpawn=false;g.DisplayOrder=order;g.ZIndexBehavior=Enum.ZIndexBehavior.Sibling
-  g.ScreenInsets=safe and Enum.ScreenInsets.CoreUISafeInsets or Enum.ScreenInsets.None;g.SafeAreaCompatibility=Enum.SafeAreaCompatibility.None;g.ClipToDeviceSafeArea=safe;g.Parent=pg;return g
- end
- local bgGui=screen("DustboundBackground",1,false);local bg=Art.sprite(bgGui,"background",0,0,1440,810);bg.Size=UDim2.fromScale(1,1)
- local gui=screen("DustboundHUD",10,true);local canvas=U.frame(gui,"Canvas",0,0,1440,810,nil,1);canvas.Size=UDim2.fromScale(1,1)
+ local RS=game:GetService("ReplicatedStorage");local Run=game:GetService("RunService");local Input=game:GetService("UserInputService")
+ local shared=RS:WaitForChild("FrontierShared",12);assert(shared,"共享模块未就绪")
+ local function module(n) return require(shared:WaitForChild(n,10)) end
+ local C=module("Runtime");local R=module("Rules");local U=module("UI");local Art=module("Art");local B=module("BattleView")
+ pg:SetAttribute("FrontierClientPhase","LOADING_CARTOON_ART")
+ Art.init(function(f) pg:SetAttribute("FrontierLoadProgress",.1+.65*f) end,function() Run.Heartbeat:Wait() end)
+ Art.yieldFrame=function() Run.Heartbeat:Wait() end
+ local audio=module("Audio").new(C);local c=U.colors
+ local gui=Instance.new("ScreenGui");gui.Name="DustboundHUD";gui.ResetOnSpawn=false;gui.ScreenInsets=Enum.ScreenInsets.CoreUISafeInsets;gui.ZIndexBehavior=Enum.ZIndexBehavior.Sibling;gui.Parent=pg
+ local canvas=U.frame(gui,"Canvas",0,0,1440,810,nil,1);canvas.Size=UDim2.fromScale(1,1)
  local root=U.frame(canvas,"Stage",0,0,1440,810,nil,1);root.AnchorPoint=Vector2.new(.5,.5);root.Position=UDim2.fromScale(.5,.5)
- local scaler=Instance.new("UIScale");scaler.Parent=root
- local shadeGui=screen("DustboundShade",20,false);local shade=U.frame(shadeGui,"ModalBackdrop",0,0,1440,810,c.ink,.42);shade.Size=UDim2.fromScale(1,1);shade.Active=true;shade.Visible=false
- local modalGui=screen("DustboundPanels",21,true);local modalCanvas=U.frame(modalGui,"SafeCanvas",0,0,1440,810,nil,1);modalCanvas.Size=UDim2.fromScale(1,1)
- local modalRoot=U.frame(modalCanvas,"ModalStage",0,0,1440,810,nil,1);modalRoot.AnchorPoint=Vector2.new(.5,.5);modalRoot.Position=UDim2.fromScale(.5,.5);modalRoot.Visible=false
- local modalScale=Instance.new("UIScale");modalScale.Parent=modalRoot
- local modal=U.panel(modalRoot,"Modal",72,65,1296,680,c.cream)
- local net=RS:WaitForChild("FrontierNetwork",12);assert(net,"FrontierNetwork missing")
- local Action=net:WaitForChild("Action",10);local State=net:WaitForChild("State",10);local FX=net:WaitForChild("FX",10);assert(Action and State and FX,"Network endpoints missing")
- local pendingOverlay=U.frame(modalRoot,"PendingRequest",72,65,1296,680,c.ink,.35);pendingOverlay.ZIndex=5;pendingOverlay.Active=true;pendingOverlay.Visible=false
- local pendingLabel=U.text(pendingOverlay,"Text","正在处理，请稍候…",0,0,1296,680,27,c.cream,true,Enum.TextXAlignment.Center)
- local snap=nil;local view=nil;local tab="weapons";local page=1;local selectedSupply=nil;local offerToken=nil
- local requestSerial=0;local waiting=0;local waitingTime=0;local pendingKind=nil;local sentUI=false;local deferredView=nil
+ local scale=Instance.new("UIScale");scale.Parent=root
+ Art.sprite(root,"background",0,0,1440,810)
+ local battle=B.new({C=C,U=U,Art=Art},root)
+ local top=U.panel(root,"StatusBar",30,20,1380,72,c.cream)
+ local status=U.text(top,"Status","连接前哨…",20,5,1000,60,24,c.ink,true)
+ local note=U.text(root,"Notice","",40,103,1360,38,19,c.ink,false)
+ local hud=U.frame(root,"Actions",30,717,1380,70,nil,1)
+ local body=U.frame(root,"Pages",30,150,1380,544,nil,1)
+ local overlay=U.frame(root,"ModalLayer",0,0,1440,810,nil,1);overlay.Visible=false
+ local net=RS:WaitForChild("FrontierNetwork",12);local action=net:WaitForChild("Action",10)
+ local snap=nil;local view=nil;local selected=1;local tech=C.Tech.order[1];local dirty=true;local lastKey="";local serial=0;local pending=0;local wait=0;local age=0
+ local codexPage=1;local rerollToken=nil;local shopButtons={};local painted=false;local readySent=false;local uiClock=0;local transient="";local transientUntil=0
  local function send(kind,data)
-  if kind=="ready" or kind=="view" or kind=="ui_ready" then Action:FireServer(kind,data);return true end
-  if waiting>0 then return false end
-  requestSerial=requestSerial+1;waiting=requestSerial;waitingTime=0;pendingKind=kind
-  Action:FireServer(kind,data,requestSerial);return true
+  if kind=="ready" or kind=="ui_ready" then action:FireServer(kind,data);return end
+  if pending>0 then return end
+  serial=serial+1;pending=serial;wait=0;action:FireServer(kind,data,serial)
  end
- local function open(v)
-  view=v
-  if v=="research" or v=="codex" or v=="settings" then deferredView=v end
+ local function open(v) view=v;dirty=true end
+ local function button(p,name,text,x,y,w,h,fn,accent) return U.button(p,name,text,x,y,w,h,fn,accent) end
+ local function close() if snap and snap.paused then send("pause",false) end;open(nil) end
+ button(top,"Settings","设置",1160,12,100,48,function() if snap and snap.phase=="running" then send("pause",true) end;open("settings") end)
+ button(top,"Pause","暂停",1270,12,95,48,function() if snap and snap.phase=="running" then send("pause",not snap.paused) end end)
+ local function text(p,name,value,x,y,w,h,size,bold) return U.text(p,name,value,x,y,w,h,size or 22,c.ink,bold) end
+ local function resource(p) return "合金 "..p.alloy.."   /   数据 "..p.research.."   /   核心 "..p.cores end
+ local function research(parent)
+  text(parent,"Title","研究网络",20,0,340,45,32,true)
+  text(parent,"Legend","绿色：已完成 · 橙色：可研究 · 分叉前置任选其一 · 跨区捷径在右侧查看",20,42,1020,34,17)
+  local tree=U.scroll(parent,"ResearchNetwork",12,85,1020,442,1150*.57)
+  tree.CanvasSize=UDim2.fromOffset(1920*.57,1150*.57);tree.ScrollingDirection=Enum.ScrollingDirection.XY
+  local z=.57
+  for _,id in ipairs(C.Tech.order) do for _,edge in ipairs(C.ResearchWeb.edges(C.Tech,id)) do if not edge.portal then
+   for i=1,#edge.points-1 do local a,b=edge.points[i],edge.points[i+1];local dx,dy=b[1]-a[1],b[2]-a[2]
+    local line=U.frame(tree,"Link_"..edge.from.."_"..id,(a[1]+b[1])*z/2,(a[2]+b[2])*z/2,math.sqrt(dx*dx+dy*dy)*z,3,snap.profile.tech[edge.from] and c.mint or c.muted)
+    line.AnchorPoint=Vector2.new(.5,.5);line.Rotation=math.deg(math.atan2(dy,dx))
+   end
+  end end end
+  for _,id in ipairs(C.Tech.order) do local n=C.Tech.nodes[id];local state=R.techState(snap.profile,id,C)
+   local b=button(tree,"Tech_"..id,n.name,(n.mapX-64)*z,(n.mapY-44)*z,128*z,88*z,function() tech=id;dirty=true end,state=="ready")
+   b.TextSize=14;b.BackgroundColor3=state=="owned" and c.mint or id==tech and c.gold or state=="locked" and c.paper or state=="ready" and c.orange or c.cream
+  end
+  local n=C.Tech.nodes[tech];local state,msg=R.techState(snap.profile,tech,C)
+  local panel=U.panel(parent,"ResearchInspector",1050,0,318,535,c.cream)
+  text(panel,"Name",n.name,18,12,282,54,26,true)
+  text(panel,"Description",n.detail or n.desc or "",18,68,282,92,21)
+  text(panel,"Cost",resource(n.cost).."\n"..msg,18,163,282,76,18)
+  local buy=button(panel,"Research","研究 · 下次出发生效",18,246,282,52,function() send("research",tech) end,true);U.enabled(buy,state=="ready")
+  local pres={};for _,id in ipairs(n.prereqs) do pres[#pres+1]=id end;for _,id in ipairs(n.anyPrereqs) do pres[#pres+1]=id end
+  text(panel,"Prerequisites",#n.anyPrereqs>0 and "任选一个入口（点击定位）" or "前置研究（点击定位）",18,310,282,30,17)
+  for i,id in ipairs(pres) do button(panel,"Go_"..id,C.Tech.nodes[id].name,18,347+(i-1)*39,282,34,function() tech=id;dirty=true end).TextSize=17 end
+  if state=="owned" and n.kind=="ultimate" then button(panel,"RefundTalent","重置终极天赋 · 全额退还",18,479,282,42,function() send("refund_talent",tech) end).TextSize=16 end
  end
- local function close() view=snap and snap.paused and "pause" or nil end
- local function focusUpgrade(id) for group,ids in pairs(C.Categories) do for i,key in ipairs(ids) do if key==id then tab=group;page=i;return end end end end
- local panels=Panels.new({U=U,C=C,R=R,Guide=Guide,Art=Art,audio=audio,send=send,open=open,close=close,focusUpgrade=focusUpgrade,
-  selectedSupply=function() return selectedSupply end,selectSupply=function(id) selectedSupply=id end})
- local W,H,compact=1440,810,false;local refs={};local motion=nil;local layoutKey="";local modalKey=""
- local function txt(p,n,v,x,y,w,h,size,bold) return U.text(p,n,v,x,y,w,h,size or 22,c.ink,bold) end
- local function btn(p,n,v,x,y,w,h,fn,a)
-  return U.button(p,n,v,x,y,w,h,function() audio.play("click");fn() end,a)
- end
- local function begin(mode) if send("start",mode) then view=nil;tab="weapons";page=1 end end
- local function buildLayout()
-  U.clear(root);refs={};layoutKey=tostring(compact);modalKey=""
-  root.Size=UDim2.fromOffset(W,H);modalRoot.Size=UDim2.fromOffset(W,H)
-  modal.Position=UDim2.fromOffset(compact and 10 or 72,compact and 10 or 65);modal.Size=UDim2.fromOffset(compact and W-20 or 1296,compact and H-20 or 680)
-  pendingOverlay.Position=modal.Position;pendingOverlay.Size=modal.Size;pendingLabel.Size=UDim2.fromScale(1,1)
-  local menu=U.frame(root,"MainMenu",0,0,W,H,nil,1);refs.menu=menu
-  if compact then
-   txt(menu,"Title","DUSTBOUND",24,10,536,63,48,true)
-   txt(menu,"Tagline","荒星前哨 / 自动防御 · 机器人采矿",27,71,556,38,23)
-   Art.sprite(menu,"base",W-437,185,408,267);Art.sprite(menu,"turret",W-224,120,135,86)
-   refs.wallet=txt(menu,"Wallet","",W-344,14,318,103,23,true)
-   refs.tutorial=btn(menu,"Tutorial","3 波教学 · 推荐",24,125,456,72,function() begin("tutorial") end,true)
-   refs.start=btn(menu,"Start","▶  开始标准远征",24,211,456,72,function() begin("standard") end)
-   btn(menu,"Research","研究中心",24,297,222,72,function() open("research") end)
-   btn(menu,"Workshop","武器工坊",258,297,222,72,function() open("workshop") end)
-   btn(menu,"Codex","远征图鉴",24,383,222,72,function() open("codex") end)
-   btn(menu,"Settings","设置",258,383,222,72,function() open("settings") end)
-   refs.menuGoal=txt(menu,"Goal","",W-429,450,402,66,21,true)
-   refs.menuStatus=txt(menu,"StorageStatus","",24,H-70,480,62,19)
+ local function draw()
+  if not snap then return end
+  shopButtons={};U.clear(body);U.clear(hud);U.clear(overlay);overlay.Visible=false
+  local running=snap.phase=="running"
+  if running then
+   button(hud,"Mining","采矿投资",0,6,215,58,function() open(view=="mining" and nil or "mining") end,true)
+   button(hud,"Combat","战斗投资",232,6,215,58,function() open(view=="combat" and nil or "combat") end)
+   local names={"主炮"};for _,slot in ipairs(snap.weaponSlots) do if slot.slot>1 then names[#names+1]=slot.enabled and C.Catalog.weapons[slot.weapon].name or "空位" end end
+   text(hud,"Loadout",table.concat(names," / "),470,8,620,54,20,true)
+   local count=0;for _ in pairs(snap.relics) do count=count+1 end
+   button(hud,"Relics","遗物 ×"..count,1120,6,230,58,function() open("relics") end)
+  elseif snap.phase=="menu" then
+   button(hud,"ResearchPage",view=="research" and "返回前哨" or "研究网络",20,4,330,62,function() open(view=="research" and nil or "research") end)
+   button(hud,"CodexPage","远征图鉴",390,4,300,62,function() open("codex") end)
+   button(hud,"Depart","出发 · 第 "..selected.." 关",970,4,380,62,function() view=nil;send("start",{node=selected}) end,true)
+   if view=="research" then research(body)
+   elseif view~="settings" then
+    text(body,"Title","DUSTBOUND / 荒星前哨",28,0,1100,65,42,true)
+    text(body,"Intro","主炮守住中心，机器人采金。免费选择武器与整局遗物。",28,64,1180,42,23)
+    for planet=1,3 do
+     local y=140+(planet-1)*120;text(body,"Planet"..planet,"星球 "..planet,28,y,160,65,25,true)
+     for node=1,8 do local id=(planet-1)*8+node;local d=C.Catalog.campaign[id]
+      local b=button(body,"Node"..id,node.."\n"..d.waves.." 波",205+(node-1)*143,y,128,76,function() selected=id;dirty=true end,id==selected)
+      b.BackgroundColor3=id<=snap.profile.campaignCleared and c.mint or id==selected and c.orange or c.cream;U.enabled(b,id<=snap.profile.campaignCleared+1)
+     end
+    end
+   end
+  end
+  local offer=snap.supply
+  local modalView=(snap.storage and snap.storage.blocked) and "storage" or (snap.paused and (view=="settings" and "settings" or view=="confirm_abandon" and view or "pause")) or (view=="confirm_reroll" and offer and "confirm_reroll") or offer and "offer" or snap.phase=="ended" and "result" or view
+  if modalView=="research" or not modalView then return end
+  overlay.Visible=true
+  local shade=U.frame(overlay,"Backdrop",0,0,1440,810,c.ink,.4);shade.Active=true
+  local panel=U.panel(overlay,"Dialog",140,154,1160,508,c.cream)
+  if modalView=="storage" then
+   text(panel,"Title","云档未就绪 / 已阻止写入",28,20,1080,65,30,true)
+   text(panel,"StorageError",snap.saveStatus or "请检查连接后重试",28,110,1080,95,23)
+   if snap.storage.mode=="read_error" then
+    button(panel,"RetryLoad","重试读取",28,260,510,70,function() send("save_retry") end,true)
+    button(panel,"Guest","确认访客试玩（不保存）",570,260,560,70,function() send("guest","confirm") end)
+   else text(panel,"Rejoin","存档锁失效，请退出并重新加入，避免覆盖其他会话。",28,260,1080,100,24) end
+  elseif modalView=="confirm_reroll" then
+   text(panel,"Title","确认付费重抽",28,20,1080,65,30,true)
+   text(panel,"Cost","本次消耗 "..snap.rerollCost.." 金矿；武器与遗物选择本身仍免费。",28,120,1080,110,25)
+   button(panel,"ConfirmReroll","确认重抽",28,300,510,75,function() local token=rerollToken;view=nil;dirty=true;if snap.supply and snap.supply.token==token then send("reroll",token) end end,true)
+   button(panel,"CancelReroll","取消",570,300,560,75,function() open(nil) end)
+  elseif modalView=="offer" then
+   text(panel,"Title",offer.kind=="weapon" and "免费武器三选一 · 安装到下一副位" or "免费遗物三选一 · 持续本次远征",28,12,1060,60,30,true)
+   for i,id in ipairs(offer.options) do local d=offer.kind=="weapon" and C.Catalog.weapons[id] or C.RunSystems.relics[id]
+    local card=U.panel(panel,"Choice"..i,28+(i-1)*377,92,350,302,c.paper)
+    text(card,"Name",d.name,18,20,314,64,29,true);text(card,"Detail",d.detail or d.desc or "独立攻击的副武器",18,92,314,112,23)
+    button(card,"Choose_"..id,"免费选择",18,225,314,58,function() send("supply",{token=offer.token,id=id}) end,true)
+   end
+   button(panel,"Reroll","重抽 · "..snap.rerollCost.." 金矿",28,422,360,56,function() if snap.rerollCost>0 and snap.profile.settings.confirmReroll then rerollToken=offer.token;open("confirm_reroll") else send("reroll",offer.token) end end).Active=snap.rerolls<snap.rerollMax and snap.ore>=snap.rerollCost
+   text(panel,"OfferNote","选择期间暂停战斗与采矿；没有购买费用。",420,422,710,56,21)
+  elseif modalView=="mining" or modalView=="combat" then
+   text(panel,"Title",modalView=="mining" and "机器人投资 / 金矿只来自采矿" or "战斗投资 / 本次远征有效",28,12,1040,60,30,true)
+   local ids=modalView=="mining" and {"move","dig","cargo","robots"} or {"damage","rate","barrel","armor","repair","regen"}
+   for i,id in ipairs(ids) do local d=C.Upgrades[id];local level=snap.upgrades[id] or 0;local price=snap.prices[id]
+    local b=button(panel,"Buy_"..id,d.name.."  Lv."..level.."\n"..(price and price.." 金矿" or "已满级"),28+(i-1)%3*377,102+math.floor((i-1)/3)*132,350,110,function() send("buy",id) end,true)
+    shopButtons[id]=b;U.enabled(b,price~=false and price~=nil and snap.ore>=price and not snap.paused)
+   end
+   button(panel,"Close","返回战场",830,430,300,54,close)
+  elseif modalView=="settings" then
+   text(panel,"Title","设置 / "..tostring(snap.saveStatus or "本地试玩存档"),28,12,1070,58,27,true)
+   local settings={{"reducedMotion","轻量动效"},{"enemyHealth","敌人血条"},{"flashEffects","闪光效果"},{"masterMuted","全部静音"},{"autoPause","离开窗口暂停"},{"hotkeys","快捷键"}}
+   for i,d in ipairs(settings) do button(panel,"Setting_"..d[1],d[2].."："..(snap.profile.settings[d[1]] and "开" or "关"),28+(i-1)%3*377,90+math.floor((i-1)/3)*88,350,66,function() send("settings",{key=d[1],value=not snap.profile.settings[d[1]]}) end) end
+   for i,key in ipairs({"sfx","music"}) do local x=28+(i-1)*550
+    text(panel,"Volume_"..key,(key=="sfx" and "音效 " or "音乐 ")..math.floor(snap.profile.settings[key]*100).."%",x,270,230,55,23)
+    button(panel,"Less_"..key,"−",x+245,270,95,55,function() send("settings",{key=key,value=math.max(0,snap.profile.settings[key]-.1)}) end)
+    button(panel,"More_"..key,"+",x+355,270,95,55,function() send("settings",{key=key,value=math.min(1,snap.profile.settings[key]+.1)}) end)
+   end
+   text(panel,"Storage",snap.saveStatus or "本地试玩 · 不保存",28,338,1080,65,21)
+   if snap.storage and snap.storage.mode=="save_error" then button(panel,"RetrySave","重试保存",28,430,350,54,function() send("save_retry") end) end
+   button(panel,"Close","返回",830,430,300,54,close)
+  elseif modalView=="result" then
+   local r=snap.result;text(panel,"Title",r.won and "前哨守住了！" or "远征结束",28,24,1000,72,38,true)
+   text(panel,"Reward",resource(r),28,128,1060,72,32,true)
+   text(panel,"Summary","完成波次 "..(r.won and r.wave or math.max(0,r.wave-1)).." / "..snap.mission.waves.." · 机器人采金 "..r.mined.."\n首次通关材料较多，重玩与有效战斗失败也有材料收入。",28,226,1060,96,24)
+   button(panel,"ReturnMenu","返回前哨",750,405,380,66,function() view=nil;selected=math.min(24,snap.profile.campaignCleared+1);send("menu") end,true)
+  elseif modalView=="codex" then
+   text(panel,"Title","远征图鉴 / 武器、虫群与整局遗物",28,12,1080,60,30,true)
+   local list=U.scroll(panel,"CodexCards",28,90,1100,325,456);local i=0;local entry=0
+   for _,group in ipairs({"weapons","enemies","supplies"}) do
+    for _,id in ipairs(C.Catalog.order[group]) do local d=C.Catalog[group][id];entry=entry+1
+     if entry>(codexPage-1)*6 and entry<=codexPage*6 then
+     local card=U.panel(list,"Codex_"..id,(i%3)*364,math.floor(i/3)*228,345,208,c.paper)
+     local sprite=group=="weapons" and (id=="arc" and "crystal" or id=="flame" and "drillBit" or "turret") or group=="supplies" and "crystal" or id=="tank" and "tankBody" or "crawlerBody"
+     Art.sprite(card,sprite,12,12,54,54)
+     text(card,"Name",d.name,80,12,250,52,23,true)
+     text(card,"Description",d.detail or d.desc,16,78,310,113,18)
+     i=i+1
+     end
+    end
+   end
+   button(panel,"CodexPrev","上一页",28,430,240,54,function() codexPage=math.max(1,codexPage-1);dirty=true end)
+   button(panel,"CodexNext","下一页 "..codexPage.." / "..math.ceil(entry/6),288,430,330,54,function() codexPage=math.min(math.ceil(entry/6),codexPage+1);dirty=true end)
+   list.CanvasSize=UDim2.fromOffset(0,math.ceil(i/3)*228)
+   button(panel,"Close","返回",830,430,300,54,close)
+  elseif modalView=="relics" then
+   text(panel,"Title","已获得的整局遗物",28,12,1050,60,30,true)
+   local list=U.scroll(panel,"OwnedRelics",28,90,1100,310,650);local i=0
+   for _,id in ipairs(C.RunSystems.relicOrder) do if snap.relics[id] then local d=C.RunSystems.relics[id];text(list,id,d.name.." / "..d.detail,0,i*60,1080,55,23);i=i+1 end end
+   button(panel,"Close","返回",830,430,300,54,close)
   else
-   txt(menu,"Kicker","AUTOMATE · INVEST · SURVIVE",64,28,700,33,18,true)
-   txt(menu,"Title","DUSTBOUND",58,77,780,107,83,true)
-   txt(menu,"Tagline","荒星前哨 / 让每一笔投入有价值。",64,189,680,54,30,true)
-   Art.sprite(menu,"base",664,226,686,449);Art.sprite(menu,"turret",956,133,210,133)
-   local wallet=U.panel(menu,"WalletPanel",1123,22,286,130,c.cream);refs.wallet=txt(wallet,"Wallet","",18,12,250,104,22,true)
-   local p=U.panel(menu,"MenuPanel",64,279,522,377,c.cream)
-   refs.tutorial=btn(p,"Tutorial","3 波教学 · 推荐",21,20,480,73,function() begin("tutorial") end,true)
-   refs.start=btn(p,"Start","▶  开始标准远征",21,108,480,68,function() begin("standard") end)
-   btn(p,"Research","研究中心",21,193,230,67,function() open("research") end)
-   btn(p,"Workshop","武器工坊",271,193,230,67,function() open("workshop") end)
-   btn(p,"Codex","远征图鉴",21,280,230,67,function() open("codex") end)
-   btn(p,"Settings","设置",271,280,230,67,function() open("settings") end)
-   local gp=U.panel(menu,"PinnedGoal",626,684,782,98,c.cream);refs.menuGoal=txt(gp,"Goal","",18,10,746,79,23)
-   refs.menuStatus=txt(menu,"StorageStatus","",64,674,526,93,18)
+   text(panel,"Paused","已暂停",28,30,1000,80,38,true)
+   button(panel,"Resume","继续远征",28,170,510,85,close,true)
+   button(panel,"Abandon","放弃本局（无结算奖励）",570,170,560,85,function() open("confirm_abandon") end)
+   if modalView=="confirm_abandon" then button(panel,"ConfirmAbandon","确认放弃并返回前哨",28,300,1102,80,function() view=nil;send("abandon","confirm") end,true) end
   end
-  local scene=U.frame(root,"Battlefield",0,0,1440,550,nil,1);refs.scene=scene
-  local ss=Instance.new("UIScale");ss.Scale=compact and .58 or 1;ss.Parent=scene
-  if compact then scene.Position=UDim2.fromOffset(18,7) end
-  Art.sprite(scene,"crystal",172,379,104,106)
-  local base=Art.sprite(scene,"base",242,188,435,284);local turret=Art.sprite(scene,"turret",412,110,162,103)
-  local muzzle=U.frame(scene,"MuzzleFlash",550,122,29,22,c.gold);U.corner(muzzle,10);muzzle.Visible=false
-  local auxiliary=U.frame(scene,"Coil",578,260,25,40,c.mint);U.corner(auxiliary,12)
-  local enemies=U.frame(scene,"Enemies",0,0,1440,550,nil,1);local robots=U.frame(scene,"Robots",0,0,1440,550,nil,1);local fx=U.frame(scene,"Effects",0,0,1440,550,nil,1)
-  motion=Motion.new({C=C,Art=Art,colors=c,frame=U.frame,corner=U.corner,enemiesLayer=enemies,robotLayer=robots,fxLayer=fx,turret=turret,base=base,muzzle=muzzle,auxiliary=auxiliary,
-   reduced=function() return snap and snap.profile.settings.reducedMotion or false end,numbers=function() return not snap or snap.profile.settings.damageNumbers end})
-  if snap then motion.sync(snap) end
-  local hud=U.frame(root,"GameHUD",0,0,W,H,nil,1);refs.hud=hud
-  refs.wave=txt(hud,"Wave","",compact and 17 or 496,7,compact and 320 or 440,38,compact and 27 or 32,true)
-  local hb=U.panel(hud,"Hull",compact and 20 or 497,compact and 46 or 55,compact and 314 or 435,compact and 22 or 38,c.paper)
-  refs.hullFill=U.frame(hb,"Fill",0,0,compact and 314 or 435,compact and 22 or 38,c.mint);U.corner(refs.hullFill,8)
-  refs.hull=txt(hb,"Value","",0,0,compact and 314 or 435,compact and 22 or 38,compact and 17 or 24,true)
-  if not compact then txt(hud,"Brand","DUSTBOUND",38,13,418,45,38,true) end
-  refs.ore=txt(hud,"Ore","",compact and 376 or 1090,8,compact and 302 or 316,49,compact and 30 or 34,true)
-  btn(hud,"Pause","Ⅱ",W-(compact and 89 or 490),compact and 5 or 20,compact and 73 or 64,compact and 70 or 64,function() if snap then local wanted=not snap.paused;if send("pause",wanted) then view=wanted and "pause" or nil end end end)
-  refs.plannerButton=btn(hud,"Planner","情报",compact and 696 or 1110,compact and 5 or 145,compact and 151 or 292,compact and 70 or 67,function() open(snap and snap.supply and "supply" or "planner") end)
-  refs.stage=txt(hud,"Stage","",compact and W*.54 or 705,compact and 79 or 103,compact and W*.43 or 696,39,compact and 24 or 23,true)
-  refs.guide=txt(hud,"Guide","",compact and W*.54 or 705,compact and 124 or 216,compact and W*.43 or 696,compact and 76 or 66,compact and 22 or 22)
-  refs.cargo=txt(hud,"Forecast","",compact and W*.54 or 705,compact and 204 or 300,compact and W*.43 or 696,compact and 70 or 89,compact and 22 or 24,true)
-  refs.notice=txt(hud,"Notice","",compact and 25 or 270,compact and H-264 or 504,compact and 910 or 950,compact and 36 or 49,compact and 20 or 22,true)
-  refs.tabs={};refs.cards={}
-  if compact then
-   for i,d in ipairs({{"base","基地"},{"mining","采矿"},{"weapons","武器"}}) do
-    local key=d[1];refs.tabs[key]=btn(hud,"Tab_"..key,d[2],12+(i-1)*(W-24)/3,H-222,(W-42)/3,70,function() tab=key;page=1 end,key==tab)
-   end
-   local card=U.panel(hud,"UpgradeCard",12,H-140,W-24,128,c.cream)
-   btn(card,"PreviousUpgrade","‹",10,42,70,73,function() page=(page+1)%3+1 end)
-   btn(card,"NextUpgrade","›",W-114,42,70,73,function() page=page%3+1 end)
-   local title=txt(card,"Name","",100,8,503,39,27,true)
-   local detail=txt(card,"Detail","",100,47,479,67,23)
-   local buy=btn(card,"Buy","",W-356,45,230,70,function() if snap then send("buy",C.Categories[tab][page]) end end,true)
-   local level=txt(card,"Level","",W-356,10,230,30,19)
-   refs.cards[1]={title=title,detail=detail,buy=buy,level=level}
-  else
-   local y=H-238
-   for i,d in ipairs({{"base","基地"},{"mining","采矿"},{"weapons","武器"}}) do
-    local key=d[1];refs.tabs[key]=btn(hud,"Tab_"..key,d[2],205+(i-1)*343,y,332,55,function() tab=key;page=1 end,key==tab)
-   end
-   for i=1,3 do
-    local p=U.panel(hud,"Upgrade"..i,205+(i-1)*343,y+69,332,164,c.cream)
-    local title=txt(p,"Name","",17,8,299,34,25,true);local detail=txt(p,"Detail","",17,49,299,49,20)
-    local buy=btn(p,"Buy","",17,106,298,48,function() if snap then send("buy",C.Categories[tab][i]) end end,true)
-    refs.cards[i]={title=title,detail=detail,buy=buy}
-   end
-   local power=U.panel(hud,"Power",25,y+69,162,164,c.cream)
-   txt(power,"Title","能源分配",8,5,146,28,18,true)
-   for i,d in ipairs({{"balanced","均衡"},{"mining","采矿优先"},{"defense","防御优先"}}) do
-    local key=d[1];local b=btn(power,"Power_"..key,d[2],9,38+(i-1)*41,144,33,function() send("allocate",key) end);b.TextSize=17
-   end
-   local target=U.panel(hud,"Target",1258,y+69,156,164,c.cream);refs.target=txt(target,"Text","",10,7,136,150,17)
-  end
-  refs.request=txt(root,"RequestStatus","",compact and 23 or 35,compact and H-282 or H-267,compact and 918 or 1300,29,compact and 19 or 18,true)
  end
- local function render()
-  if not snap or not refs.menu then return end
-  local s=snap;local inMenu=s.phase=="menu";refs.menu.Visible=inMenu;refs.scene.Visible=not inMenu;refs.hud.Visible=not inMenu
-  refs.wallet.Text="合金 "..s.profile.alloy.."   数据 "..s.profile.research.."\n晶体 "..s.profile.crystals.."   核心 "..s.profile.cores
-  refs.tutorial.Text=s.profile.tutorialCompleted and "重温教学 · 无材料奖励" or "3 波教学 · 推荐"
-  refs.tutorial.BackgroundColor3=s.profile.tutorialCompleted and c.cream or c.orange;refs.start.BackgroundColor3=s.profile.tutorialCompleted and c.orange or c.cream
-  refs.menuStatus.Text="v0.5.0 · "..s.saveStatus
-  local target=Guide.target(s.profile,C,R);refs.menuGoal.Text="研究目标："..target.title.."\n"..target.detail
-  local limit=s.mode=="tutorial" and C.TutorialWaves or s.overtime and 12 or 10
-  refs.wave.Text=(s.mode=="tutorial" and "教学 " or "远征 ")..string.format("%02d",s.wave).." / "..limit.." 波"
-  refs.hull.Text=math.ceil(s.hull).." / "..s.maxHull;refs.hullFill.Size=UDim2.new(R.clamp(s.hull/s.maxHull,0,1),0,1,0);refs.hullFill.BackgroundColor3=s.hull<s.maxHull*.3 and c.orange or c.mint
-  refs.ore.Text="矿料 "..s.ore
-  refs.stage.Text=s.paused and "已暂停" or s.supply and "补给待选 · 倒计时暂停" or s.stage=="mining" and "机器人整备 "..math.ceil(s.breakLeft).." / 30 秒" or s.stage=="clearing" and "清剿剩余 "..#s.enemies.." 只" or "虫潮生成 "..math.max(0,math.ceil(C.WaveDuration-s.waveElapsed)).." 秒"
-  refs.plannerButton.Text=s.supply and "选择补给" or "情报 / 经营台"
-  local rec=s.recommendation or Guide.recommend(s,C,R);local intel=Guide.intel(s.stage=="mining" and math.min(limit,s.wave+1) or s.wave,C)
-  refs.guide.Text=s.mode=="tutorial" and Guide.lesson(s) or intel.tip
-  if s.stage=="mining" then
-   local f=s.forecast or Guide.forecast(s);refs.cargo.Text="在途 "..f.cargo.." · 下趟约 "..f.eta.." 秒\n余下预计运回 "..f.expected.." 矿料"
-  else refs.cargo.Text="建议："..C.Upgrades[rec.id].name.."\n"..rec.info.detail end
-  refs.cargo.Visible=not compact and s.stage=="mining"
-  if compact and s.stage=="mining" and s.firstDeposit then
-   local f=s.forecast or Guide.forecast(s)
-   refs.guide.Text="在途 "..f.cargo.." · 下次约 "..f.eta.." 秒运回\n余下约 "..f.expected.." 矿料（估算）"
-  end
-  refs.notice.Text=(Art.mode=="fallback" and #s.enemies>12) and "兼容显示：另有 "..(#s.enemies-12).." 只敌人参与战斗" or s.notice or ""
-  if refs.target then refs.target.Text="研究目标\n"..target.title.."\n"..(target.id~="" and "菜单查看来源" or "可固定一个目标") end
-  for id,b in pairs(refs.tabs) do b.BackgroundColor3=id==tab and c.orange or c.cream end
-  for i,card in ipairs(refs.cards) do
-   local slot=compact and page or i;local id=C.Categories[tab][slot];local info=Guide.investment(id,s,C,R)
-   card.title.Text=info.name..(not compact and id==rec.id and " ★ 建议" or "")..(compact and "  "..slot.." / 3" or "")
-   card.detail.Text=info.detail
-   if card.level then card.level.Text="等级 "..info.level.." / "..info.cap end
-   card.buy.Text=not info.price and "已满级" or "投入 "..info.price.." 矿料"..(info.gap>0 and " / 缺 "..info.gap or "")
-   if id=="repair" and s.hull>=s.maxHull then card.buy.Text="耐久已满" end
-   U.enabled(card.buy,info.can and waiting==0)
-  end
-  refs.request.Text=waiting>0 and "正在处理…" or s.storage.mode=="save_error" and "保存失败：到设置重试；离开可能丢失未保存进度" or s.actionResult or ""
-  if s.supply then
-   if offerToken~=s.supply.token then offerToken=s.supply.token;selectedSupply=s.supply.options[1] end
-  else selectedSupply=nil;offerToken=nil;if view=="supply" or view=="invest" then view=nil end end
-  if view=="planner" and s.stage~="mining" then
-   -- Keep battle intel accessible; no fabricated mining forecast during combat.
-  end
-  local kind=s.storage.blocked and "storage" or s.paused and (view or "pause") or s.phase=="decision" and "decision" or s.phase=="ended" and (view or "result") or view=="invest" and nil or view or s.supply and "supply" or nil
-  -- 'invest' is an intentional non-modal view while supply still holds the countdown.
-  if view=="invest" and not s.paused and not s.storage.blocked then kind=nil end
-  shade.Visible=kind~=nil;modalRoot.Visible=kind~=nil;pendingOverlay.Visible=kind~=nil and waiting>0
-  if kind then
+ net.State.OnClientEvent:Connect(function(s)
+  local ok,e=xpcall(function()
+   if not snap then selected=math.min(24,s.profile.campaignCleared+1) end
+   if not snap or s.runId~=snap.runId or s.phase~=snap.phase then dirty=true;view=nil end
+   snap=s;age=0
+   if pending>0 and (s.ack or 0)>=pending then
+    pending=0;if s.actionResult and s.actionResult~="" then transient=s.actionResult;transientUntil=os.clock()+4 end
+   end
+   battle.sync(s);audio.settings(s.profile.settings)
    local owned=0;for _ in pairs(s.profile.tech) do owned=owned+1 end
-   local cfg=s.profile.settings
-   local key=kind..":"..tostring(compact)..":"..panels.revision..":"..s.profile.alloy..":"..s.profile.research..":"..s.profile.crystals..":"..s.profile.cores..":"..owned..":"..s.profile.targetResearch..":"..s.loadout..":"..tostring(cfg.reducedMotion)..":"..tostring(cfg.damageNumbers)..":"..cfg.sfx..":"..cfg.music..":"..s.saveStatus..":"..tostring(s.storage.busy)..":"..tostring(offerToken)..":"..tostring(selectedSupply)..":"..tostring(s.profile.presets[1])
-   if kind=="planner" then key=key..":"..math.floor(s.elapsed*2)..":"..s.allocation end
-   if key~=modalKey then modalKey=key;panels.build(modal,kind,s,compact,compact and W-20 or 1296,compact and H-20 or 680) end
-  else modalKey="" end
- end
- local function resize()
-  local camera=workspace.CurrentCamera;if not camera then return end;camera.CameraType=Enum.CameraType.Scriptable
-  local size=canvas.AbsoluteSize
-  if not size or size.X<1 or size.Y<1 then
-   size=camera.ViewportSize
-   local ok,a,b=pcall(function() return game:GetService("GuiService"):GetGuiInset() end)
-   if ok and a and b then size=Vector2.new(size.X-a.X-b.X,size.Y-a.Y-b.Y) end
-  end
-  if size.X<1 or size.Y<1 then return end
-  local small=size.X<1050 or size.Y<580;local nw=small and math.max(960,math.floor(size.X/size.Y*540/8)*8) or 1440
-  local changed=small~=compact or layoutKey=="" or nw~=W
-  compact=small;W=nw;H=compact and 540 or 810
-  if changed then buildLayout() end
-  local scale=math.min(size.X/W,size.Y/H);scaler.Scale=scale;modalScale.Scale=scale
- end
- State.OnClientEvent:Connect(function(packet)
-  local ok,err=xpcall(function()
-   snap=packet;requestSerial=math.max(requestSerial,packet.ack or 0);audio.settings(snap.profile.settings)
-   if (packet.ack or 0)>=waiting then waiting=0;pendingKind=nil end
-   resize();render();if not motion then pg:SetAttribute("FrontierClientPhase","WAITING_FOR_VIEWPORT");return end;motion.sync(snap)
-   pg:SetAttribute("FrontierGameReady",true);pg:SetAttribute("FrontierClientPhase","READY_2D")
-  end,debug.traceback);if not ok then fail(err) end
+   local key=s.phase..tostring(s.paused)..tostring(s.supply and s.supply.token)..s.purchases..(s.phase~="running" and resource(s.profile) or "")..owned..tostring(s.storage and s.storage.mode)..tostring(s.storage and s.storage.blocked)..R.settingKey(s.profile.settings)
+   if key~=lastKey then dirty=true;lastKey=key end
+   
+  end,debug.traceback);if not ok then fail(e) end
  end)
- FX.OnClientEvent:Connect(function(events) local ok,err=xpcall(function() if motion then motion.events(events) end;audio.events(events) end,debug.traceback);if not ok then fail(err) end end)
- local uiClock,requestClock=0,0
- RunService.RenderStepped:Connect(function(dt)
-  local ok,err=xpcall(function()
-   resize();requestClock=requestClock+dt
-   if not snap and requestClock>1 then requestClock=0;send("ready") end
-   if waiting>0 then waitingTime=waitingTime+dt;if waitingTime>3 then waiting=0;pendingKind=nil;send("ready") end end
-   uiClock=uiClock+dt;if uiClock>.12 then uiClock=0;render() end
-   if snap and not sentUI and waiting==0 and motion then sentUI=true;send("ui_ready",UIS.TouchEnabled and "touch" or "keyboard")
-   elseif deferredView and waiting==0 then local v=deferredView;deferredView=nil;send("view",v) end
-   if motion then motion.update(dt) end;audio.update(dt,snap and snap.paused,snap)
-  end,debug.traceback);if not ok then fail(err) end
+ net.FX.OnClientEvent:Connect(function(events) local ok,e=xpcall(function() battle.events(events);audio.events(events) end,debug.traceback);if not ok then fail(e) end end)
+ Art.yieldFrame=nil
+ Run.RenderStepped:Connect(function(dt)
+  local ok,e=xpcall(function()
+   local size=canvas.AbsoluteSize or workspace.CurrentCamera.ViewportSize;if size.X<=0 or size.Y<=0 then return end;local fit=math.min(size.X/1440,size.Y/810);if scale.Scale~=fit then scale.Scale=fit end
+   age=age+dt;wait=wait+dt;if pending>0 and wait>8 then pending=0;transient="请求超时，请检查网络后重试。";transientUntil=os.clock()+4 end
+   battle.update(dt);audio.update(dt,snap and snap.paused,snap)
+   if not snap then return end
+   uiClock=uiClock+dt
+   if readySent and not dirty and uiClock<.1 then return end;uiClock=0
+   local statusValue=snap.phase=="running" and ("第 "..snap.wave.." / "..snap.mission.waves.." 波   |   耐久 "..math.ceil(snap.hull).." / "..snap.maxHull.."   |   金矿 "..snap.ore..(snap.stage=="mining" and "   采矿 "..math.ceil(snap.breakLeft).."s" or "")) or resource(snap.profile)
+   if status.Text~=statusValue then status.Text=statusValue end
+   local noteValue=os.clock()<transientUntil and transient or age>4 and "连接延迟：正在等待服务器…" or pending>0 and "正在处理…" or snap.phase=="running" and "遗物：完成 1 / 5 / 9 / 13 / 17 波 · 副武器：完成 4 / 8 / 12 / 16 波（最终波除外）" or (snap.notice or "")
+   if note.Text~=noteValue then note.Text=noteValue end
+   if dirty then dirty=false;draw() end
+   for id,b in pairs(shopButtons) do local price=snap.prices[id];local level=snap.upgrades[id] or 0
+    local value=C.Upgrades[id].name.."  Lv."..level.."\n"..(price and price.." 金矿" or "已满级")
+    if b.Text~=value then b.Text=value end;U.enabled(b,price and snap.ore>=price and not snap.paused or false)
+   end
+   if not painted then painted=true;return end
+   if not readySent then readySent=true;send("ui_ready",Input.TouchEnabled and "touch" or "keyboard") end
+   if not pg:GetAttribute("FrontierGameReady") then pg:SetAttribute("FrontierGameReady",true);pg:SetAttribute("FrontierClientPhase","READY");pg:SetAttribute("FrontierLoadProgress",1) end
+  end,debug.traceback);if not ok then fail(e) end
  end)
- UIS.InputBegan:Connect(function(input,processed)
-  if processed or UIS:GetFocusedTextBox() then return end
-  if input.KeyCode==Enum.KeyCode.P and snap and (snap.phase=="running" or snap.phase=="decision") then local wanted=not snap.paused;if send("pause",wanted) then view=wanted and "pause" or nil end end
-  if input.KeyCode==Enum.KeyCode.One then tab="base";page=1 elseif input.KeyCode==Enum.KeyCode.Two then tab="mining";page=1 elseif input.KeyCode==Enum.KeyCode.Three then tab="weapons";page=1 end
- end)
- pcall(function() game:GetService("StarterGui"):SetCoreGuiEnabled(Enum.CoreGuiType.All,false) end)
- pg:SetAttribute("FrontierClientPhase","WAITING_FOR_2D_STATE");resize();send("ready")
+ Input.WindowFocusReleased:Connect(function() audio.focus(false);if snap and snap.phase=="running" and snap.profile.settings.autoPause then send("pause",true) end end)
+ Input.WindowFocused:Connect(function() audio.focus(true) end)
+ Input.InputBegan:Connect(function(input,processed) if processed or not snap or not snap.profile.settings.hotkeys then return end;if input.KeyCode==Enum.KeyCode.P and snap.phase=="running" then send("pause",not snap.paused) elseif input.KeyCode==Enum.KeyCode.Backspace then close() end end)
+ pcall(function() pg.ScreenOrientation=Enum.ScreenOrientation.LandscapeSensor end)
+ pg:SetAttribute("FrontierClientPhase","WAITING_FOR_2D_STATE");send("ready")
 end
-local ok,err=xpcall(launch,debug.traceback);if not ok then fail(err) end
+local ok,e=xpcall(launch,debug.traceback);if not ok then fail(e) end

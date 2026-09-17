@@ -9,6 +9,7 @@ def env():
  l=LuaRuntime(unpack_returned_tuples=True)
  c=l.execute((ROOT/'src/Config.lua').read_text());r=l.execute((ROOT/'src/Rules.lua').read_text());g=l.execute((ROOT/'src/Core.lua').read_text())
  c.Tech=l.execute((ROOT/'src/Tech.lua').read_text());c.Catalog=l.execute((ROOT/'src/Catalog.lua').read_text())
+ for name in ['RunSystems','ResearchWeb','Economy']:c[name]=l.execute((ROOT/('src/'+name+'.lua')).read_text())
  s=g.new(c,r,r.cleanProfile(None));return l,c,r,g,s
 
 def table(l,**kw):return l.table_from(kw)
@@ -203,7 +204,7 @@ def test_unlock_supplies_discovered_and_functional(env):
 @pytest.mark.parametrize('bad',[float('nan'),float('inf'),-50,'oops'])
 def test_profile_sanitizes_nested_and_legacy(env,bad):
  l,c,r,g,s=env;p=r.cleanProfile(table(l,alloy=bad,armor=2,drill=1,power=2,tech=table(l,fort_8='true',fake_1=True),codex=table(l,enemies=table(l,crawler=bad))))
- assert p.alloy==0 and p.schema==5 and p.tech.fort_1 and p.tech.fort_2 and p.tech.industry_1 and p.tech.ballistics_2
+ assert p.alloy==0 and p.schema==6 and p.tech.fort_1 and p.tech.fort_2 and p.tech.industry_1 and p.tech.ballistics_2
  assert not p.tech.fort_8 and not p.tech.fake_1 and (p.codex.enemies.crawler or 0)==0
  q=r.cleanProfile(p);assert q.tech.fort_2 and not q.tech.industry_2
 
@@ -222,10 +223,11 @@ def test_embedded_atlas_rgba_and_rigs(env):
  for key in ['robot','drillBit','crawlerBody','tankBody']:assert d.sprites[key] and d.fallback[key]
 
 def test_export_contains_current_sources_and_boot():
- root=ET.parse(ROOT/'Dustbound-0.5.0.rbxlx').getroot()
+ project=json.loads((ROOT/'default.project.json').read_text())
+ root=ET.parse(ROOT/(project['name']+'.rbxlx')).getroot()
  sources=[e.text for e in root.findall('.//*[@name="Source"]')]
  for file in (ROOT/'src').glob('*.lua'):assert file.read_text() in sources,file.name
- assert len(sources)==17
+ assert len(sources)==len(list((ROOT/'src').glob('*.lua')))
 
 def test_legacy_bonuses_migrate_without_double_application(env):
  l,c,r,g,s=env;s.profile=r.cleanProfile(table(l,armor=2,drill=2,power=2,alloy=77,research=22));g.start(s,c,r)

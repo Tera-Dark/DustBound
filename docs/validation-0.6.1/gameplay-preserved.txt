@@ -1,0 +1,1 @@
+Core, Rules, Catalog, Tech, ProfileStore byte-identical to 0.6.0. No gameplay or save-schema change.

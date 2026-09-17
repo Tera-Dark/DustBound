@@ -79,17 +79,17 @@ def test_corrupt_or_newer_cloud_data_is_not_overwritten(raw):
 
 def test_save_failure_retry_flushes_newer_mutations_and_settings():
  l,t,p=host(cloud=True);s=t.session(p);s.game.profile.alloy=500;s.game.profile.research=100
- t.failStore(True);t.action(p,'research','energy_2');assert s.profile.mode=='save_error' and s.profile.pending
+ t.failStore(True);t.action(p,'research','ballistics_1');assert s.profile.mode=='save_error' and s.profile.pending
  t.action(p,'settings',l.table_from({'key':'sfx','value':.2}));assert s.game.profile.settings.sfx==.2
  t.failStore(False);t.action(p,'save_retry');assert s.profile.pending is None and s.profile.mode=='cloud'
  t.leave(p);p2=t.join(42);r=t.session(p2).profile.data
- assert r.alloy==380 and r.research==80 and r.tech.energy_2 and r.settings.sfx==.2
+ assert r.alloy==438 and r.research==100 and r.tech.ballistics_1 and r.settings.sfx==.2
 
 def test_committed_write_lost_response_retry_is_idempotent():
  l,t,p=host(cloud=True);s=t.session(p);s.game.profile.alloy=500;s.game.profile.research=100
- l.globals().MOCK.commitThenError=True;t.action(p,'research','energy_2')
- assert s.profile.pending and t.db['u_42'].data.alloy==380
- t.action(p,'save_retry');assert t.db['u_42'].data.alloy==380 and t.db['u_42'].data.research==80
+ l.globals().MOCK.commitThenError=True;t.action(p,'research','ballistics_1')
+ assert s.profile.pending and t.db['u_42'].data.alloy==438
+ t.action(p,'save_retry');assert t.db['u_42'].data.alloy==438 and t.db['u_42'].data.research==100
 
 def test_lock_acquire_lost_response_can_retry_same_token():
  l,t,p=host(cloud=True,commitThenError=True);s=t.session(p);assert s.profile.blocked
@@ -98,13 +98,13 @@ def test_lock_acquire_lost_response_can_retry_same_token():
 
 def test_lost_lock_blocks_writes_not_cloud_overwrite():
  l,t,p=host(cloud=True);s=t.session(p);t.db['u_42'].lock.token='other-owner'
- s.game.profile.alloy=500;s.game.profile.research=100;t.action(p,'research','energy_2')
+ s.game.profile.alloy=500;s.game.profile.research=100;t.action(p,'research','ballistics_1')
  assert s.profile.mode=='lock_lost' and s.profile.blocked and not s.profile.persistent
  assert t.db['u_42'].data.alloy==0
 
 def test_callback_replay_does_not_double_research():
  l,t,p=host(cloud=True,replayCallback=True);s=t.session(p);s.game.profile.alloy=500;s.game.profile.research=100
- t.action(p,'research','energy_2');assert s.game.profile.alloy==380 and t.db['u_42'].data.alloy==380
+ t.action(p,'research','ballistics_1');assert s.game.profile.alloy==438 and t.db['u_42'].data.alloy==438
 
 def test_metrics_whitelist_and_first_deposit_once():
  l,t,p=host();t.action(p,'ui_ready','keyboard');t.action(p,'ui_ready','touch');t.action(p,'start','tutorial')
@@ -117,8 +117,8 @@ def test_metrics_whitelist_and_first_deposit_once():
  assert s.telemetry.counts.shot is None
 
 def test_two_players_still_isolated():
- l,t,p=host();p2=t.join(100);t.action(p,'start','tutorial');t.action(p,'buy','drill')
- assert t.session(p).game.ore==20 and t.session(p2).game.phase=='menu'
+ l,t,p=host();p2=t.join(100);t.action(p,'start','tutorial');t.action(p,'buy','cargo')
+ assert t.session(p).game.ore==10 and t.session(p2).game.phase=='menu'
 
 
 def test_tutorial_fixed_grant_and_unproductive_investment_blocked(env):
@@ -149,7 +149,7 @@ def test_zero_viewport_waits_without_claiming_ui_ready():
 
 def test_pending_modal_blocks_double_click_and_timeout_recovers():
  from test_ui import click_name,by_name
- l,t,p=host();client(t,p);visit(t,p,'设置')
+ l,t,p=host();client(t,p);visit(t,p,'设置');click_name(t,p,'SettingsTab_audio')
  action=t.network().Action;callbacks=action.OnServerEvent.callbacks;action.OnServerEvent.callbacks=l.table()
  click_name(t,p,'Less_sfx');overlay=by_name(p.PlayerGui,'PendingRequest');assert overlay.Visible
  t.advanceClock(4);t.render(4);assert not overlay.Visible

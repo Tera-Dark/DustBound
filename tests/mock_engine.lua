@@ -2,14 +2,18 @@
 -- Geometry/rendering, replication, physics and platform API behavior are not validated.
 local clock=0
 local options=MOCK or {}
-local counters={getDataStore=0,updates=0}
+local counters={getDataStore=0,updates=0,instances=0,destroyed=0,assignments=0,pixelWrites=0,yields=0,bootAssignments=0}
 local realOS=os
 os={clock=function() return clock end,time=realOS.time}
 math.atan2=math.atan2 or function(y,x) return math.atan(y,x) end
 local function signal()
     local s={callbacks={}}
-    function s:Connect(f) self.callbacks[#self.callbacks+1]=f; return {Disconnect=function() end} end
+    function s:Connect(f)
+        local index=#self.callbacks+1;self.callbacks[index]=f
+        return {Disconnect=function() self.callbacks[index]=function() end end}
+    end
     function s:Fire(...) for _,f in ipairs(self.callbacks) do f(...) end end
+    function s:Wait() counters.yields=counters.yields+1;return 1/60 end
     return s
 end
 local vector={}
@@ -48,7 +52,9 @@ meta.__index=function(t,k)
     for _,c in ipairs(t._children) do if c.Name==k then return c end end
 end
 meta.__newindex=function(t,k,v)
+    counters.assignments=counters.assignments+1
     local info=debug.getinfo(2,"S")
+    if info and info.source:find("FrontierBoot") then counters.bootAssignments=counters.bootAssignments+1 end
     if API_CONTRACT and info and (info.source:find("Frontier") or info.source=="Art" or info.source=="Motion" or info.source=="Panels" or info.source=="UI" or info.source=="Audio") then
         local known=API_CONTRACT.properties[t.ClassName]
         assert(known and known[k],"Unknown Roblox property "..t.ClassName.."."..k)
@@ -62,9 +68,13 @@ meta.__newindex=function(t,k,v)
         if old then for i,c in ipairs(old._children) do if c==t then table.remove(old._children,i); break end end end
         t._props.Parent=v
         if v then v._children[#v._children+1]=t end
-    else t._props[k]=v end
+    else
+        local changed=t._props[k]~=v;t._props[k]=v
+        if changed and t._propertySignals and t._propertySignals[k] then t._propertySignals[k]:Fire() end
+    end
 end
 Instance={new=function(class)
+    counters.instances=counters.instances+1
     local t=setmetatable({_props={ClassName=class,Name=class},_children={}},meta)
     t.Activated=signal(); t.InputBegan=signal(); t.FocusLost=signal()
     if class=="RemoteEvent" then t.OnServerEvent=signal(); t.OnClientEvent=signal(); t.messages={} end
@@ -73,14 +83,25 @@ end}
 function methods:FindFirstChild(name) for _,c in ipairs(self._children) do if c.Name==name then return c end end end
 function methods:IsA(class) return self.ClassName==class or (class=="GuiObject" and (self.ClassName=="Frame" or self.ClassName=="TextButton" or self.ClassName=="TextLabel" or self.ClassName=="TextBox" or self.ClassName=="ImageLabel" or self.ClassName=="ScrollingFrame" or self.ClassName=="TextBox")) end
 function methods:GetAttribute(name) return self._props["attr_"..name] end
-function methods:SetAttribute(name,value) self._props["attr_"..name]=value end
+function methods:SetAttribute(name,value)
+    local changed=self._props["attr_"..name]~=value;self._props["attr_"..name]=value
+    if changed and self._attributeSignals and self._attributeSignals[name] then self._attributeSignals[name]:Fire() end
+end
+function methods:GetAttributeChangedSignal(name)
+    if not self._attributeSignals then rawset(self,"_attributeSignals",{}) end
+    self._attributeSignals[name]=self._attributeSignals[name] or signal();return self._attributeSignals[name]
+end
+function methods:GetPropertyChangedSignal(name)
+    if not self._propertySignals then rawset(self,"_propertySignals",{}) end
+    self._propertySignals[name]=self._propertySignals[name] or signal();return self._propertySignals[name]
+end
 function methods:RemoveDefaultLoadingScreen() self.removed=true end
 function methods:WaitForChild(name,timeout)
     local item=self[name]
     if not item and not timeout then error("Missing child "..name.." under "..self.Name) end
     return item
 end
-function methods:Destroy() self.Parent=nil; self.destroyed=true; local list={table.unpack(self._children)}; for _,c in ipairs(list) do c:Destroy() end end
+function methods:Destroy() counters.destroyed=counters.destroyed+1;self.Parent=nil; self.destroyed=true; local list={table.unpack(self._children)}; for _,c in ipairs(list) do c:Destroy() end end
 function methods:GetPivot() return self.pivot or (self.PrimaryPart and self.PrimaryPart.CFrame) or CFrame.new() end
 function methods:PivotTo(value) self.pivot=value end
 function methods:FireClient(player,...)
@@ -91,15 +112,20 @@ function methods:FireClient(player,...)
 end
 function methods:GetPlayers() return {} end
 function methods:Play() self.playCount=(self.playCount or 0)+1 end
-function methods:Stop() end
+function methods:Stop() self.stopCount=(self.stopCount or 0)+1 end
 function methods:IsStudio() return not options.production end
 function methods:GetGuiInset() return Vector2.new(0,36),Vector2.new(0,0) end
 function methods:LogCustomEvent(...) counters.analytics=(counters.analytics or 0)+1 end
 function methods:ClearAllChildren() local list={table.unpack(self._children)};for _,c in ipairs(list) do c:Destroy() end end
 function methods:CreateEditableImage(opts)
     if options.imageDisabled then error("EditableImage disabled") end
-    local image={Size=opts.Size}
-    function image:WritePixelsBuffer(_,size,buf) assert(buf.length==size.X*size.Y*4,"RGBA size mismatch") end
+    local image={Size=opts.Size,writes={}}
+    function image:WritePixelsBuffer(position,size,buf)
+        assert(buf.length==size.X*size.Y*4,"RGBA size mismatch")
+        assert(position.Y>=0 and position.Y+size.Y<=self.Size.Y,"image stripe outside bounds")
+        counters.pixelWrites=counters.pixelWrites+1
+        self.writes[#self.writes+1]={y=position.Y,rows=size.Y,length=buf.length}
+    end
     function image:Destroy() self.destroyed=true end
     return image
 end
@@ -145,7 +171,7 @@ local function drain()
 end
 local shared=Instance.new("Folder"); shared.Name="FrontierShared"; shared.Parent=service("ReplicatedStorage")
 local root=Instance.new("Script"); root.Name="FrontierServer"
-for _,name in ipairs({"Config","Rules","Core","Art","ArtData","Tech","Catalog","Panels","Motion","UI","Guide","Audio"}) do local m=Instance.new("ModuleScript"); m.Name=name; m.source=SOURCES[name]; m.Parent=shared end
+for _,name in ipairs({"Runtime","Config","RunSystems","ResearchWeb","Economy","BattleView","Rules","Core","Art","ArtData","Tech","Catalog","Panels","TechMap","Gallery","GalleryData","Animation","WeaponRig","Motion","UI","Guide","Audio"}) do if SOURCES[name] then local m=Instance.new("ModuleScript"); m.Name=name; m.source=SOURCES[name]; m.Parent=shared end end
 local profile=Instance.new("ModuleScript"); profile.Name="ProfileStore"; profile.source=SOURCES.ProfileStore; profile.Parent=root
 local telemetry=Instance.new("ModuleScript");telemetry.Name="Telemetry";telemetry.source=SOURCES.Telemetry;telemetry.Parent=root
 local cache={}
@@ -218,7 +244,7 @@ function Test.enableClient(p,source,touch)
     service("RunService").RenderStepped=service("RunService").RenderStepped or signal()
     local cam=Instance.new("Camera"); cam.ViewportSize=Vector2.new(options.width or (touch and 844 or 1440),options.height or (touch and 390 or 810)); workspace.CurrentCamera=cam
     assert(load(source,"FrontierClient"))()
-    Test.render(0.1)
+    for _=1,(options.clientFrames or 2) do Test.render(0.1) end
 end
 function Test.render(dt) service("RunService").RenderStepped:Fire(dt or 0.1) end
 function Test.findGui(p,content)

@@ -1,5 +1,5 @@
 {
-  "name": "Dustbound-0.5.0",
+  "name": "Dustbound-0.7.0",
   "tree": {
     "$className": "DataModel",
     "Workspace": {
@@ -24,8 +24,23 @@
       "$className": "ReplicatedStorage",
       "FrontierShared": {
         "$className": "Folder",
+        "Runtime": {
+          "$path": "src/Runtime.lua"
+        },
         "Config": {
           "$path": "src/Config.lua"
+        },
+        "RunSystems": {
+          "$path": "src/RunSystems.lua"
+        },
+        "ResearchWeb": {
+          "$path": "src/ResearchWeb.lua"
+        },
+        "Economy": {
+          "$path": "src/Economy.lua"
+        },
+        "BattleView": {
+          "$path": "src/BattleView.lua"
         },
         "Rules": {
           "$path": "src/Rules.lua"
@@ -45,11 +60,11 @@
         "Catalog": {
           "$path": "src/Catalog.lua"
         },
-        "Motion": {
-          "$path": "src/Motion.lua"
+        "Animation": {
+          "$path": "src/Animation.lua"
         },
-        "Panels": {
-          "$path": "src/Panels.lua"
+        "WeaponRig": {
+          "$path": "src/WeaponRig.lua"
         },
         "UI": {
           "$path": "src/UI.lua"

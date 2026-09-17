@@ -43,7 +43,9 @@ def render(obj):
  if cl=='ImageLabel':
   r=p.ImageRectOffset;size=p.ImageRectSize
   if r is not None:
-   styles+=['background-image:var(--atlas)','background-repeat:no-repeat',f'background-size:{1024/size.X*100}% {1024/size.Y*100}%',f'background-position:{r.X/(1024-size.X)*100 if size.X<1024 else 0}% {r.Y/(1024-size.Y)*100 if size.Y<1024 else 0}%']
+   total=512 if p.Name=='GalleryArtwork' else 1024
+   atlasvar='--gallery' if p.Name=='GalleryArtwork' else '--atlas'
+   styles+=['background-image:var('+atlasvar+')','background-repeat:no-repeat',f'background-size:{total/size.X*100}% {total/size.Y*100}%',f'background-position:{r.X/(total-size.X)*100 if size.X<total else 0}% {r.Y/(total-size.Y)*100 if size.Y<total else 0}%']
  content=''
  if cl in ['TextLabel','TextButton','TextBox']:
   align=val(p,'TextXAlignment','Center');vertical=val(p,'TextYAlignment','Center')
@@ -52,7 +54,7 @@ def render(obj):
   elif cl=='TextBox' and p.PlaceholderText:content='<span style="opacity:.55">'+html.escape(str(p.PlaceholderText))+'</span>'
  child_html=''.join(render(c) for c in children)
  if cl=='ScrollingFrame':
-  offset=val(p.CanvasPosition,'Y',0);child_html=f'<div style="position:absolute;inset:0;transform:translateY(-{offset}px)">'+child_html+'</div>'
+  offset=val(p.CanvasPosition,'Y',0);offsetx=val(p.CanvasPosition,'X',0);child_html=f'<div style="position:absolute;inset:0;transform:translate(-{offsetx}px,-{offset}px)">'+child_html+'</div>'
  content+=child_html
  return '<div data-name="'+html.escape(str(p.Name))+'" style="'+';'.join(styles)+'">'+content+'</div>'
 
@@ -85,27 +87,37 @@ def make(mode):
      for _ in range(6):t.render(1/60)
     if scene=='planner':t.click(p,'情报 / 经营台')
     if scene=='pause':t.click(p,'Ⅱ')
- elif scene=='research':
+ elif scene.startswith('research'):
   game.profile.alloy=480;game.profile.research=85;game.profile.bestWave=5;game.profile.targetResearch='energy_2'
   for id in ['fort_1','industry_1','ballistics_1']:game.profile.tech[id]=True
   t.action(p,'ready');t.click(p,'研究中心')
- elif scene=='settings':t.click(p,'设置')
- elif scene=='codex':t.click(p,'远征图鉴')
- t.render(.2)
+  if scene=='research-zoom':
+   t.render(.2);from test_ui import click_name
+   click_name(t,p,'FocusTech')
+ elif scene.startswith('settings'):
+  t.click(p,'设置')
+  if '-' in scene:t.click(p,{'audio':'声音','display':'显示','advanced':'高级'}[scene.split('-',1)[1]])
+ elif scene.startswith('codex'):
+  t.click(p,'远征图鉴')
+  if scene=='codex-monsters':t.render(.2);t.click(p,'怪物')
+ elif scene=='workshop':t.click(p,'武器工坊')
+ elif scene=='campaign':t.click(p,'▶  星球远征 · 24 关')
+ t.render(.2);t.step(.1);t.render(.2)
  err=p.PlayerGui.GetAttribute(p.PlayerGui,'FrontierClientError');assert not err,err
  content=''.join(render(g) for g in p.PlayerGui.GetChildren(p.PlayerGui).values())
+ gallery=base64.b64encode((ROOT/'assets/expedition-gallery-runtime.png').read_bytes()).decode()
  atlas=base64.b64encode((ROOT/'assets/dustbound-atlas.png').read_bytes()).decode()
- page='<!doctype html><html><head><meta charset="utf-8"><title>Offline GUI / NOT Roblox Studio</title><style>html,body{margin:0;width:'+str(width)+'px;height:'+str(height)+'px;overflow:hidden;font-family:Arial,"Noto Sans CJK SC",sans-serif}body{--atlas:url(data:image/png;base64,'+atlas+')}</style></head><body>'+content+'<div style="position:fixed;left:4px;top:2px;z-index:99999;font:10px Arial,sans-serif;color:#152d3c;background:#f7f1dbdd;padding:2px 5px">离线 UI 排版 / 非 Studio 实机 · '+mode+'</div></body></html>'
+ page='<!doctype html><html><head><meta charset="utf-8"><title>Offline GUI / NOT Roblox Studio</title><style>html,body{margin:0;width:'+str(width)+'px;height:'+str(height)+'px;overflow:hidden;font-family:Arial,"Noto Sans CJK SC",sans-serif}body{--atlas:url(data:image/png;base64,'+atlas+');--gallery:url(data:image/png;base64,'+gallery+')}</style></head><body>'+content+'<div style="position:fixed;left:4px;top:2px;z-index:99999;font:10px Arial,sans-serif;color:#152d3c;background:#f7f1dbdd;padding:2px 5px">离线 UI 排版 / 非 Studio 实机 · '+mode+'</div></body></html>'
  folder=ROOT/'.cache/previews';folder.mkdir(parents=True,exist_ok=True)
  file=folder/f'offline-{mode}.html';file.write_text(page);return file,width,height
 if __name__=='__main__':
  parser=argparse.ArgumentParser();parser.add_argument('--capture',action='store_true');args=parser.parse_args()
- modes=['menu','gameplay','research','result','mobile-menu','mobile-gameplay','mobile-mining','mobile-research','mobile-supply','mobile-planner','mobile-settings','mobile-result']
+ modes=['research-zoom','codex-monsters','campaign','codex','workshop','mobile-campaign','mobile-codex','menu','gameplay','research','result','settings','settings-audio','settings-display','mobile-menu','mobile-gameplay','mobile-mining','mobile-research','mobile-supply','mobile-planner','mobile-settings','mobile-result']
  files=[make(mode) for mode in modes]
  if args.capture:
   from playwright.sync_api import sync_playwright
   with sync_playwright() as p:
-   browser=p.chromium.launch(headless=True,args=['--no-sandbox'])
+   browser=p.chromium.launch(headless=True,args=['--no-sandbox','--disable-gpu'])
    for f,w,h in files:
     page=browser.new_page(viewport={'width':w,'height':h},device_scale_factor=1)
     page.goto(f.as_uri());page.screenshot(path=str(ROOT/'docs'/f.with_suffix('.png').name));page.close()

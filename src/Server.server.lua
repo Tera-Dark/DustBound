@@ -8,7 +8,7 @@ local status=ensure(net,"StringValue","BootStatus");local failure=ensure(net,"St
 local function report(err) status.Value="ERROR";failure.Value=tostring(err):sub(1,3000);warn("[DUSTBOUND] "..tostring(err)) end
 local function launch()
  local shared=RS:WaitForChild("FrontierShared",10);assert(shared,"FrontierShared missing")
- local C=require(shared:WaitForChild("Config",10));C.Tech=require(shared:WaitForChild("Tech",10));C.Catalog=require(shared:WaitForChild("Catalog",10));C.Supplies=C.Catalog.supplies
+ local C=require(shared:WaitForChild("Runtime",10))
  local R=require(shared:WaitForChild("Rules",10));local Core=require(shared:WaitForChild("Core",10));local Guide=require(shared:WaitForChild("Guide",10))
  local Profiles=require(script:WaitForChild("ProfileStore",10));local Telemetry=require(script:WaitForChild("Telemetry",10))
  local sessions={}
@@ -76,11 +76,13 @@ local function launch()
     s.profile=Profiles.guest();s.game=Core.new(C,R,s.profile.data);send(player,s);return
    end
    if s.profile.blocked or s.storageBusy then s.actionResult="云档未就绪：重试读取，或明确选择不保存的访客试玩";send(player,s);return end
+   local previousNotice=s.game.notice;s.game.notice=nil
    local accepted=Core.act(s.game,C,R,kind,data)
-   s.actionResult=accepted and "" or "操作未生效：请检查状态、资源或解锁条件"
+   s.actionResult=accepted and "" or s.game.notice or "操作未生效：请检查状态、资源或解锁条件"
+   if not s.game.notice then s.game.notice=previousNotice end
    if accepted then Profiles.touch(s.profile) end
    send(player,s)
-   if accepted and (kind=="research" or kind=="start" or kind=="abandon" or kind=="loadout" or kind=="preset" or kind=="settings" or kind=="target" or s.game.phase=="ended") then
+   if accepted and (kind=="refund_talent" or kind=="research" or kind=="start" or kind=="abandon" or kind=="loadout" or kind=="preset" or kind=="settings" or kind=="settings_reset" or kind=="target" or s.game.phase=="ended") then
     task.spawn(function() save(player,s,false) end)
    end
   end,debug.traceback);if not ok then report(err) end
@@ -114,6 +116,6 @@ local function launch()
   local deadline=os.clock()+25;while pending>0 and os.clock()<deadline do task.wait(.1) end
  end)
  if status.Value~="ERROR" then status.Value="READY" end
- print("[DUSTBOUND 0.5.0] native GUI + tutorial + planning console ready")
+ print("[DUSTBOUND 0.7.0] native GUI + tutorial + planning console ready")
 end
 local ok,err=xpcall(launch,debug.traceback);if not ok then report(err) end

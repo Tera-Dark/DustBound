@@ -9,7 +9,7 @@ for i=1,1000 do
  local alloy,data=R.settlement(i%2==0,ore,math.random(0,10000),math.random(0,1000),i%4,false)
  check(alloy>=0 and alloy<=ore and data>=0 and data%1==0,'settlement bounds')
  local p=R.cleanProfile({alloy=-10,armor=2,tech={fake_1=true,fort_8='true'},codex={enemies={crawler=0/0}}})
- check(p.schema==5 and p.tech.fort_2 and not p.tech.fort_8 and p.alloy==0 and (p.codex.enemies.crawler or 0)==0,'nested migration')
+ check(p.schema==6 and p.tech.fort_2 and not p.tech.fort_8 and p.alloy==0 and (p.codex.enemies.crawler or 0)==0,'nested migration')
  local s=G.new(C,R,p);G.start(s,C,R)
  G.step(s,C,R,.1);check(s.ore==C.InitialOre and s.totalMined==0,'no combat mining')
  local ok=G.act(s,C,R,'buy',i%2==0 and 'drill' or 'damage')

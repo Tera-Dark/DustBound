@@ -1,0 +1,370 @@
+[
+  {
+    "node": 1,
+    "won": true,
+    "wave": 3,
+    "seconds": 182.8,
+    "hull": 1140,
+    "kills": 30,
+    "alloy": 262,
+    "research": 41,
+    "crystals": 0,
+    "cores": 0,
+    "researchBefore": []
+  },
+  {
+    "node": 2,
+    "won": true,
+    "wave": 3,
+    "seconds": 181.9,
+    "hull": 1230,
+    "kills": 30,
+    "alloy": 291,
+    "research": 46,
+    "crystals": 0,
+    "cores": 0,
+    "researchBefore": [
+      "ballistics_1",
+      "industry_1",
+      "fort_1"
+    ]
+  },
+  {
+    "node": 3,
+    "won": true,
+    "wave": 4,
+    "seconds": 241.3,
+    "hull": 1350,
+    "kills": 42,
+    "alloy": 320,
+    "research": 56,
+    "crystals": 0,
+    "cores": 0,
+    "researchBefore": [
+      "energy_1",
+      "logistics_1",
+      "expedition_1"
+    ]
+  },
+  {
+    "node": 4,
+    "won": true,
+    "wave": 4,
+    "seconds": 238.9,
+    "hull": 1440,
+    "kills": 43,
+    "alloy": 349,
+    "research": 62,
+    "crystals": 0,
+    "cores": 0,
+    "researchBefore": [
+      "ballistics_2",
+      "industry_2",
+      "fort_2"
+    ]
+  },
+  {
+    "node": 5,
+    "won": true,
+    "wave": 5,
+    "seconds": 301.8,
+    "hull": 1440,
+    "kills": 56,
+    "alloy": 378,
+    "research": 68,
+    "crystals": 1,
+    "cores": 0,
+    "researchBefore": [
+      "energy_2",
+      "logistics_2"
+    ]
+  },
+  {
+    "node": 6,
+    "won": true,
+    "wave": 5,
+    "seconds": 301.4,
+    "hull": 1440,
+    "kills": 57,
+    "alloy": 447,
+    "research": 73,
+    "crystals": 1,
+    "cores": 0,
+    "researchBefore": [
+      "expedition_2"
+    ]
+  },
+  {
+    "node": 7,
+    "won": true,
+    "wave": 6,
+    "seconds": 360.7,
+    "hull": 1440,
+    "kills": 72,
+    "alloy": 479,
+    "research": 79,
+    "crystals": 1,
+    "cores": 0,
+    "researchBefore": [
+      "ballistics_3"
+    ]
+  },
+  {
+    "node": 8,
+    "won": true,
+    "wave": 6,
+    "seconds": 374.5,
+    "hull": 1440,
+    "kills": 75,
+    "alloy": 510,
+    "research": 85,
+    "crystals": 3,
+    "cores": 1,
+    "researchBefore": []
+  },
+  {
+    "node": 9,
+    "won": true,
+    "wave": 6,
+    "seconds": 372.7,
+    "hull": 1560,
+    "kills": 75,
+    "alloy": 542,
+    "research": 91,
+    "crystals": 3,
+    "cores": 0,
+    "researchBefore": [
+      "industry_3",
+      "fort_3"
+    ]
+  },
+  {
+    "node": 10,
+    "won": true,
+    "wave": 6,
+    "seconds": 372.0,
+    "hull": 1560,
+    "kills": 75,
+    "alloy": 574,
+    "research": 97,
+    "crystals": 3,
+    "cores": 0,
+    "researchBefore": [
+      "energy_3"
+    ]
+  },
+  {
+    "node": 11,
+    "won": true,
+    "wave": 7,
+    "seconds": 432.8,
+    "hull": 1560,
+    "kills": 92,
+    "alloy": 605,
+    "research": 103,
+    "crystals": 3,
+    "cores": 0,
+    "researchBefore": [
+      "logistics_3",
+      "expedition_3"
+    ]
+  },
+  {
+    "node": 12,
+    "won": true,
+    "wave": 7,
+    "seconds": 434.3,
+    "hull": 1560,
+    "kills": 93,
+    "alloy": 637,
+    "research": 108,
+    "crystals": 5,
+    "cores": 0,
+    "researchBefore": []
+  },
+  {
+    "node": 13,
+    "won": true,
+    "wave": 8,
+    "seconds": 491.5,
+    "hull": 1560,
+    "kills": 113,
+    "alloy": 669,
+    "research": 114,
+    "crystals": 5,
+    "cores": 0,
+    "researchBefore": [
+      "ballistics_4",
+      "industry_4"
+    ]
+  },
+  {
+    "node": 14,
+    "won": true,
+    "wave": 8,
+    "seconds": 497.2,
+    "hull": 1560,
+    "kills": 115,
+    "alloy": 700,
+    "research": 120,
+    "crystals": 5,
+    "cores": 0,
+    "researchBefore": [
+      "fort_4"
+    ]
+  },
+  {
+    "node": 15,
+    "won": true,
+    "wave": 9,
+    "seconds": 565.0,
+    "hull": 1560,
+    "kills": 139,
+    "alloy": 732,
+    "research": 126,
+    "crystals": 5,
+    "cores": 0,
+    "researchBefore": [
+      "energy_4"
+    ]
+  },
+  {
+    "node": 16,
+    "won": true,
+    "wave": 9,
+    "seconds": 570.9,
+    "hull": 1560,
+    "kills": 142,
+    "alloy": 764,
+    "research": 132,
+    "crystals": 7,
+    "cores": 1,
+    "researchBefore": [
+      "logistics_4"
+    ]
+  },
+  {
+    "node": 17,
+    "won": true,
+    "wave": 9,
+    "seconds": 568.0,
+    "hull": 1560,
+    "kills": 142,
+    "alloy": 795,
+    "research": 138,
+    "crystals": 9,
+    "cores": 1,
+    "researchBefore": [
+      "expedition_4",
+      "ballistics_5"
+    ]
+  },
+  {
+    "node": 18,
+    "won": true,
+    "wave": 9,
+    "seconds": 566.4,
+    "hull": 1560,
+    "kills": 142,
+    "alloy": 827,
+    "research": 143,
+    "crystals": 9,
+    "cores": 1,
+    "researchBefore": [
+      "industry_5"
+    ]
+  },
+  {
+    "node": 19,
+    "won": true,
+    "wave": 10,
+    "seconds": 641.2,
+    "hull": 1680,
+    "kills": 171,
+    "alloy": 859,
+    "research": 149,
+    "crystals": 9,
+    "cores": 1,
+    "researchBefore": [
+      "fort_5",
+      "energy_5"
+    ]
+  },
+  {
+    "node": 20,
+    "won": true,
+    "wave": 10,
+    "seconds": 645.3,
+    "hull": 1680,
+    "kills": 172,
+    "alloy": 891,
+    "research": 155,
+    "crystals": 11,
+    "cores": 1,
+    "researchBefore": [
+      "logistics_5"
+    ]
+  },
+  {
+    "node": 21,
+    "won": true,
+    "wave": 11,
+    "seconds": 724.7,
+    "hull": 1680,
+    "kills": 206,
+    "alloy": 922,
+    "research": 161,
+    "crystals": 11,
+    "cores": 1,
+    "researchBefore": [
+      "expedition_5",
+      "ballistics_6"
+    ]
+  },
+  {
+    "node": 22,
+    "won": true,
+    "wave": 11,
+    "seconds": 729.2,
+    "hull": 1680,
+    "kills": 207,
+    "alloy": 954,
+    "research": 167,
+    "crystals": 11,
+    "cores": 1,
+    "researchBefore": [
+      "industry_6"
+    ]
+  },
+  {
+    "node": 23,
+    "won": true,
+    "wave": 12,
+    "seconds": 839.8,
+    "hull": 1473,
+    "kills": 245,
+    "alloy": 986,
+    "research": 173,
+    "crystals": 11,
+    "cores": 1,
+    "researchBefore": [
+      "fort_6"
+    ]
+  },
+  {
+    "node": 24,
+    "won": true,
+    "wave": 12,
+    "seconds": 836.2,
+    "hull": 1451,
+    "kills": 250,
+    "alloy": 1017,
+    "research": 178,
+    "crystals": 13,
+    "cores": 1,
+    "researchBefore": [
+      "energy_6",
+      "logistics_6"
+    ]
+  }
+]
