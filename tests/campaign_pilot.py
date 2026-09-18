@@ -8,7 +8,7 @@ def setup():
  c=l.execute((ROOT/'src/Config.lua').read_text());r=l.execute((ROOT/'src/Rules.lua').read_text());g=l.execute((ROOT/'src/Core.lua').read_text())
  c.Tech=l.execute((ROOT/'src/Tech.lua').read_text());c.Catalog=l.execute((ROOT/'src/Catalog.lua').read_text())
  
- for name in ['RunSystems','ResearchWeb','Economy']:c[name]=l.execute((ROOT/('src/'+name+'.lua')).read_text())
+ for name in ['RunSystems','ResearchWeb','Economy','Encounters']:c[name]=l.execute((ROOT/('src/'+name+'.lua')).read_text())
  return l,c,r,g,g.new(c,r,r.cleanProfile(None))
 def play(l,c,r,g,s,node):
  assert g.start(s,c,r,l.table_from({'node':node}))

@@ -1,12 +1,13 @@
 -- Read-only planning UI. Estimates never grant currency or drive purchases.
 local G={}
 function G.intel(wave,C)
- local names={C.Catalog.enemies.crawler.name}
- if wave>=3 then names[#names+1]=C.Catalog.enemies.flyer.name end
- if wave>=4 then names[#names+1]=C.Catalog.enemies.tank.name end
- return {wave=wave,title="四向来袭",enemies=table.concat(names," / "),tip="主炮固定，副武器独立攻击；清场后采金。",elite=false}
+ local p=C.Encounters.intel(1,wave);local names={}
+ for _,kind in ipairs(p.kinds) do names[#names+1]=C.Catalog.enemies[kind].name end
+ return {wave=wave,title=p.name,enemies=table.concat(names," / "),tip=p.tip,elite=false}
 end
 function G.investment(id,s,C,R)
+ local v=s.investments and s.investments[id]
+ if v then return {id=id,name=C.Upgrades[id].name,detail=v.detail,price=v.price,level=v.level,cap=C.Upgrades[id].cap,can=v.canBuy,reason=v.reason,gap=v.price and math.max(0,v.price-s.ore) or 0} end
  local d=C.Upgrades[id];local level=s.upgrades[id] or 0;local price=R.price(id,level,C);local b=R.bonuses(s.profile,C)
  local stats=s.stats;local detail=d.description
  if id=="damage" then detail=string.format("主炮 %.0f → %.0f / 发",stats.damage,stats.damage*(1+(level+1)*.3)/(1+level*.3))
@@ -32,6 +33,7 @@ function G.recommend(s,C,R)
  return goal or {id="damage",reason="保留金矿用于后续维修或付费重抽。",info=G.investment("damage",s,C,R)}
 end
 function G.forecast(s)
+ if s.prepare then return {cargo=s.prepare.retainedCargo,eta=math.ceil(s.prepare.returnEta),expected=s.prepare.futureOre+s.prepare.retainedCargo} end
  local pending,eta,total=0,nil,0
  if s.stage~="mining" then return {cargo=0,eta=0,expected=0} end
  for _,r in ipairs(s.robots) do
@@ -59,9 +61,9 @@ function G.lesson(s)
  if not s.firstDeposit then
   if s.supply then return "教学 2/4 · 点选补给，再接收。选择期间不会扣整备时间。" end
   if s.stage=="mining" then return "教学 3/4 · 机器人自动钻探；返航入库后，矿料才增加。" end
-  return "教学 2/4 · 自动战斗中不采矿。清空虫群后才有 30 秒整备。"
+  return "教学 2/4 · 自动战斗中不采矿。清空虫群后进入可提前收队的整备。"
  end
- return "教学 4/4 · 守住三波后领取首通材料，研究电弧蓝图并换装。"
+ return "教学 4/4 · 守住三波后领取首通材料，投资永久研究，选择下一处前哨。"
 end
 -- Contextual supply descriptions: preview only, no rewards granted here.
 function G.supply(id,s,C,R)

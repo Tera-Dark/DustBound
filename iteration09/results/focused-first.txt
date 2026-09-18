@@ -1,0 +1,1323 @@
+FFFFFFFFFFFFF...FFFFFFFFF.FFFFFFFFFFFFFFFFFFF.............FF.....FFF.... [ 85%]
+FFFFFFFFFFF.                                                             [100%]
+=================================== FAILURES ===================================
+________ test_home_has_start_and_subsystems_not_level_wall[False-False] ________
+
+fallback = False, touch = False
+
+    @pytest.mark.parametrize('fallback',[False,True])
+    @pytest.mark.parametrize('touch',[False,True])
+    def test_home_has_start_and_subsystems_not_level_wall(fallback,touch):
+>       l,t,p=host(shippingOnly=True,strictAPI=True,imageDisabled=fallback);client(t,p,touch)
+                                                                            ^^^^^^^^^^^^^^^^^
+
+tests/test_frontier_08.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:19: in client
+    t.enableClient(p,(ROOT/'src/Client.client.lua').read_text(),touch)
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:246: [string "FrontierClient"]:112: unfinished string near '"'
+E   stack traceback:
+E   	[string "<python>"]:246: in function <[string "<python>"]:225>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.8.0] frontier menu + side lanes + bilateral mining ready
+________ test_home_has_start_and_subsystems_not_level_wall[False-True] _________
+
+fallback = True, touch = False
+
+    @pytest.mark.parametrize('fallback',[False,True])
+    @pytest.mark.parametrize('touch',[False,True])
+    def test_home_has_start_and_subsystems_not_level_wall(fallback,touch):
+>       l,t,p=host(shippingOnly=True,strictAPI=True,imageDisabled=fallback);client(t,p,touch)
+                                                                            ^^^^^^^^^^^^^^^^^
+
+tests/test_frontier_08.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:19: in client
+    t.enableClient(p,(ROOT/'src/Client.client.lua').read_text(),touch)
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:246: [string "FrontierClient"]:112: unfinished string near '"'
+E   stack traceback:
+E   	[string "<python>"]:246: in function <[string "<python>"]:225>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.8.0] frontier menu + side lanes + bilateral mining ready
+________ test_home_has_start_and_subsystems_not_level_wall[True-False] _________
+
+fallback = False, touch = True
+
+    @pytest.mark.parametrize('fallback',[False,True])
+    @pytest.mark.parametrize('touch',[False,True])
+    def test_home_has_start_and_subsystems_not_level_wall(fallback,touch):
+>       l,t,p=host(shippingOnly=True,strictAPI=True,imageDisabled=fallback);client(t,p,touch)
+                                                                            ^^^^^^^^^^^^^^^^^
+
+tests/test_frontier_08.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:19: in client
+    t.enableClient(p,(ROOT/'src/Client.client.lua').read_text(),touch)
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:246: [string "FrontierClient"]:112: unfinished string near '"'
+E   stack traceback:
+E   	[string "<python>"]:246: in function <[string "<python>"]:225>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.8.0] frontier menu + side lanes + bilateral mining ready
+_________ test_home_has_start_and_subsystems_not_level_wall[True-True] _________
+
+fallback = True, touch = True
+
+    @pytest.mark.parametrize('fallback',[False,True])
+    @pytest.mark.parametrize('touch',[False,True])
+    def test_home_has_start_and_subsystems_not_level_wall(fallback,touch):
+>       l,t,p=host(shippingOnly=True,strictAPI=True,imageDisabled=fallback);client(t,p,touch)
+                                                                            ^^^^^^^^^^^^^^^^^
+
+tests/test_frontier_08.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:19: in client
+    t.enableClient(p,(ROOT/'src/Client.client.lua').read_text(),touch)
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:246: [string "FrontierClient"]:112: unfinished string near '"'
+E   stack traceback:
+E   	[string "<python>"]:246: in function <[string "<python>"]:225>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.8.0] frontier menu + side lanes + bilateral mining ready
+___________________ test_native_navigation_all_pages[False] ____________________
+
+fallback = False
+
+    @pytest.mark.parametrize('fallback',[False,True])
+    def test_native_navigation_all_pages(fallback):
+>       l,t,p=host(shippingOnly=True,strictAPI=True,imageDisabled=fallback);client(t,p,True)
+                                                                            ^^^^^^^^^^^^^^^^
+
+tests/test_frontier_08.py:30: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:19: in client
+    t.enableClient(p,(ROOT/'src/Client.client.lua').read_text(),touch)
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:246: [string "FrontierClient"]:112: unfinished string near '"'
+E   stack traceback:
+E   	[string "<python>"]:246: in function <[string "<python>"]:225>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.8.0] frontier menu + side lanes + bilateral mining ready
+____________________ test_native_navigation_all_pages[True] ____________________
+
+fallback = True
+
+    @pytest.mark.parametrize('fallback',[False,True])
+    def test_native_navigation_all_pages(fallback):
+>       l,t,p=host(shippingOnly=True,strictAPI=True,imageDisabled=fallback);client(t,p,True)
+                                                                            ^^^^^^^^^^^^^^^^
+
+tests/test_frontier_08.py:30: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:19: in client
+    t.enableClient(p,(ROOT/'src/Client.client.lua').read_text(),touch)
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:246: [string "FrontierClient"]:112: unfinished string near '"'
+E   stack traceback:
+E   	[string "<python>"]:246: in function <[string "<python>"]:225>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.8.0] frontier menu + side lanes + bilateral mining ready
+______________ test_planets_unlock_only_after_previous_final_node ______________
+
+    def test_planets_unlock_only_after_previous_final_node():
+>       l,t,p=host();client(t,p);s=t.session(p).game
+                     ^^^^^^^^^^^
+
+tests/test_frontier_08.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:19: in client
+    t.enableClient(p,(ROOT/'src/Client.client.lua').read_text(),touch)
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:246: [string "FrontierClient"]:112: unfinished string near '"'
+E   stack traceback:
+E   	[string "<python>"]:246: in function <[string "<python>"]:225>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.8.0] frontier menu + side lanes + bilateral mining ready
+____________ test_ground_spawns_only_on_sides_flyers_only_above[1] _____________
+
+wave = 1
+
+    @pytest.mark.parametrize('wave',[1,2,3,4,10,20])
+    def test_ground_spawns_only_on_sides_flyers_only_above(wave):
+        l,c,r,g,s=setup();g.start(s,c,r);s.wave=wave;found=set()
+        for i in range(1,40):
+            s.enemies=l.table();s.projectiles=l.table();s.waveElapsed=0;s.spawnClock=99;s.gunClock=99
+            g.step(s,c,r,.01)
+            for e in s.enemies.values():
+                found.add(e.kind)
+                if e.kind=='flyer':assert e.y<0 and 350<=e.x<=1090 and e.vy>0
+                else:assert e.x<0 or e.x>1440;assert 366<=e.y<=402;assert e.vy==0
+>       assert 'crawler' in found
+E       AssertionError: assert 'crawler' in set()
+
+tests/test_frontier_08.py:59: AssertionError
+____________ test_ground_spawns_only_on_sides_flyers_only_above[2] _____________
+
+wave = 2
+
+    @pytest.mark.parametrize('wave',[1,2,3,4,10,20])
+    def test_ground_spawns_only_on_sides_flyers_only_above(wave):
+        l,c,r,g,s=setup();g.start(s,c,r);s.wave=wave;found=set()
+        for i in range(1,40):
+            s.enemies=l.table();s.projectiles=l.table();s.waveElapsed=0;s.spawnClock=99;s.gunClock=99
+            g.step(s,c,r,.01)
+            for e in s.enemies.values():
+                found.add(e.kind)
+                if e.kind=='flyer':assert e.y<0 and 350<=e.x<=1090 and e.vy>0
+                else:assert e.x<0 or e.x>1440;assert 366<=e.y<=402;assert e.vy==0
+>       assert 'crawler' in found
+E       AssertionError: assert 'crawler' in set()
+
+tests/test_frontier_08.py:59: AssertionError
+____________ test_ground_spawns_only_on_sides_flyers_only_above[3] _____________
+
+wave = 3
+
+    @pytest.mark.parametrize('wave',[1,2,3,4,10,20])
+    def test_ground_spawns_only_on_sides_flyers_only_above(wave):
+        l,c,r,g,s=setup();g.start(s,c,r);s.wave=wave;found=set()
+        for i in range(1,40):
+            s.enemies=l.table();s.projectiles=l.table();s.waveElapsed=0;s.spawnClock=99;s.gunClock=99
+            g.step(s,c,r,.01)
+            for e in s.enemies.values():
+                found.add(e.kind)
+                if e.kind=='flyer':assert e.y<0 and 350<=e.x<=1090 and e.vy>0
+                else:assert e.x<0 or e.x>1440;assert 366<=e.y<=402;assert e.vy==0
+>       assert 'crawler' in found
+E       AssertionError: assert 'crawler' in set()
+
+tests/test_frontier_08.py:59: AssertionError
+____________ test_ground_spawns_only_on_sides_flyers_only_above[4] _____________
+
+wave = 4
+
+    @pytest.mark.parametrize('wave',[1,2,3,4,10,20])
+    def test_ground_spawns_only_on_sides_flyers_only_above(wave):
+        l,c,r,g,s=setup();g.start(s,c,r);s.wave=wave;found=set()
+        for i in range(1,40):
+            s.enemies=l.table();s.projectiles=l.table();s.waveElapsed=0;s.spawnClock=99;s.gunClock=99
+            g.step(s,c,r,.01)
+            for e in s.enemies.values():
+                found.add(e.kind)
+                if e.kind=='flyer':assert e.y<0 and 350<=e.x<=1090 and e.vy>0
+                else:assert e.x<0 or e.x>1440;assert 366<=e.y<=402;assert e.vy==0
+>       assert 'crawler' in found
+E       AssertionError: assert 'crawler' in set()
+
+tests/test_frontier_08.py:59: AssertionError
+____________ test_ground_spawns_only_on_sides_flyers_only_above[10] ____________
+
+wave = 10
+
+    @pytest.mark.parametrize('wave',[1,2,3,4,10,20])
+    def test_ground_spawns_only_on_sides_flyers_only_above(wave):
+        l,c,r,g,s=setup();g.start(s,c,r);s.wave=wave;found=set()
+        for i in range(1,40):
+            s.enemies=l.table();s.projectiles=l.table();s.waveElapsed=0;s.spawnClock=99;s.gunClock=99
+            g.step(s,c,r,.01)
+            for e in s.enemies.values():
+                found.add(e.kind)
+                if e.kind=='flyer':assert e.y<0 and 350<=e.x<=1090 and e.vy>0
+                else:assert e.x<0 or e.x>1440;assert 366<=e.y<=402;assert e.vy==0
+>       assert 'crawler' in found
+E       AssertionError: assert 'crawler' in set()
+
+tests/test_frontier_08.py:59: AssertionError
+____________ test_ground_spawns_only_on_sides_flyers_only_above[20] ____________
+
+wave = 20
+
+    @pytest.mark.parametrize('wave',[1,2,3,4,10,20])
+    def test_ground_spawns_only_on_sides_flyers_only_above(wave):
+        l,c,r,g,s=setup();g.start(s,c,r);s.wave=wave;found=set()
+        for i in range(1,40):
+            s.enemies=l.table();s.projectiles=l.table();s.waveElapsed=0;s.spawnClock=99;s.gunClock=99
+            g.step(s,c,r,.01)
+            for e in s.enemies.values():
+                found.add(e.kind)
+                if e.kind=='flyer':assert e.y<0 and 350<=e.x<=1090 and e.vy>0
+                else:assert e.x<0 or e.x>1440;assert 366<=e.y<=402;assert e.vy==0
+>       assert 'crawler' in found
+E       AssertionError: assert 'crawler' in set()
+
+tests/test_frontier_08.py:59: AssertionError
+____________ test_ground_does_not_drift_into_sky_while_approaching _____________
+
+    def test_ground_does_not_drift_into_sky_while_approaching():
+        l,c,r,g,s=setup();g.start(s,c,r);s.gunClock=999;s.spawnClock=-999
+        for i,x in enumerate([40,1400],1):s.enemies[i]=l.table_from(dict(id=i,kind='tank',x=x,y=390,hp=1000,maxHp=1000,speed=50,attack=999,burn=0))
+        for _ in range(100):g.step(s,c,r,.1)
+>       assert all(e.y==390 and e.vy==0 for e in s.enemies.values())
+E       assert False
+E        +  where False = all(<generator object test_ground_does_not_drift_into_sky_while_approaching.<locals>.<genexpr> at 0x7fc3ee4a0450>)
+
+tests/test_frontier_08.py:75: AssertionError
+_________ test_bilateral_mining_has_physical_cargo_and_conserved_gold __________
+
+    def test_bilateral_mining_has_physical_cargo_and_conserved_gold():
+>       l,c,r,g,s=setup();mining(l,c,r,g,s)
+                          ^^^^^^^^^^^^^^^^^
+
+tests/test_frontier_08.py:82: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+l = <lupa.lua55.LuaRuntime object at 0x7fc3ee21a980>
+c = <Lua table at 0x56201c4fbac0>, r = <Lua table at 0x56201c506730>
+g = <Lua table at 0x56201c533190>, s = <Lua table at 0x56201c548e80>
+
+    def mining(l,c,r,g,s):
+        g.start(s,c,r);s.waveElapsed=25;s.enemies=l.table();s.projectiles=l.table();g.step(s,c,r,.1)
+>       assert s.supply;g.act(s,c,r,'supply',l.table_from({'token':s.supply.token,'id':s.supply.options[1]}))
+        ^^^^^^^^^^^^^^^
+E       assert None
+E        +  where None = <Lua table at 0x56201c548e80>.supply
+
+tests/test_frontier_08.py:79: AssertionError
+________________ test_mining_frozen_for_pause_and_offers[pause] ________________
+
+reason = 'pause'
+
+    @pytest.mark.parametrize('reason',['pause','offer'])
+    def test_mining_frozen_for_pause_and_offers(reason):
+        l,c,r,g,s=setup();g.start(s,c,r);s.waveElapsed=25;g.step(s,c,r,.1)
+>       if reason=='pause':g.act(s,c,r,'supply',l.table_from({'token':s.supply.token,'id':s.supply.options[1]}));g.act(s,c,r,'pause',True)
+                                                                      ^^^^^^^^^^^^^^
+E       AttributeError: 'NoneType' object has no attribute 'token'
+
+tests/test_frontier_08.py:98: AttributeError
+________________ test_mining_frozen_for_pause_and_offers[offer] ________________
+
+reason = 'offer'
+
+    @pytest.mark.parametrize('reason',['pause','offer'])
+    def test_mining_frozen_for_pause_and_offers(reason):
+        l,c,r,g,s=setup();g.start(s,c,r);s.waveElapsed=25;g.step(s,c,r,.1)
+        if reason=='pause':g.act(s,c,r,'supply',l.table_from({'token':s.supply.token,'id':s.supply.options[1]}));g.act(s,c,r,'pause',True)
+>       before=(s.breakLeft,s.robots[1].x,s.ore)
+                            ^^^^^^^^^^^^^
+E       AttributeError: 'NoneType' object has no attribute 'x'
+
+tests/test_frontier_08.py:99: AttributeError
+____________ test_robot_and_flyer_visuals_and_reduced_motion[False] ____________
+
+fallback = False
+
+    @pytest.mark.parametrize('fallback',[False,True])
+    def test_robot_and_flyer_visuals_and_reduced_motion(fallback):
+>       l,t,p=host(imageDisabled=fallback,strictAPI=True);client(t,p);depart(t,p);s=t.session(p).game
+                                                          ^^^^^^^^^^^
+
+tests/test_frontier_08.py:105: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:19: in client
+    t.enableClient(p,(ROOT/'src/Client.client.lua').read_text(),touch)
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:246: [string "FrontierClient"]:112: unfinished string near '"'
+E   stack traceback:
+E   	[string "<python>"]:246: in function <[string "<python>"]:225>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.8.0] frontier menu + side lanes + bilateral mining ready
+____________ test_robot_and_flyer_visuals_and_reduced_motion[True] _____________
+
+fallback = True
+
+    @pytest.mark.parametrize('fallback',[False,True])
+    def test_robot_and_flyer_visuals_and_reduced_motion(fallback):
+>       l,t,p=host(imageDisabled=fallback,strictAPI=True);client(t,p);depart(t,p);s=t.session(p).game
+                                                          ^^^^^^^^^^^
+
+tests/test_frontier_08.py:105: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:19: in client
+    t.enableClient(p,(ROOT/'src/Client.client.lua').read_text(),touch)
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:246: [string "FrontierClient"]:112: unfinished string near '"'
+E   stack traceback:
+E   	[string "<python>"]:246: in function <[string "<python>"]:225>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.8.0] frontier menu + side lanes + bilateral mining ready
+_______ test_offer_can_pause_settings_and_resume_without_spending_choice _______
+
+    def test_offer_can_pause_settings_and_resume_without_spending_choice():
+>       l,t,p=host();client(t,p);depart(t,p);s=t.session(p).game
+                     ^^^^^^^^^^^
+
+tests/test_frontier_08.py:118: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:19: in client
+    t.enableClient(p,(ROOT/'src/Client.client.lua').read_text(),touch)
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:246: [string "FrontierClient"]:112: unfinished string near '"'
+E   stack traceback:
+E   	[string "<python>"]:246: in function <[string "<python>"]:225>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.8.0] frontier menu + side lanes + bilateral mining ready
+_____________________ test_paid_reroll_ui_and_stale_token ______________________
+
+    def test_paid_reroll_ui_and_stale_token():
+>       l,t,p=host();client(t,p);depart(t,p);s=t.session(p).game
+                     ^^^^^^^^^^^
+
+tests/test_frontier_08.py:126: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:19: in client
+    t.enableClient(p,(ROOT/'src/Client.client.lua').read_text(),touch)
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:246: [string "FrontierClient"]:112: unfinished string near '"'
+E   stack traceback:
+E   	[string "<python>"]:246: in function <[string "<python>"]:225>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.8.0] frontier menu + side lanes + bilateral mining ready
+_______________________ test_menu_idle_no_instance_churn _______________________
+
+    def test_menu_idle_no_instance_churn():
+>       l,t,p=host();client(t,p)
+                     ^^^^^^^^^^^
+
+tests/test_frontier_08.py:133: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:19: in client
+    t.enableClient(p,(ROOT/'src/Client.client.lua').read_text(),touch)
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:246: [string "FrontierClient"]:112: unfinished string near '"'
+E   stack traceback:
+E   	[string "<python>"]:246: in function <[string "<python>"]:225>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.8.0] frontier menu + side lanes + bilateral mining ready
+________________ test_release_has_frontier_and_new_art_embedded ________________
+
+    def test_release_has_frontier_and_new_art_embedded():
+        project=json.loads((ROOT/'default.project.json').read_text())
+        assert 'Frontier' in project['tree']['ReplicatedStorage']['FrontierShared']
+        atlas=json.loads((ROOT/'assets/atlas-layout.json').read_text())
+        assert 'flyerBody' in atlas and 'flyerWing' in atlas
+        import xml.etree.ElementTree as ET
+        tree=ET.parse(ROOT/'Dustbound-0.8.0-FRONTIER.rbxlx')
+        sources=[x.text or '' for x in tree.iter() if x.get('name')=='Source']
+>       assert (ROOT/'src/Frontier.lua').read_text() in sources
+E       assert '-- 0.8 presentation only. All progression and purchases remain server-authoritative.\nlocal F={}\nfunction F.menu(ctx...ount=count+1 end\n U.button(dock,"Relics","遗物 ×"..count,1120,10,244,58,function() open("relics") end)\nend\nreturn F\n' in ['-- Standalone ReplicatedFirst UI. NO require(), NO DataStore, NO wait for a server remote.\n-- The screen remains vi...root:Destroy() end end\n  for _,f in ipairs(self.fxPool) do f:Destroy() end\n end\n return self\nend\nreturn B\n', ...]
+E        +  where '-- 0.8 presentation only. All progression and purchases remain server-authoritative.\nlocal F={}\nfunction F.menu(ctx...ount=count+1 end\n U.button(dock,"Relics","遗物 ×"..count,1120,10,244,58,function() open("relics") end)\nend\nreturn F\n' = read_text()
+E        +    where read_text = (PosixPath('/home/user/DustBound') / 'src/Frontier.lua').read_text
+
+tests/test_frontier_08.py:156: AssertionError
+_______________ test_completed_wave_schedule_and_free_drafts[3] ________________
+
+last = 3
+
+    @pytest.mark.parametrize('last',range(3,21))
+    def test_completed_wave_schedule_and_free_drafts(last):
+     l,c,r,g,s=setup();m=c.RunSystems;run=m.new(17,None,1)
+     for wave in range(1,last+1):
+      run.phase='combat';assert m.waveCleared(run,wave,last)
+      expected=None if wave==last else 'weapon' if wave in (4,8,12,16) else 'relic' if wave in (1,5,9,13,17) else None
+>     assert (run.offer.kind if run.offer else None)==expected
+E     AssertionError: assert 'weapon' == 'relic'
+E       
+E       - relic
+E       + weapon
+
+tests/test_integration_07.py:12: AssertionError
+_______________ test_completed_wave_schedule_and_free_drafts[4] ________________
+
+last = 4
+
+    @pytest.mark.parametrize('last',range(3,21))
+    def test_completed_wave_schedule_and_free_drafts(last):
+     l,c,r,g,s=setup();m=c.RunSystems;run=m.new(17,None,1)
+     for wave in range(1,last+1):
+      run.phase='combat';assert m.waveCleared(run,wave,last)
+      expected=None if wave==last else 'weapon' if wave in (4,8,12,16) else 'relic' if wave in (1,5,9,13,17) else None
+>     assert (run.offer.kind if run.offer else None)==expected
+E     AssertionError: assert 'weapon' == 'relic'
+E       
+E       - relic
+E       + weapon
+
+tests/test_integration_07.py:12: AssertionError
+_______________ test_completed_wave_schedule_and_free_drafts[5] ________________
+
+last = 5
+
+    @pytest.mark.parametrize('last',range(3,21))
+    def test_completed_wave_schedule_and_free_drafts(last):
+     l,c,r,g,s=setup();m=c.RunSystems;run=m.new(17,None,1)
+     for wave in range(1,last+1):
+      run.phase='combat';assert m.waveCleared(run,wave,last)
+      expected=None if wave==last else 'weapon' if wave in (4,8,12,16) else 'relic' if wave in (1,5,9,13,17) else None
+>     assert (run.offer.kind if run.offer else None)==expected
+E     AssertionError: assert 'weapon' == 'relic'
+E       
+E       - relic
+E       + weapon
+
+tests/test_integration_07.py:12: AssertionError
+_______________ test_completed_wave_schedule_and_free_drafts[6] ________________
+
+last = 6
+
+    @pytest.mark.parametrize('last',range(3,21))
+    def test_completed_wave_schedule_and_free_drafts(last):
+     l,c,r,g,s=setup();m=c.RunSystems;run=m.new(17,None,1)
+     for wave in range(1,last+1):
+      run.phase='combat';assert m.waveCleared(run,wave,last)
+      expected=None if wave==last else 'weapon' if wave in (4,8,12,16) else 'relic' if wave in (1,5,9,13,17) else None
+>     assert (run.offer.kind if run.offer else None)==expected
+E     AssertionError: assert 'weapon' == 'relic'
+E       
+E       - relic
+E       + weapon
+
+tests/test_integration_07.py:12: AssertionError
+_______________ test_completed_wave_schedule_and_free_drafts[7] ________________
+
+last = 7
+
+    @pytest.mark.parametrize('last',range(3,21))
+    def test_completed_wave_schedule_and_free_drafts(last):
+     l,c,r,g,s=setup();m=c.RunSystems;run=m.new(17,None,1)
+     for wave in range(1,last+1):
+      run.phase='combat';assert m.waveCleared(run,wave,last)
+      expected=None if wave==last else 'weapon' if wave in (4,8,12,16) else 'relic' if wave in (1,5,9,13,17) else None
+>     assert (run.offer.kind if run.offer else None)==expected
+E     AssertionError: assert 'weapon' == 'relic'
+E       
+E       - relic
+E       + weapon
+
+tests/test_integration_07.py:12: AssertionError
+_______________ test_completed_wave_schedule_and_free_drafts[8] ________________
+
+last = 8
+
+    @pytest.mark.parametrize('last',range(3,21))
+    def test_completed_wave_schedule_and_free_drafts(last):
+     l,c,r,g,s=setup();m=c.RunSystems;run=m.new(17,None,1)
+     for wave in range(1,last+1):
+      run.phase='combat';assert m.waveCleared(run,wave,last)
+      expected=None if wave==last else 'weapon' if wave in (4,8,12,16) else 'relic' if wave in (1,5,9,13,17) else None
+>     assert (run.offer.kind if run.offer else None)==expected
+E     AssertionError: assert 'weapon' == 'relic'
+E       
+E       - relic
+E       + weapon
+
+tests/test_integration_07.py:12: AssertionError
+_______________ test_completed_wave_schedule_and_free_drafts[9] ________________
+
+last = 9
+
+    @pytest.mark.parametrize('last',range(3,21))
+    def test_completed_wave_schedule_and_free_drafts(last):
+     l,c,r,g,s=setup();m=c.RunSystems;run=m.new(17,None,1)
+     for wave in range(1,last+1):
+      run.phase='combat';assert m.waveCleared(run,wave,last)
+      expected=None if wave==last else 'weapon' if wave in (4,8,12,16) else 'relic' if wave in (1,5,9,13,17) else None
+>     assert (run.offer.kind if run.offer else None)==expected
+E     AssertionError: assert 'weapon' == 'relic'
+E       
+E       - relic
+E       + weapon
+
+tests/test_integration_07.py:12: AssertionError
+_______________ test_completed_wave_schedule_and_free_drafts[10] _______________
+
+last = 10
+
+    @pytest.mark.parametrize('last',range(3,21))
+    def test_completed_wave_schedule_and_free_drafts(last):
+     l,c,r,g,s=setup();m=c.RunSystems;run=m.new(17,None,1)
+     for wave in range(1,last+1):
+      run.phase='combat';assert m.waveCleared(run,wave,last)
+      expected=None if wave==last else 'weapon' if wave in (4,8,12,16) else 'relic' if wave in (1,5,9,13,17) else None
+>     assert (run.offer.kind if run.offer else None)==expected
+E     AssertionError: assert 'weapon' == 'relic'
+E       
+E       - relic
+E       + weapon
+
+tests/test_integration_07.py:12: AssertionError
+_______________ test_completed_wave_schedule_and_free_drafts[11] _______________
+
+last = 11
+
+    @pytest.mark.parametrize('last',range(3,21))
+    def test_completed_wave_schedule_and_free_drafts(last):
+     l,c,r,g,s=setup();m=c.RunSystems;run=m.new(17,None,1)
+     for wave in range(1,last+1):
+      run.phase='combat';assert m.waveCleared(run,wave,last)
+      expected=None if wave==last else 'weapon' if wave in (4,8,12,16) else 'relic' if wave in (1,5,9,13,17) else None
+>     assert (run.offer.kind if run.offer else None)==expected
+E     AssertionError: assert 'weapon' == 'relic'
+E       
+E       - relic
+E       + weapon
+
+tests/test_integration_07.py:12: AssertionError
+_______________ test_completed_wave_schedule_and_free_drafts[12] _______________
+
+last = 12
+
+    @pytest.mark.parametrize('last',range(3,21))
+    def test_completed_wave_schedule_and_free_drafts(last):
+     l,c,r,g,s=setup();m=c.RunSystems;run=m.new(17,None,1)
+     for wave in range(1,last+1):
+      run.phase='combat';assert m.waveCleared(run,wave,last)
+      expected=None if wave==last else 'weapon' if wave in (4,8,12,16) else 'relic' if wave in (1,5,9,13,17) else None
+>     assert (run.offer.kind if run.offer else None)==expected
+E     AssertionError: assert 'weapon' == 'relic'
+E       
+E       - relic
+E       + weapon
+
+tests/test_integration_07.py:12: AssertionError
+_______________ test_completed_wave_schedule_and_free_drafts[13] _______________
+
+last = 13
+
+    @pytest.mark.parametrize('last',range(3,21))
+    def test_completed_wave_schedule_and_free_drafts(last):
+     l,c,r,g,s=setup();m=c.RunSystems;run=m.new(17,None,1)
+     for wave in range(1,last+1):
+      run.phase='combat';assert m.waveCleared(run,wave,last)
+      expected=None if wave==last else 'weapon' if wave in (4,8,12,16) else 'relic' if wave in (1,5,9,13,17) else None
+>     assert (run.offer.kind if run.offer else None)==expected
+E     AssertionError: assert 'weapon' == 'relic'
+E       
+E       - relic
+E       + weapon
+
+tests/test_integration_07.py:12: AssertionError
+_______________ test_completed_wave_schedule_and_free_drafts[14] _______________
+
+last = 14
+
+    @pytest.mark.parametrize('last',range(3,21))
+    def test_completed_wave_schedule_and_free_drafts(last):
+     l,c,r,g,s=setup();m=c.RunSystems;run=m.new(17,None,1)
+     for wave in range(1,last+1):
+      run.phase='combat';assert m.waveCleared(run,wave,last)
+      expected=None if wave==last else 'weapon' if wave in (4,8,12,16) else 'relic' if wave in (1,5,9,13,17) else None
+>     assert (run.offer.kind if run.offer else None)==expected
+E     AssertionError: assert 'weapon' == 'relic'
+E       
+E       - relic
+E       + weapon
+
+tests/test_integration_07.py:12: AssertionError
+_______________ test_completed_wave_schedule_and_free_drafts[15] _______________
+
+last = 15
+
+    @pytest.mark.parametrize('last',range(3,21))
+    def test_completed_wave_schedule_and_free_drafts(last):
+     l,c,r,g,s=setup();m=c.RunSystems;run=m.new(17,None,1)
+     for wave in range(1,last+1):
+      run.phase='combat';assert m.waveCleared(run,wave,last)
+      expected=None if wave==last else 'weapon' if wave in (4,8,12,16) else 'relic' if wave in (1,5,9,13,17) else None
+>     assert (run.offer.kind if run.offer else None)==expected
+E     AssertionError: assert 'weapon' == 'relic'
+E       
+E       - relic
+E       + weapon
+
+tests/test_integration_07.py:12: AssertionError
+_______________ test_completed_wave_schedule_and_free_drafts[16] _______________
+
+last = 16
+
+    @pytest.mark.parametrize('last',range(3,21))
+    def test_completed_wave_schedule_and_free_drafts(last):
+     l,c,r,g,s=setup();m=c.RunSystems;run=m.new(17,None,1)
+     for wave in range(1,last+1):
+      run.phase='combat';assert m.waveCleared(run,wave,last)
+      expected=None if wave==last else 'weapon' if wave in (4,8,12,16) else 'relic' if wave in (1,5,9,13,17) else None
+>     assert (run.offer.kind if run.offer else None)==expected
+E     AssertionError: assert 'weapon' == 'relic'
+E       
+E       - relic
+E       + weapon
+
+tests/test_integration_07.py:12: AssertionError
+_______________ test_completed_wave_schedule_and_free_drafts[17] _______________
+
+last = 17
+
+    @pytest.mark.parametrize('last',range(3,21))
+    def test_completed_wave_schedule_and_free_drafts(last):
+     l,c,r,g,s=setup();m=c.RunSystems;run=m.new(17,None,1)
+     for wave in range(1,last+1):
+      run.phase='combat';assert m.waveCleared(run,wave,last)
+      expected=None if wave==last else 'weapon' if wave in (4,8,12,16) else 'relic' if wave in (1,5,9,13,17) else None
+>     assert (run.offer.kind if run.offer else None)==expected
+E     AssertionError: assert 'weapon' == 'relic'
+E       
+E       - relic
+E       + weapon
+
+tests/test_integration_07.py:12: AssertionError
+_______________ test_completed_wave_schedule_and_free_drafts[18] _______________
+
+last = 18
+
+    @pytest.mark.parametrize('last',range(3,21))
+    def test_completed_wave_schedule_and_free_drafts(last):
+     l,c,r,g,s=setup();m=c.RunSystems;run=m.new(17,None,1)
+     for wave in range(1,last+1):
+      run.phase='combat';assert m.waveCleared(run,wave,last)
+      expected=None if wave==last else 'weapon' if wave in (4,8,12,16) else 'relic' if wave in (1,5,9,13,17) else None
+>     assert (run.offer.kind if run.offer else None)==expected
+E     AssertionError: assert 'weapon' == 'relic'
+E       
+E       - relic
+E       + weapon
+
+tests/test_integration_07.py:12: AssertionError
+_______________ test_completed_wave_schedule_and_free_drafts[19] _______________
+
+last = 19
+
+    @pytest.mark.parametrize('last',range(3,21))
+    def test_completed_wave_schedule_and_free_drafts(last):
+     l,c,r,g,s=setup();m=c.RunSystems;run=m.new(17,None,1)
+     for wave in range(1,last+1):
+      run.phase='combat';assert m.waveCleared(run,wave,last)
+      expected=None if wave==last else 'weapon' if wave in (4,8,12,16) else 'relic' if wave in (1,5,9,13,17) else None
+>     assert (run.offer.kind if run.offer else None)==expected
+E     AssertionError: assert 'weapon' == 'relic'
+E       
+E       - relic
+E       + weapon
+
+tests/test_integration_07.py:12: AssertionError
+_______________ test_completed_wave_schedule_and_free_drafts[20] _______________
+
+last = 20
+
+    @pytest.mark.parametrize('last',range(3,21))
+    def test_completed_wave_schedule_and_free_drafts(last):
+     l,c,r,g,s=setup();m=c.RunSystems;run=m.new(17,None,1)
+     for wave in range(1,last+1):
+      run.phase='combat';assert m.waveCleared(run,wave,last)
+      expected=None if wave==last else 'weapon' if wave in (4,8,12,16) else 'relic' if wave in (1,5,9,13,17) else None
+>     assert (run.offer.kind if run.offer else None)==expected
+E     AssertionError: assert 'weapon' == 'relic'
+E       
+E       - relic
+E       + weapon
+
+tests/test_integration_07.py:12: AssertionError
+_________ test_actual_new_client_pages_battle_draft_and_mining[False] __________
+
+touch = False
+
+    @pytest.mark.parametrize('touch',[False,True])
+    def test_actual_new_client_pages_battle_draft_and_mining(touch):
+>    l,t,p=host();client(t,p,touch);healthy(t,p)
+                  ^^^^^^^^^^^^^^^^^
+
+tests/test_integration_07.py:97: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:19: in client
+    t.enableClient(p,(ROOT/'src/Client.client.lua').read_text(),touch)
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:246: [string "FrontierClient"]:112: unfinished string near '"'
+E   stack traceback:
+E   	[string "<python>"]:246: in function <[string "<python>"]:225>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.8.0] frontier menu + side lanes + bilateral mining ready
+__________ test_actual_new_client_pages_battle_draft_and_mining[True] __________
+
+touch = True
+
+    @pytest.mark.parametrize('touch',[False,True])
+    def test_actual_new_client_pages_battle_draft_and_mining(touch):
+>    l,t,p=host();client(t,p,touch);healthy(t,p)
+                  ^^^^^^^^^^^^^^^^^
+
+tests/test_integration_07.py:97: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:19: in client
+    t.enableClient(p,(ROOT/'src/Client.client.lua').read_text(),touch)
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:246: [string "FrontierClient"]:112: unfinished string near '"'
+E   stack traceback:
+E   	[string "<python>"]:246: in function <[string "<python>"]:225>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.8.0] frontier menu + side lanes + bilateral mining ready
+_______________ test_abandon_cannot_resurrect_robots_in_snapshot _______________
+
+    def test_abandon_cannot_resurrect_robots_in_snapshot():
+>    l,c,r,g,s=setup();prep_mining(l,c,r,g,s)
+                       ^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_audit_07.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+l = <lupa.lua55.LuaRuntime object at 0x7fc3ee15cea0>
+c = <Lua table at 0x56201cf9e560>, r = <Lua table at 0x56201bcf1850>
+g = <Lua table at 0x56201c481a20>, s = <Lua table at 0x56201ba481f0>
+
+    def prep_mining(l,c,r,g,s):
+     g.start(s,c,r);s.waveElapsed=25;s.enemies=l.table();s.projectiles=l.table();g.step(s,c,r,.1)
+>    assert s.supply
+E    assert None
+E     +  where None = <Lua table at 0x56201ba481f0>.supply
+
+tests/test_audit_07.py:12: AssertionError
+_________________ test_offer_blocks_all_investments_atomically _________________
+
+    def test_offer_blocks_all_investments_atomically():
+>    l,c,r,g,s=setup();prep_mining(l,c,r,g,s)
+                       ^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_audit_07.py:25: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+l = <lupa.lua55.LuaRuntime object at 0x7fc3ee15ccc0>
+c = <Lua table at 0x56201be01570>, r = <Lua table at 0x56201bcfa6f0>
+g = <Lua table at 0x56201d1965b0>, s = <Lua table at 0x56201c5935e0>
+
+    def prep_mining(l,c,r,g,s):
+     g.start(s,c,r);s.waveElapsed=25;s.enemies=l.table();s.projectiles=l.table();g.step(s,c,r,.1)
+>    assert s.supply
+E    assert None
+E     +  where None = <Lua table at 0x56201c5935e0>.supply
+
+tests/test_audit_07.py:12: AssertionError
+____________________ test_paid_reroll_ledger_matches_wallet ____________________
+
+    def test_paid_reroll_ledger_matches_wallet():
+>    l,c,r,g,s=setup();prep_mining(l,c,r,g,s)
+                       ^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_audit_07.py:31: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+l = <lupa.lua55.LuaRuntime object at 0x7fc3ee21bce0>
+c = <Lua table at 0x56201ba8def0>, r = <Lua table at 0x56201c509e80>
+g = <Lua table at 0x56201c50b820>, s = <Lua table at 0x56201bcd6fd0>
+
+    def prep_mining(l,c,r,g,s):
+     g.start(s,c,r);s.waveElapsed=25;s.enemies=l.table();s.projectiles=l.table();g.step(s,c,r,.1)
+>    assert s.supply
+E    assert None
+E     +  where None = <Lua table at 0x56201bcd6fd0>.supply
+
+tests/test_audit_07.py:12: AssertionError
+_______________ test_offer_settings_can_resume_and_accept[False] _______________
+
+touch = False
+
+    @pytest.mark.parametrize('touch',[False,True])
+    def test_offer_settings_can_resume_and_accept(touch):
+>    l,t,p=host(strictAPI=True);client(t,p,touch);depart(t,p)
+                                ^^^^^^^^^^^^^^^^^
+
+tests/test_audit_07.py:66: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:19: in client
+    t.enableClient(p,(ROOT/'src/Client.client.lua').read_text(),touch)
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:246: [string "FrontierClient"]:112: unfinished string near '"'
+E   stack traceback:
+E   	[string "<python>"]:246: in function <[string "<python>"]:225>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.8.0] frontier menu + side lanes + bilateral mining ready
+_______________ test_offer_settings_can_resume_and_accept[True] ________________
+
+touch = True
+
+    @pytest.mark.parametrize('touch',[False,True])
+    def test_offer_settings_can_resume_and_accept(touch):
+>    l,t,p=host(strictAPI=True);client(t,p,touch);depart(t,p)
+                                ^^^^^^^^^^^^^^^^^
+
+tests/test_audit_07.py:66: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:19: in client
+    t.enableClient(p,(ROOT/'src/Client.client.lua').read_text(),touch)
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:246: [string "FrontierClient"]:112: unfinished string near '"'
+E   stack traceback:
+E   	[string "<python>"]:246: in function <[string "<python>"]:225>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.8.0] frontier menu + side lanes + bilateral mining ready
+______ test_cloud_read_failure_has_real_retry_and_explicit_guest_controls ______
+
+    def test_cloud_read_failure_has_real_retry_and_explicit_guest_controls():
+>    l,t,p=host(cloud=True,constructorError=True);client(t,p)
+                                                  ^^^^^^^^^^^
+
+tests/test_audit_07.py:74: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:19: in client
+    t.enableClient(p,(ROOT/'src/Client.client.lua').read_text(),touch)
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:246: [string "FrontierClient"]:112: unfinished string near '"'
+E   stack traceback:
+E   	[string "<python>"]:246: in function <[string "<python>"]:225>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.8.0] frontier menu + side lanes + bilateral mining ready
+______ test_idle_ui_has_no_instance_churn_and_bounded_assignments[False] _______
+
+fallback = False
+
+    @pytest.mark.parametrize('fallback',[False,True])
+    def test_idle_ui_has_no_instance_churn_and_bounded_assignments(fallback):
+>    l,t,p=host(imageDisabled=fallback);client(t,p)
+                                        ^^^^^^^^^^^
+
+tests/test_audit_07.py:82: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:19: in client
+    t.enableClient(p,(ROOT/'src/Client.client.lua').read_text(),touch)
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:246: [string "FrontierClient"]:112: unfinished string near '"'
+E   stack traceback:
+E   	[string "<python>"]:246: in function <[string "<python>"]:225>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.8.0] frontier menu + side lanes + bilateral mining ready
+_______ test_idle_ui_has_no_instance_churn_and_bounded_assignments[True] _______
+
+fallback = True
+
+    @pytest.mark.parametrize('fallback',[False,True])
+    def test_idle_ui_has_no_instance_churn_and_bounded_assignments(fallback):
+>    l,t,p=host(imageDisabled=fallback);client(t,p)
+                                        ^^^^^^^^^^^
+
+tests/test_audit_07.py:82: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:19: in client
+    t.enableClient(p,(ROOT/'src/Client.client.lua').read_text(),touch)
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:246: [string "FrontierClient"]:112: unfinished string near '"'
+E   stack traceback:
+E   	[string "<python>"]:246: in function <[string "<python>"]:225>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.8.0] frontier menu + side lanes + bilateral mining ready
+________________ test_gold_updates_preserve_investment_buttons _________________
+
+    def test_gold_updates_preserve_investment_buttons():
+>    l,t,p=host();client(t,p);depart(t,p);t.click(p,'采矿投资')
+                  ^^^^^^^^^^^
+
+tests/test_audit_07.py:91: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:19: in client
+    t.enableClient(p,(ROOT/'src/Client.client.lua').read_text(),touch)
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:246: [string "FrontierClient"]:112: unfinished string near '"'
+E   stack traceback:
+E   	[string "<python>"]:246: in function <[string "<python>"]:225>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.8.0] frontier menu + side lanes + bilateral mining ready
+__________ test_ready_report_happens_after_render_not_initial_network __________
+
+    def test_ready_report_happens_after_render_not_initial_network():
+     from pathlib import Path
+>    l,t,p=host(clientFrames=0);t.enableClient(p,(Path(__file__).parents[1]/'src/Client.client.lua').read_text(),False)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_audit_07.py:101: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:246: [string "FrontierClient"]:112: unfinished string near '"'
+E   stack traceback:
+E   	[string "<python>"]:246: in function <[string "<python>"]:225>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.8.0] frontier menu + side lanes + bilateral mining ready
+____________ test_shipped_module_graph_and_all_current_pages[False] ____________
+
+fallback = False
+
+    @pytest.mark.parametrize('fallback',[False,True])
+    def test_shipped_module_graph_and_all_current_pages(fallback):
+     from test_ui import click_name
+>    l,t,p=host(shippingOnly=True,strictAPI=True,imageDisabled=fallback);client(t,p,True)
+                                                                         ^^^^^^^^^^^^^^^^
+
+tests/test_audit_07.py:109: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:19: in client
+    t.enableClient(p,(ROOT/'src/Client.client.lua').read_text(),touch)
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:246: [string "FrontierClient"]:112: unfinished string near '"'
+E   stack traceback:
+E   	[string "<python>"]:246: in function <[string "<python>"]:225>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.8.0] frontier menu + side lanes + bilateral mining ready
+____________ test_shipped_module_graph_and_all_current_pages[True] _____________
+
+fallback = True
+
+    @pytest.mark.parametrize('fallback',[False,True])
+    def test_shipped_module_graph_and_all_current_pages(fallback):
+     from test_ui import click_name
+>    l,t,p=host(shippingOnly=True,strictAPI=True,imageDisabled=fallback);client(t,p,True)
+                                                                         ^^^^^^^^^^^^^^^^
+
+tests/test_audit_07.py:109: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:19: in client
+    t.enableClient(p,(ROOT/'src/Client.client.lua').read_text(),touch)
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:246: [string "FrontierClient"]:112: unfinished string near '"'
+E   stack traceback:
+E   	[string "<python>"]:246: in function <[string "<python>"]:225>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.8.0] frontier menu + side lanes + bilateral mining ready
+______ test_paid_reroll_requires_confirmation_and_stale_token_is_rejected ______
+
+    def test_paid_reroll_requires_confirmation_and_stale_token_is_rejected():
+>    l,t,p=host();client(t,p);depart(t,p);s=t.session(p).game
+                  ^^^^^^^^^^^
+
+tests/test_audit_07.py:119: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:19: in client
+    t.enableClient(p,(ROOT/'src/Client.client.lua').read_text(),touch)
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:246: [string "FrontierClient"]:112: unfinished string near '"'
+E   stack traceback:
+E   	[string "<python>"]:246: in function <[string "<python>"]:225>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.8.0] frontier menu + side lanes + bilateral mining ready
+__________ test_wave_report_uses_effective_damage_and_per_wave_kills ___________
+
+    def test_wave_report_uses_effective_damage_and_per_wave_kills():
+     l,c,r,g,s=setup();g.start(s,c,r)
+     s.enemies[1]=enemy(l,1,800,340,1);s.gunClock=99
+     s.projectiles[1]=l.table_from({'id':1,'weapon':'machine','x':720,'y':340,'tx':800,'ty':340,'born':0,'age':0,'duration':.1,'damage':1000,'target':1})
+     s.waveElapsed=25;g.step(s,c,r,.1)
+>    assert len(s.reports)==1 and s.reports[1].kills==1 and s.reports[1].damage==1 and s.reports[1].best=='machine'
+E    assert (0 == 1)
+E     +  where 0 = len(<Lua table at 0x56201bfa2650>)
+E     +    where <Lua table at 0x56201bfa2650> = <Lua table at 0x56201c376470>.reports
+
+tests/test_audit_07.py:131: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_frontier_08.py::test_home_has_start_and_subsystems_not_level_wall[False-False]
+FAILED tests/test_frontier_08.py::test_home_has_start_and_subsystems_not_level_wall[False-True]
+FAILED tests/test_frontier_08.py::test_home_has_start_and_subsystems_not_level_wall[True-False]
+FAILED tests/test_frontier_08.py::test_home_has_start_and_subsystems_not_level_wall[True-True]
+FAILED tests/test_frontier_08.py::test_native_navigation_all_pages[False] - l...
+FAILED tests/test_frontier_08.py::test_native_navigation_all_pages[True] - lu...
+FAILED tests/test_frontier_08.py::test_planets_unlock_only_after_previous_final_node
+FAILED tests/test_frontier_08.py::test_ground_spawns_only_on_sides_flyers_only_above[1]
+FAILED tests/test_frontier_08.py::test_ground_spawns_only_on_sides_flyers_only_above[2]
+FAILED tests/test_frontier_08.py::test_ground_spawns_only_on_sides_flyers_only_above[3]
+FAILED tests/test_frontier_08.py::test_ground_spawns_only_on_sides_flyers_only_above[4]
+FAILED tests/test_frontier_08.py::test_ground_spawns_only_on_sides_flyers_only_above[10]
+FAILED tests/test_frontier_08.py::test_ground_spawns_only_on_sides_flyers_only_above[20]
+FAILED tests/test_frontier_08.py::test_ground_does_not_drift_into_sky_while_approaching
+FAILED tests/test_frontier_08.py::test_bilateral_mining_has_physical_cargo_and_conserved_gold
+FAILED tests/test_frontier_08.py::test_mining_frozen_for_pause_and_offers[pause]
+FAILED tests/test_frontier_08.py::test_mining_frozen_for_pause_and_offers[offer]
+FAILED tests/test_frontier_08.py::test_robot_and_flyer_visuals_and_reduced_motion[False]
+FAILED tests/test_frontier_08.py::test_robot_and_flyer_visuals_and_reduced_motion[True]
+FAILED tests/test_frontier_08.py::test_offer_can_pause_settings_and_resume_without_spending_choice
+FAILED tests/test_frontier_08.py::test_paid_reroll_ui_and_stale_token - lupa....
+FAILED tests/test_frontier_08.py::test_menu_idle_no_instance_churn - lupa.lua...
+FAILED tests/test_frontier_08.py::test_release_has_frontier_and_new_art_embedded
+FAILED tests/test_integration_07.py::test_completed_wave_schedule_and_free_drafts[3]
+FAILED tests/test_integration_07.py::test_completed_wave_schedule_and_free_drafts[4]
+FAILED tests/test_integration_07.py::test_completed_wave_schedule_and_free_drafts[5]
+FAILED tests/test_integration_07.py::test_completed_wave_schedule_and_free_drafts[6]
+FAILED tests/test_integration_07.py::test_completed_wave_schedule_and_free_drafts[7]
+FAILED tests/test_integration_07.py::test_completed_wave_schedule_and_free_drafts[8]
+FAILED tests/test_integration_07.py::test_completed_wave_schedule_and_free_drafts[9]
+FAILED tests/test_integration_07.py::test_completed_wave_schedule_and_free_drafts[10]
+FAILED tests/test_integration_07.py::test_completed_wave_schedule_and_free_drafts[11]
+FAILED tests/test_integration_07.py::test_completed_wave_schedule_and_free_drafts[12]
+FAILED tests/test_integration_07.py::test_completed_wave_schedule_and_free_drafts[13]
+FAILED tests/test_integration_07.py::test_completed_wave_schedule_and_free_drafts[14]
+FAILED tests/test_integration_07.py::test_completed_wave_schedule_and_free_drafts[15]
+FAILED tests/test_integration_07.py::test_completed_wave_schedule_and_free_drafts[16]
+FAILED tests/test_integration_07.py::test_completed_wave_schedule_and_free_drafts[17]
+FAILED tests/test_integration_07.py::test_completed_wave_schedule_and_free_drafts[18]
+FAILED tests/test_integration_07.py::test_completed_wave_schedule_and_free_drafts[19]
+FAILED tests/test_integration_07.py::test_completed_wave_schedule_and_free_drafts[20]
+FAILED tests/test_integration_07.py::test_actual_new_client_pages_battle_draft_and_mining[False]
+FAILED tests/test_integration_07.py::test_actual_new_client_pages_battle_draft_and_mining[True]
+FAILED tests/test_audit_07.py::test_abandon_cannot_resurrect_robots_in_snapshot
+FAILED tests/test_audit_07.py::test_offer_blocks_all_investments_atomically
+FAILED tests/test_audit_07.py::test_paid_reroll_ledger_matches_wallet - asser...
+FAILED tests/test_audit_07.py::test_offer_settings_can_resume_and_accept[False]
+FAILED tests/test_audit_07.py::test_offer_settings_can_resume_and_accept[True]
+FAILED tests/test_audit_07.py::test_cloud_read_failure_has_real_retry_and_explicit_guest_controls
+FAILED tests/test_audit_07.py::test_idle_ui_has_no_instance_churn_and_bounded_assignments[False]
+FAILED tests/test_audit_07.py::test_idle_ui_has_no_instance_churn_and_bounded_assignments[True]
+FAILED tests/test_audit_07.py::test_gold_updates_preserve_investment_buttons
+FAILED tests/test_audit_07.py::test_ready_report_happens_after_render_not_initial_network
+FAILED tests/test_audit_07.py::test_shipped_module_graph_and_all_current_pages[False]
+FAILED tests/test_audit_07.py::test_shipped_module_graph_and_all_current_pages[True]
+FAILED tests/test_audit_07.py::test_paid_reroll_requires_confirmation_and_stale_token_is_rejected
+FAILED tests/test_audit_07.py::test_wave_report_uses_effective_damage_and_per_wave_kills
+57 failed, 27 passed in 3.09s

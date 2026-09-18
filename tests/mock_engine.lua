@@ -171,7 +171,7 @@ local function drain()
 end
 local shared=Instance.new("Folder"); shared.Name="FrontierShared"; shared.Parent=service("ReplicatedStorage")
 local root=Instance.new("Script"); root.Name="FrontierServer"
-for _,name in ipairs({"Runtime","Config","RunSystems","ResearchWeb","Economy","BattleView","Rules","Core","Art","ArtData","Tech","Catalog","Panels","TechMap","Gallery","GalleryData","Animation","WeaponRig","Motion","UI","Guide","Audio"}) do if SOURCES[name] then local m=Instance.new("ModuleScript"); m.Name=name; m.source=SOURCES[name]; m.Parent=shared end end
+for _,name in ipairs({"Runtime","Config","RunSystems","ResearchWeb","Economy","Encounters","BattleView","Frontier","Rules","Core","Art","ArtData","Tech","Catalog","Panels","TechMap","Gallery","GalleryData","Animation","WeaponRig","Motion","UI","Guide","Audio"}) do if SOURCES[name] then local m=Instance.new("ModuleScript"); m.Name=name; m.source=SOURCES[name]; m.Parent=shared end end
 local profile=Instance.new("ModuleScript"); profile.Name="ProfileStore"; profile.source=SOURCES.ProfileStore; profile.Parent=root
 local telemetry=Instance.new("ModuleScript");telemetry.Name="Telemetry";telemetry.source=SOURCES.Telemetry;telemetry.Parent=root
 local cache={}

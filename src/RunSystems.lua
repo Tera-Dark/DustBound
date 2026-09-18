@@ -1,4 +1,4 @@
--- 0.7 development core; engine-independent, wired into the authoritative Core.
+-- 0.9 short, interruptible preparation; engine-independent, wired into the authoritative Core.
 -- Only robot deposits generate earned in-run gold. The initial balance is startup capital.
 local M={}
 M.initialGold=120
@@ -23,7 +23,7 @@ M.relics={
  ballisticLens={name="弹道透镜",detail="主炮、机枪与磁轨枪伤害 +18%",effects={ballisticDamage=.18}},
  arcRelay={name="电弧中继",detail="电弧额外连锁一个目标",effects={arcTargets=1}},
  thermalCore={name="热能核心",detail="喷焰器与迫击炮伤害 +20%",effects={thermalDamage=.2}},
- insurance={name="矿运保险",detail="整备结束时收回机器人已挖好但仍在运输的金矿",effects={autoUnload=1}},
+ insurance={name="矿运保险",detail="收队时在途金矿立即入库，省去返航等待",effects={autoUnload=1}},
 }
 M.waves={3,3,4,4,5,6,7,8,8,9,10,11,12,12,13,14,14,15,16,16,17,18,19,20}
 local function finite(v) return type(v)=="number" and v==v and math.abs(v)<math.huge end
@@ -65,10 +65,13 @@ function M.price(s,id)
 end
 local function newRobot(s,id)
  local w=s.world or {};local base=w.baseX or 385
- return {id=id,x=base,baseX=base,y=(w.y or 456)+(id-3.5)*12,mineX=(w.mineX or 755)+(id-1)*(w.spacing or 84),state="outbound",progress=0,cargo=0,trips=0,delay=(id-1)*.25}
+ local side=w.bilateral and (id%2==0 and 1 or -1) or 1
+ local offset=w.bilateral and math.floor((id-1)/2)*(w.spacing or 45) or (id-1)*(w.spacing or 84)
+ local mine=base+side*(math.abs((w.mineX or 755)-base)+offset)
+ return {id=id,x=base,baseX=base,y=(w.y or 456)+(id-3.5)*12,mineX=mine,state="outbound",progress=0,cargo=0,trips=0,delay=(id-1)*.25}
 end
 function M.buy(s,id)
- if s.paused or s.offer or (s.phase~="combat" and s.phase~="mining") then return false,"当前不可投资" end
+ if s.paused or s.offer or s.recalling or (s.phase~="combat" and s.phase~="mining") then return false,"当前不可投资" end
  local price=M.price(s,id)
  if not price then return false,"项目不存在或已达上限" end
  if s.gold<price then return false,"金矿不足" end
@@ -84,9 +87,17 @@ local function pool(s,kind)
 end
 local function offer(s,kind)
  local choices=pool(s,kind);local selected={}
+ if kind=="weapon" and s.cleared==1 then choices={"machine","arc","rail"} end
  for _=1,math.min(3,#choices) do selected[#selected+1]=table.remove(choices,nextRandom(s,#choices)) end
  if #selected==0 then s.offer=nil;return end
  s.offerSerial=s.offerSerial+1;s.offer={kind=kind,token=tostring(s.runId)..":"..s.offerSerial,choices=selected}
+end
+function M.miningDuration(wave) return wave<=2 and 18 or 14 end
+function M.draftKind(wave,lastWave)
+ if wave>=lastWave then return nil end
+ if wave==1 or wave==4 or wave==8 or wave==12 then return "weapon" end
+ if wave==2 or wave==5 or wave==9 or wave==13 or wave==17 then return "relic" end
+ return nil
 end
 function M.waveCleared(s,wave,lastWave)
  if s.phase~="combat" or s.offer or not finite(wave) or wave%1~=0 or wave~=s.cleared+1 then return false end
@@ -94,10 +105,10 @@ function M.waveCleared(s,wave,lastWave)
  s.cleared=wave
  -- Gold has no further in-run use at completion: no final mining wait or dead-end reward selection.
  if wave==lastWave then s.phase="ended";s.robots={};return true end
- s.phase="mining";s.miningLeft=30;s.robots={}
+ s.phase="mining";s.miningLeft=M.miningDuration(wave);s.miningDuration=s.miningLeft;s.recalling=false;s.robots={};s.prepareToken=tostring(s.runId)..":mining:"..wave
  for i=1,M.stats(s).robots do s.robots[i]=newRobot(s,i) end
- if wave%4==0 and #s.weapons<4 then offer(s,"weapon")
- elseif wave%4==1 then offer(s,"relic") end
+ local draft=M.draftKind(wave,lastWave)
+ if draft=="weapon" and #s.weapons<4 then offer(s,"weapon") elseif draft=="relic" then offer(s,"relic") end
  return true
 end
 function M.choose(s,token,id)
@@ -131,10 +142,52 @@ local function deposit(s,r,events)
  events[#events+1]={kind="deposit",robot=r.id,gold=r.cargo}
  r.cargo=0;r.trips=r.trips+1
 end
+-- Snapshot-only prediction: constant current stats, no extra investments.
+-- Counts completed digs, including cargo that will return after the timer expires.
+function M.forecast(s)
+ local stats=M.stats(s);local cargo,future,eta=0,0,0
+ for _,r in ipairs(s.robots) do
+  cargo=cargo+r.cargo
+  local distance=math.abs(r.mineX-r.baseX);local travel=distance/stats.move;local dig=2.64/stats.dig
+  eta=math.max(eta,math.abs(r.x-r.baseX)/stats.move)
+  local first
+  if r.state=="outbound" then first=(r.delay or 0)+math.abs(r.mineX-r.x)/stats.move+dig
+  elseif r.state=="drilling" then first=(1-r.progress)*dig
+  else first=math.abs(r.x-r.baseX)/stats.move+travel+dig end
+  if not s.recalling and first<=(s.miningLeft or 0)+1e-8 then
+   future=future+(1+math.floor(((s.miningLeft or 0)-first+1e-8)/(2*travel+dig)))*stats.cargo
+  end
+ end
+ return {token=s.prepareToken,retainedCargo=cargo,futureOre=future,returnEta=(s.bonus.autoUnload or 0)>0 and 0 or eta,remaining=s.miningLeft or 0,duration=s.miningDuration or 0,recalling=s.recalling==true}
+end
+local function beginRecall(s,events)
+ s.recalling=true;s.miningLeft=0
+ for _,r in ipairs(s.robots) do r.state="returning";r.progress=0;r.delay=0 end
+ if (s.bonus.autoUnload or 0)>0 then
+  for _,r in ipairs(s.robots) do deposit(s,r,events) end
+  s.robots={};s.phase="combat";s.recalling=false
+ end
+end
+function M.recall(s,token)
+ if s.phase~="mining" or s.offer or s.paused or s.recalling or token~=s.prepareToken then return false,{} end
+ local events={};beginRecall(s,events);return true,events
+end
+local function tickRecall(s,dt,events)
+ local allHome=true;local stats=M.stats(s)
+ for _,r in ipairs(s.robots) do
+  local dx=r.baseX-r.x;local step=math.min(math.abs(dx),stats.move*dt)
+  r.x=r.x+(dx>=0 and step or -step)
+  r.progress=1-math.abs(r.x-r.baseX)/math.max(1,math.abs(r.mineX-r.baseX))
+  if math.abs(r.x-r.baseX)<1e-6 then r.x=r.baseX;deposit(s,r,events) else allHome=false end
+ end
+ if allHome then s.robots={};s.phase="combat";s.recalling=false end
+end
 function M.tickMining(s,dt)
  local events={}
  if s.phase~="mining" or s.paused or s.offer or not finite(dt) or dt<=0 then return events end
- dt=math.min(dt,.25,s.miningLeft);local stats=M.stats(s)
+ dt=math.min(dt,.25)
+ if s.recalling then tickRecall(s,dt,events);return events end
+ dt=math.min(dt,s.miningLeft);local stats=M.stats(s)
  for _,r in ipairs(s.robots) do
   local delayed=math.min(dt,r.delay or 0);r.delay=math.max(0,(r.delay or 0)-delayed)
   local remaining=dt-delayed
@@ -158,8 +211,7 @@ function M.tickMining(s,dt)
  end
  s.miningLeft=math.max(0,s.miningLeft-dt)
  if s.miningLeft<1e-8 then
-  if (s.bonus.autoUnload or 0)>0 then for _,r in ipairs(s.robots) do deposit(s,r,events) end end
-  s.robots={};s.phase="combat"
+  beginRecall(s,events)
  end
  return events
 end

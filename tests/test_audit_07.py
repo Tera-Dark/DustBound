@@ -1,11 +1,14 @@
 """Audit fixes: executable bug reproductions and operation-count budgets (not Roblox FPS)."""
 import pytest
 from campaign_pilot import setup
-from test_ui import host,client,healthy,by_name
+from test_ui import host,client,healthy,by_name,click_name
+
+def depart(t,p):
+ click_name(t,p,"StartGame");click_name(t,p,"Depart")
 
 
 def prep_mining(l,c,r,g,s):
- g.start(s,c,r);s.waveElapsed=25;s.enemies=l.table();s.projectiles=l.table();g.step(s,c,r,.1)
+ g.start(s,c,r);s.groupIndex=99;s.planWave=s.wave;s.waveElapsed=25;s.enemies=l.table();s.projectiles=l.table();g.step(s,c,r,.1)
  assert s.supply
 
 @pytest.mark.parametrize('value',[None,False,'1',0,float('nan')])
@@ -60,8 +63,8 @@ def test_research_classification_uses_current_effects():
 
 @pytest.mark.parametrize('touch',[False,True])
 def test_offer_settings_can_resume_and_accept(touch):
- l,t,p=host(strictAPI=True);client(t,p,touch);t.click(p,'出发 · 第 1 关')
- s=t.session(p).game;s.waveElapsed=25;s.enemies=l.table();s.projectiles=l.table();t.step(.2);t.render(.1)
+ l,t,p=host(strictAPI=True);client(t,p,touch);depart(t,p)
+ s=t.session(p).game;s.groupIndex=99;s.planWave=s.wave;s.waveElapsed=25;s.enemies=l.table();s.projectiles=l.table();t.step(.2);t.render(.1)
  assert s.supply
  # Simulate focus auto-pause while draft is visible; modal must expose resume.
  t.action(p,'pause',True);t.render(.1);t.click(p,'继续远征');t.click(p,'免费选择');healthy(t,p)
@@ -85,7 +88,7 @@ def test_idle_ui_has_no_instance_churn_and_bounded_assignments(fallback):
  healthy(t,p)
 
 def test_gold_updates_preserve_investment_buttons():
- l,t,p=host();client(t,p);t.click(p,'出发 · 第 1 关');t.click(p,'采矿投资')
+ l,t,p=host();client(t,p);depart(t,p);t.click(p,'采矿投资')
  s=t.session(p).game;b=by_name(p.PlayerGui,'Buy_robots');old=t.counters.destroyed
  for i in range(10):
   s.run.gold+=100;t.action(p,'ready');t.render(.1)
@@ -104,17 +107,17 @@ def test_ready_report_happens_after_render_not_initial_network():
 def test_shipped_module_graph_and_all_current_pages(fallback):
  from test_ui import click_name
  l,t,p=host(shippingOnly=True,strictAPI=True,imageDisabled=fallback);client(t,p,True)
- for label in ['研究网络','返回前哨','远征图鉴','返回','设置']:
-  t.click(p,label);healthy(t,p)
+ for name in ['Nav_Research','Nav_Home','Nav_Codex','Close','Nav_Options']:
+  click_name(t,p,name);healthy(t,p)
  before=t.session(p).game.profile.settings.sfx
  click_name(t,p,'Less_sfx');assert t.session(p).game.profile.settings.sfx<before
- t.click(p,'返回');t.click(p,'出发 · 第 1 关');t.click(p,'战斗投资');t.click(p,'返回战场')
+ t.click(p,'返回');depart(t,p);t.click(p,'战斗投资');t.click(p,'返回战场')
  for _ in range(100):t.step(.1);t.render(.1)
  healthy(t,p)
 
 def test_paid_reroll_requires_confirmation_and_stale_token_is_rejected():
- l,t,p=host();client(t,p);t.click(p,'出发 · 第 1 关');s=t.session(p).game
- s.waveElapsed=25;s.enemies=l.table();s.projectiles=l.table();t.step(.2);t.render(.1)
+ l,t,p=host();client(t,p);depart(t,p);s=t.session(p).game
+ s.groupIndex=99;s.planWave=s.wave;s.waveElapsed=25;s.enemies=l.table();s.projectiles=l.table();t.step(.2);t.render(.1)
  t.click(p,'重抽 · 0 金矿');old=s.supply.token
  t.click(p,'重抽 · 80 金矿');assert s.ore==120 and s.supply.token==old
  t.click(p,'确认重抽');assert s.ore==40 and s.supply.token!=old
@@ -124,7 +127,7 @@ def test_wave_report_uses_effective_damage_and_per_wave_kills():
  l,c,r,g,s=setup();g.start(s,c,r)
  s.enemies[1]=enemy(l,1,800,340,1);s.gunClock=99
  s.projectiles[1]=l.table_from({'id':1,'weapon':'machine','x':720,'y':340,'tx':800,'ty':340,'born':0,'age':0,'duration':.1,'damage':1000,'target':1})
- s.waveElapsed=25;g.step(s,c,r,.1)
+ s.groupIndex=99;s.planWave=s.wave;s.waveElapsed=25;g.step(s,c,r,.1)
  assert len(s.reports)==1 and s.reports[1].kills==1 and s.reports[1].damage==1 and s.reports[1].best=='machine'
 
 def test_talent_refund_is_saved_without_waiting_for_autosave():

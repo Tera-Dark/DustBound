@@ -116,6 +116,6 @@ local function launch()
   local deadline=os.clock()+25;while pending>0 and os.clock()<deadline do task.wait(.1) end
  end)
  if status.Value~="ERROR" then status.Value="READY" end
- print("[DUSTBOUND 0.7.0] native GUI + tutorial + planning console ready")
+ print("[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready")
 end
 local ok,err=xpcall(launch,debug.traceback);if not ok then report(err) end

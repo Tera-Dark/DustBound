@@ -2,7 +2,7 @@
 local E={}
 function E.curve(node)
  local t=math.max(0,node-4)
- return 1+.025*t+.0015*t*t,1+.018*t,1+.012*t
+ return 1+.018*t+.0008*t*t,1+.018*t,1+.012*t
 end
 function E.reward(node,won,first,completed,kills)
  local baseA=85+node.id*12;local baseD=18+node.id*3
@@ -55,8 +55,22 @@ function E.configure(C)
  C.Categories.mining={"move","dig","cargo","robots"}
  C.ActiveUpgradeIds={"move","dig","cargo","robots","damage","rate","barrel","armor","repair","regen"}
  for id,name in pairs({energy_2="电弧增幅",energy_4="热能增幅",ballistics_4="磁轨增幅",expedition_3="迫击增幅",logistics_1="启程轴承",logistics_4="钻探协同",logistics_6="矿运协议",expedition_4="数据勘探",expedition_7="合金回收",fort_7="防御稳压",energy_7="防御调谐"}) do C.Tech.nodes[id].name=name end
- C.Catalog.enemies.flyer={name="掠翼虫",body="crawlerBody",hp=20,hpWave=4,speed=44,attack=8,attackWave=1,interval=1.8,range=190,color={92,143,157},firstWave=3,desc="从战场上方接近的飞行兵。",tip="低耐久、移动较快；所有武器均可攻击它。"}
- C.Catalog.order.enemies={"crawler","tank","flyer"}
+ C.Catalog.enemies.flyer={name="掠翼虫",body="flyerBody",hp=20,hpWave=4,speed=44,attack=8,attackWave=1,interval=1.8,range=190,color={92,143,157},firstWave=3,desc="从战场上方接近的飞行兵。",tip="低耐久、移动较快；从空域向下俯冲，悬停后攻击；优先用速射清理。"}
+ C.Catalog.order.enemies={"crawler","runner","tank","flyer"}
+ C.Catalog.enemies.crawler.hp=30;C.Catalog.enemies.crawler.hpWave=7;C.Catalog.enemies.crawler.speed=58
+ C.Catalog.enemies.crawler.attack=12;C.Catalog.enemies.crawler.attackWave=1
+ C.Catalog.enemies.runner.body="runnerBody";C.Catalog.enemies.runner.hp=22;C.Catalog.enemies.runner.hpWave=5;C.Catalog.enemies.runner.speed=100
+ C.Catalog.enemies.runner.attack=16;C.Catalog.enemies.runner.attackWave=1;C.Catalog.enemies.runner.firstWave=2
+ C.Catalog.enemies.runner.desc="成批高速冲线的地面单位；在重甲后方或突围编队中出现。";C.Catalog.enemies.runner.tip="用机枪优先拦截，电弧处理密集队列。"
+ C.Catalog.enemies.tank.hp=100;C.Catalog.enemies.tank.hpWave=13;C.Catalog.enemies.tank.speed=37;C.Catalog.enemies.tank.firstWave=2;C.Catalog.enemies.tank.armor=.3
+ C.Catalog.enemies.tank.desc="重甲护送编队，普通伤害减免 30%；第 2 波开始出现。"
+ C.Catalog.enemies.flyer.hp=27;C.Catalog.enemies.flyer.hpWave=5;C.Catalog.enemies.flyer.speed=76;C.Catalog.enemies.flyer.attack=17
+ C.Catalog.weapons.machine.role="快敌拦截";C.Catalog.weapons.machine.multiplier=.4
+ C.Catalog.weapons.machine.tip="优先射击掠翼虫与疾行虫，减少快速漏怪。"
+ C.Catalog.weapons.rail.multiplier=1.35;C.Catalog.weapons.rail.interval=1.8
+ C.Catalog.weapons.arc.multiplier=.55
+ C.Tech.nodes.industry_8.detail="收队时在途金矿立即入库，无需等待返航"
+
  C.Catalog.supplies=C.RunSystems.relics;C.Catalog.order.supplies=C.RunSystems.relicOrder
  for _,d in pairs(C.Catalog.supplies) do d.desc=d.detail;d.icon="crystal";d.tip="免费选择，持续整局；本局已拥有的遗物不再进入抽取池。" end
  for _,d in pairs(C.Catalog.weapons) do d.tech=nil;d.visual.aimMin=-180;d.visual.aimMax=180 end

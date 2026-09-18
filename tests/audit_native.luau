@@ -1,7 +1,7 @@
 -- Actual Luau CLI checks. No Roblox API/FPS emulation.
 local C=require('../src/Config')
 C.Tech=require('../src/Tech');C.Catalog=require('../src/Catalog')
-C.RunSystems=require('../src/RunSystems');C.ResearchWeb=require('../src/ResearchWeb');C.Economy=require('../src/Economy')
+C.RunSystems=require('../src/RunSystems');C.ResearchWeb=require('../src/ResearchWeb');C.Economy=require('../src/Economy');C.Encounters=require('../src/Encounters')
 local R=require('../src/Rules');local G=require('../src/Core');local M=C.RunSystems
 local checks=0
 local function check(v,label) checks=checks+1;assert(v,label) end

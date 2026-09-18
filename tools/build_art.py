@@ -3,7 +3,7 @@ from pathlib import Path
 import itertools,json
 ROOT=Path(__file__).resolve().parents[1]
 source=Image.open(ROOT/'assets/source-sprites.png').convert('RGBA')
-background=Image.open(ROOT/'assets/source-landscape.png').convert('RGBA')
+background=Image.open(ROOT/'assets/source-landscape-v08.png').convert('RGBA')
 crops={'base':(25,83,740,550),'turret':(782,60,1070,241),'crawler':(1113,66,1345,242),'tank':(798,271,1065,508),'capsule':(1136,278,1332,494),'crystal':(1120,538,1345,747)}
 images={'background':background}
 for key,bounds in crops.items():
@@ -24,8 +24,11 @@ for key,b in {'crawlerBody':(83,83,323,291),'tankBody':(730,29,1040,332),'robot'
   if r>155 and b>145 and g<115 and min(r,b)-g>90:a=0
   pixels.append((r,g,b,a))
  im.putdata(pixels);im=im.crop(im.getbbox());im.save(ROOT/'assets'/f'{key}.png');images[key]=im
+images['runnerBody']=Image.open(ROOT/'assets/runnerBody.png').convert('RGBA')
+images['flyerBody']=Image.open(ROOT/'assets/flyerBody.png').convert('RGBA')
+images['flyerWing']=Image.open(ROOT/'assets/flyerWing.png').convert('RGBA')
 atlas=Image.new('RGBA',(1024,1024),(0,0,0,0))
-slots={'background':(0,0,1024,480),'base':(2,484,456,300),'turret':(465,484,205,130),'crawler':(676,484,142,110),'tank':(826,484,170,157),'capsule':(469,622,80,140),'crystal':(555,625,99,140),'crawlerBody':(672,654,143,114),'tankBody':(827,654,180,128),'robot':(4,800,190,165),'drillBit':(207,807,169,130)}
+slots={'background':(0,0,1024,480),'base':(2,484,456,300),'turret':(465,484,205,130),'crawler':(676,484,142,110),'tank':(826,484,170,157),'capsule':(469,622,80,140),'crystal':(555,625,99,140),'crawlerBody':(672,654,143,114),'tankBody':(827,654,180,128),'robot':(4,800,190,165),'drillBit':(207,807,169,130),'flyerBody':(390,800,160,140),'flyerWing':(568,800,150,104),'runnerBody':(740,810,200,100)}
 rects={}
 for key,(x,y,w,h) in slots.items():
  im=images[key].copy(); im.thumbnail((w,h),Image.Resampling.LANCZOS)
@@ -41,7 +44,7 @@ for index,group in itertools.groupby(values):
  while n: take=min(65535,n);runs.append(f'{take:04x}{index:02x}');n-=take
 fallback={}
 for key,im in images.items():
- w={'background':128,'base':80,'turret':36,'crawler':22,'tank':26,'capsule':24,'crystal':24,'crawlerBody':26,'tankBody':30,'robot':30,'drillBit':20}[key]
+ w={'background':128,'base':80,'turret':36,'crawler':22,'tank':26,'capsule':24,'crystal':24,'crawlerBody':26,'tankBody':30,'robot':30,'drillBit':20,'flyerBody':34,'flyerWing':30,'runnerBody':30}[key]
  tiny=im.copy();tiny.thumbnail((w,round(w*im.height/im.width)),Image.Resampling.LANCZOS)
  # Discard nearly transparent pixels before quantization.
  pixels=[(r,g,b,255 if a>160 else 0) for r,g,b,a in tiny.getdata()];tiny.putdata(pixels)

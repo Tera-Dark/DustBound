@@ -1,2 +1,0 @@
-Building project 'Dustbound-0.6.1'
-Built project to Dustbound-0.6.1.rbxlx

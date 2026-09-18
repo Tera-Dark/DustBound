@@ -1,0 +1,8 @@
+{
+  "baselineFailed": 129,
+  "currentFailed": 128,
+  "newFailures": [],
+  "resolved": [
+    "FAILED tests/test_campaign.py::test_unresearched_late_node_is_meaningfully_harder"
+  ]
+}

@@ -1,0 +1,177 @@
+.......FFFFFF.............F...............................FF............ [ 85%]
+............                                                             [100%]
+=================================== FAILURES ===================================
+____________ test_ground_spawns_only_on_sides_flyers_only_above[1] _____________
+
+wave = 1
+
+    @pytest.mark.parametrize('wave',[1,2,3,4,10,20])
+    def test_ground_spawns_only_on_sides_flyers_only_above(wave):
+        l,c,r,g,s=setup();g.start(s,c,r);s.wave=wave;found=set()
+        for i in range(1,40):
+>           s.enemies=l.table();s.projectiles=l.table();s.waveElapsed=n*.5;s.spawnClock=99;s.gunClock=99
+                                                                      ^
+E           NameError: name 'n' is not defined
+
+tests/test_frontier_08.py:53: NameError
+____________ test_ground_spawns_only_on_sides_flyers_only_above[2] _____________
+
+wave = 2
+
+    @pytest.mark.parametrize('wave',[1,2,3,4,10,20])
+    def test_ground_spawns_only_on_sides_flyers_only_above(wave):
+        l,c,r,g,s=setup();g.start(s,c,r);s.wave=wave;found=set()
+        for i in range(1,40):
+>           s.enemies=l.table();s.projectiles=l.table();s.waveElapsed=n*.5;s.spawnClock=99;s.gunClock=99
+                                                                      ^
+E           NameError: name 'n' is not defined
+
+tests/test_frontier_08.py:53: NameError
+____________ test_ground_spawns_only_on_sides_flyers_only_above[3] _____________
+
+wave = 3
+
+    @pytest.mark.parametrize('wave',[1,2,3,4,10,20])
+    def test_ground_spawns_only_on_sides_flyers_only_above(wave):
+        l,c,r,g,s=setup();g.start(s,c,r);s.wave=wave;found=set()
+        for i in range(1,40):
+>           s.enemies=l.table();s.projectiles=l.table();s.waveElapsed=n*.5;s.spawnClock=99;s.gunClock=99
+                                                                      ^
+E           NameError: name 'n' is not defined
+
+tests/test_frontier_08.py:53: NameError
+____________ test_ground_spawns_only_on_sides_flyers_only_above[4] _____________
+
+wave = 4
+
+    @pytest.mark.parametrize('wave',[1,2,3,4,10,20])
+    def test_ground_spawns_only_on_sides_flyers_only_above(wave):
+        l,c,r,g,s=setup();g.start(s,c,r);s.wave=wave;found=set()
+        for i in range(1,40):
+>           s.enemies=l.table();s.projectiles=l.table();s.waveElapsed=n*.5;s.spawnClock=99;s.gunClock=99
+                                                                      ^
+E           NameError: name 'n' is not defined
+
+tests/test_frontier_08.py:53: NameError
+____________ test_ground_spawns_only_on_sides_flyers_only_above[10] ____________
+
+wave = 10
+
+    @pytest.mark.parametrize('wave',[1,2,3,4,10,20])
+    def test_ground_spawns_only_on_sides_flyers_only_above(wave):
+        l,c,r,g,s=setup();g.start(s,c,r);s.wave=wave;found=set()
+        for i in range(1,40):
+>           s.enemies=l.table();s.projectiles=l.table();s.waveElapsed=n*.5;s.spawnClock=99;s.gunClock=99
+                                                                      ^
+E           NameError: name 'n' is not defined
+
+tests/test_frontier_08.py:53: NameError
+____________ test_ground_spawns_only_on_sides_flyers_only_above[20] ____________
+
+wave = 20
+
+    @pytest.mark.parametrize('wave',[1,2,3,4,10,20])
+    def test_ground_spawns_only_on_sides_flyers_only_above(wave):
+        l,c,r,g,s=setup();g.start(s,c,r);s.wave=wave;found=set()
+        for i in range(1,40):
+>           s.enemies=l.table();s.projectiles=l.table();s.waveElapsed=n*.5;s.spawnClock=99;s.gunClock=99
+                                                                      ^
+E           NameError: name 'n' is not defined
+
+tests/test_frontier_08.py:53: NameError
+________________ test_release_has_frontier_and_new_art_embedded ________________
+
+    def test_release_has_frontier_and_new_art_embedded():
+        project=json.loads((ROOT/'default.project.json').read_text())
+        assert 'Frontier' in project['tree']['ReplicatedStorage']['FrontierShared']
+        atlas=json.loads((ROOT/'assets/atlas-layout.json').read_text())
+        assert 'flyerBody' in atlas and 'flyerWing' in atlas
+        import xml.etree.ElementTree as ET
+>       tree=ET.parse(ROOT/'Dustbound-0.9.0-FIRST-CONTACT.rbxlx')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_frontier_08.py:154: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.13/xml/etree/ElementTree.py:1223: in parse
+    tree.parse(source, parser)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <xml.etree.ElementTree.ElementTree object at 0x7f70b9f90050>
+source = PosixPath('/home/user/DustBound/Dustbound-0.9.0-FIRST-CONTACT.rbxlx')
+parser = None
+
+    def parse(self, source, parser=None):
+        """Load external XML document into element tree.
+    
+        *source* is a file name or file object, *parser* is an optional
+        parser instance that defaults to XMLParser.
+    
+        ParseError is raised if the parser fails to parse the document.
+    
+        Returns the root element of the given source document.
+    
+        """
+        close_source = False
+        if not hasattr(source, "read"):
+>           source = open(source, "rb")
+                     ^^^^^^^^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory: '/home/user/DustBound/Dustbound-0.9.0-FIRST-CONTACT.rbxlx'
+
+/usr/local/lib/python3.13/xml/etree/ElementTree.py:566: FileNotFoundError
+_________ test_actual_new_client_pages_battle_draft_and_mining[False] __________
+
+touch = False
+
+    @pytest.mark.parametrize('touch',[False,True])
+    def test_actual_new_client_pages_battle_draft_and_mining(touch):
+     l,t,p=host();client(t,p,touch);healthy(t,p)
+     click_name(t,p,'Nav_Research');healthy(t,p)
+     click_name(t,p,'Nav_Home');click_name(t,p,'StartGame');click_name(t,p,'Depart')
+     for _ in range(600):
+      t.step(.1);t.render(.1)
+      s=t.session(p).game
+      if s.supply:break
+>    assert s.supply and s.supply.kind=='relic'
+E    AssertionError: assert (<Lua table at 0x55b6f36c2160> and 'weapon' == 'relic'
+E     +  where <Lua table at 0x55b6f36c2160> = <Lua table at 0x55b6f3f05b10>.supply
+E      
+E      - relic
+E      + weapon)
+
+tests/test_integration_07.py:104: AssertionError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+__________ test_actual_new_client_pages_battle_draft_and_mining[True] __________
+
+touch = True
+
+    @pytest.mark.parametrize('touch',[False,True])
+    def test_actual_new_client_pages_battle_draft_and_mining(touch):
+     l,t,p=host();client(t,p,touch);healthy(t,p)
+     click_name(t,p,'Nav_Research');healthy(t,p)
+     click_name(t,p,'Nav_Home');click_name(t,p,'StartGame');click_name(t,p,'Depart')
+     for _ in range(600):
+      t.step(.1);t.render(.1)
+      s=t.session(p).game
+      if s.supply:break
+>    assert s.supply and s.supply.kind=='relic'
+E    AssertionError: assert (<Lua table at 0x55b6f4321ce0> and 'weapon' == 'relic'
+E     +  where <Lua table at 0x55b6f4321ce0> = <Lua table at 0x55b6f3d72890>.supply
+E      
+E      - relic
+E      + weapon)
+
+tests/test_integration_07.py:104: AssertionError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+=========================== short test summary info ============================
+FAILED tests/test_frontier_08.py::test_ground_spawns_only_on_sides_flyers_only_above[1]
+FAILED tests/test_frontier_08.py::test_ground_spawns_only_on_sides_flyers_only_above[2]
+FAILED tests/test_frontier_08.py::test_ground_spawns_only_on_sides_flyers_only_above[3]
+FAILED tests/test_frontier_08.py::test_ground_spawns_only_on_sides_flyers_only_above[4]
+FAILED tests/test_frontier_08.py::test_ground_spawns_only_on_sides_flyers_only_above[10]
+FAILED tests/test_frontier_08.py::test_ground_spawns_only_on_sides_flyers_only_above[20]
+FAILED tests/test_frontier_08.py::test_release_has_frontier_and_new_art_embedded
+FAILED tests/test_integration_07.py::test_actual_new_client_pages_battle_draft_and_mining[False]
+FAILED tests/test_integration_07.py::test_actual_new_client_pages_battle_draft_and_mining[True]
+9 failed, 75 passed in 10.47s

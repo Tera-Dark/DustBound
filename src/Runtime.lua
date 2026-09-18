@@ -8,6 +8,7 @@ if not C.economyReady then
  C.RunSystems=require(shared.RunSystems)
  C.ResearchWeb=require(shared.ResearchWeb)
  C.Economy=require(shared.Economy)
+ C.Encounters=require(shared.Encounters)
  C.Economy.configure(C)
 end
 return C

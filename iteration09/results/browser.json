@@ -1,0 +1,95 @@
+{
+  "method": "Real Chromium + actual Lua server; ordinary controls, fresh profile, no acceleration/injections. Not Roblox Studio.",
+  "firstWeaponSeconds": 24.741851597000114,
+  "wallSeconds": 104.26,
+  "result": {
+    "won": true,
+    "seconds": 100,
+    "alloy": 145,
+    "cores": 0,
+    "research": 31,
+    "firstClear": true,
+    "hull": 863.2,
+    "bonusResearch": 0,
+    "bonusAlloy": 0,
+    "mined": 224,
+    "timing": {
+      "mining": 26.668723530000175,
+      "combat": 72.14492331099967,
+      "supply": 1.579662780000013,
+      "clearing": 1.7951398599999953,
+      "pause": 0.8096296170000414
+    },
+    "mode": "campaign",
+    "wave": 3,
+    "recap": {
+      "weaponDamage": {
+        "cannon": 1265.536,
+        "arc": 764.4640000000002
+      },
+      "worstWave": 3,
+      "threat": "flyer",
+      "worstTaken": 36.800000000000004,
+      "takenBy": {
+        "flyer": 36.800000000000004
+      },
+      "tip": "空袭造成最多承伤：选择机枪，或将主炮切换为空中优先。",
+      "topWeapon": "cannon"
+    },
+    "maxHull": 900,
+    "loadout": "cannon",
+    "reports": [
+      {
+        "kills": 12,
+        "damage": 444.0000000000001,
+        "best": "cannon",
+        "weapons": {
+          "cannon": 444.0000000000001
+        },
+        "wave": 1,
+        "taken": 0,
+        "takenBy": {}
+      },
+      {
+        "kills": 15,
+        "damage": 870.0000000000001,
+        "best": "arc",
+        "weapons": {
+          "cannon": 428.456,
+          "arc": 441.54400000000015
+        },
+        "wave": 2,
+        "taken": 0,
+        "takenBy": {}
+      },
+      {
+        "kills": 16,
+        "damage": 716,
+        "best": "cannon",
+        "weapons": {
+          "cannon": 393.08,
+          "arc": 322.9200000000001
+        },
+        "wave": 3,
+        "taken": 36.800000000000004,
+        "takenBy": {
+          "flyer": 36.800000000000004
+        }
+      }
+    ],
+    "ledger": {
+      "spent": 110,
+      "lostCargo": 0,
+      "airdrop": 0,
+      "salvaged": 0
+    },
+    "purchases": 1,
+    "campaignNode": 1,
+    "kills": 43,
+    "crystals": 0,
+    "runId": 1
+  },
+  "errors": [],
+  "mobileWidth": 390,
+  "mobileOverflow": false
+}

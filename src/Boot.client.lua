@@ -12,15 +12,15 @@ local screen = Instance.new("ScreenGui")
 screen.Name = "FrontierBoot"; screen.ResetOnSpawn = false; screen.IgnoreGuiInset = true
 screen.DisplayOrder = 100; screen.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 local bg = Instance.new("Frame"); bg.Name = "Backdrop"; bg.Size = UDim2.fromScale(1,1)
-bg.BackgroundColor3 = Color3.fromRGB(103,190,181); bg.BorderSizePixel = 0; bg.Active = true; bg.Parent = screen
+bg.BackgroundColor3 = Color3.fromRGB(16,32,38); bg.BorderSizePixel = 0; bg.Active = true; bg.Parent = screen
 screen.Parent = playerGui -- Paint BEFORE anything dependent on server initialization.
 pcall(function() ReplicatedFirst:RemoveDefaultLoadingScreen() end)
 local root = Instance.new("Frame"); root.Name = "BootContent"; root.Size = UDim2.fromOffset(1100,660)
 root.AnchorPoint = Vector2.new(0.5,0.5); root.Position = UDim2.fromScale(0.5,0.5); root.BackgroundTransparency = 1; root.Parent = bg
 local scale = Instance.new("UIScale"); scale.Parent = root
 local mint = Color3.fromRGB(135,233,192)
-local white = Color3.fromRGB(23,29,49)
-local muted = Color3.fromRGB(83,93,89)
+local white = Color3.fromRGB(238,237,215)
+local muted = Color3.fromRGB(154,175,173)
 local amber = Color3.fromRGB(242,191,112)
 local function box(parent,name,x,y,w,h,col,rounding)
     local f = Instance.new("Frame"); f.Name = name; f.Position = UDim2.fromOffset(x,y); f.Size = UDim2.fromOffset(w,h)
@@ -39,21 +39,21 @@ local function border(object,col)
 end
 box(root,"Accent",36,37,29,3,mint)
 text(root,"Kicker","DUSTBOUND / AUTOMATED OUTPOST",79,26,610,24,13,mint)
-text(root,"Version","BUILD 0.7.0  /  LOCAL FIRST",777,26,300,24,11,muted)
+text(root,"Version","BUILD 0.8.0  /  LOCAL FIRST",777,26,300,24,11,muted)
 text(root,"Title","荒星前哨",36,95,510,77,48,white).Font = Enum.Font.GothamBold
 text(root,"Tagline","前哨自动防御，机器人波间采矿。\n把每一份资源用在刀刃上。",39,182,480,77,23,muted)
-local labels = {{"01","机器人采矿","不需要驾驶或瞄准"},{"02","资源投入","基地 / 采矿 / 武器"},{"03","补给选择","维修 / 采矿 / 弹药"}}
+local labels = {{"01","机器人采矿","不需要驾驶或瞄准"},{"02","资源投入","基地 / 采矿 / 武器"},{"03","免费选择","副武器 / 整局遗物"}}
 for i,d in ipairs(labels) do
     local y = 302+(i-1)*63
-    local card = box(root,"Guide"..i,39,y,435,52,Color3.fromRGB(247,241,219),9)
+    local card = box(root,"Guide"..i,39,y,435,52,Color3.fromRGB(22,39,45),9)
     text(card,"Number",d[1],13,4,39,43,13,mint)
     text(card,"Name",d[2],60,4,138,43,15,white)
     text(card,"Keys",d[3],200,4,226,43,12,muted)
 end
 -- Built-in 2D sector illustration, independent of Workspace and external assets.
-local map = box(root,"SectorIllustration",543,94,515,379,Color3.fromRGB(247,241,219),15); border(map,mint)
-for i = 1,10 do box(map,"GridX"..i,i*46,24,1,328,Color3.fromRGB(226,213,180)) end
-for i = 1,7 do box(map,"GridY"..i,22,i*46,471,1,Color3.fromRGB(226,213,180)) end
+local map = box(root,"SectorIllustration",543,94,515,379,Color3.fromRGB(22,39,45),15); border(map,mint)
+for i = 1,10 do box(map,"GridX"..i,i*46,24,1,328,Color3.fromRGB(43,66,69)) end
+for i = 1,7 do box(map,"GridY"..i,22,i*46,471,1,Color3.fromRGB(43,66,69)) end
 text(map,"MapHeader","SECTOR 01    /    RESOURCE SURVEY",22,12,454,26,10,muted)
 for i,d in ipairs({{85,106},{381,92},{406,255}}) do
     local zone = box(map,"Ore"..i,d[1]-20,d[2]-20,62,62,Color3.fromRGB(34,79,71),31)
@@ -85,7 +85,7 @@ local diagButton = Instance.new("TextButton"); diagButton.Name = "DiagnosticsBut
 diagButton.Size = UDim2.fromOffset(140,31); diagButton.Position = UDim2.fromOffset(913,619)
 diagButton.BackgroundTransparency = 1; diagButton.TextColor3 = mint; diagButton.TextSize = 12; diagButton.Font = Enum.Font.Gotham; diagButton.Parent = root
 text(root,"Footer","F5 = Play / 游玩    ·    Shift + F5 = 停止    ·    本地会话模式",40,619,819,29,11,muted)
-local diagnostics = box(root,"Diagnostics",39,86,1019,397,Color3.fromRGB(247,241,219),13); diagnostics.Visible = false; diagnostics.ZIndex = 10
+local diagnostics = box(root,"Diagnostics",39,86,1019,397,Color3.fromRGB(22,39,45),13); diagnostics.Visible = false; diagnostics.ZIndex = 10
 text(diagnostics,"DiagnosticsHeading","启动诊断 / 可选中文本复制",20,14,960,30,18,mint)
 local output = Instance.new("TextBox"); output.Name = "Output"; output.Position = UDim2.fromOffset(20,59); output.Size = UDim2.fromOffset(979,316)
 output.BackgroundTransparency = 1; output.TextColor3 = white; output.TextSize = 14; output.Font = Enum.Font.Code

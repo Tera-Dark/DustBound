@@ -9,7 +9,7 @@ def env():
  l=LuaRuntime(unpack_returned_tuples=True)
  c=l.execute((ROOT/'src/Config.lua').read_text());r=l.execute((ROOT/'src/Rules.lua').read_text());g=l.execute((ROOT/'src/Core.lua').read_text())
  c.Tech=l.execute((ROOT/'src/Tech.lua').read_text());c.Catalog=l.execute((ROOT/'src/Catalog.lua').read_text())
- for name in ['RunSystems','ResearchWeb','Economy']:c[name]=l.execute((ROOT/('src/'+name+'.lua')).read_text())
+ for name in ['RunSystems','ResearchWeb','Economy','Encounters']:c[name]=l.execute((ROOT/('src/'+name+'.lua')).read_text())
  s=g.new(c,r,r.cleanProfile(None));return l,c,r,g,s
 
 def table(l,**kw):return l.table_from(kw)
@@ -20,8 +20,8 @@ def start(env):
 def mining(env,wave=1):
  l,c,r,g,s=env
  if s.phase!='running':g.start(s,c,r)
- s.wave=wave;s.waveElapsed=c.WaveDuration;s.enemies=l.table();s.projectiles=l.table();g.step(s,c,r,.1)
- assert s.stage=='mining' and s.breakLeft==30 and s.supply
+ s.wave=wave;s.groupIndex=99;s.planWave=wave;s.waveElapsed=c.WaveDuration;s.enemies=l.table();s.projectiles=l.table();g.step(s,c,r,.1)
+ assert s.stage=='mining' and s.breakLeft==c.RunSystems.miningDuration(wave) and s.supply
  return l,c,r,g,s
 def accept(env,id=None):
  l,c,r,g,s=env;assert g.act(s,c,r,'supply',table(l,token=s.supply.token,id=id or s.supply.options[1]))
@@ -52,7 +52,7 @@ def test_pause_explicit_idempotent_freezes_all(env):
  run(c,r,g,s,1);assert s.elapsed>before[0]
 
 def test_clearing_requires_dead_enemies_and_projectiles(env):
- l,c,r,g,s=start(env);s.waveElapsed=28;s.enemies=l.table_from([enemy(l,x=1330)]);g.step(s,c,r,.1)
+ l,c,r,g,s=start(env);s.groupIndex=99;s.planWave=s.wave;s.waveElapsed=28;s.enemies=l.table_from([enemy(l,x=1330)]);g.step(s,c,r,.1)
  assert s.stage=='clearing' and not s.supply
  s.enemies=l.table();s.projectiles=l.table_from([table(l,id=90,weapon='machine',x=550,y=140,tx=1000,ty=400,age=0,duration=1,damage=1)])
  g.step(s,c,r,.1);assert s.stage=='clearing'
@@ -80,7 +80,7 @@ def test_break_exactly_thirty_unpaused_seconds(env):
 def test_pause_does_not_bypass_supply(env):
  l,c,r,g,s=mining(env);token=s.supply.token;g.act(s,c,r,'pause',True)
  assert not g.act(s,c,r,'supply',table(l,token=token,id='repair'))
- g.act(s,c,r,'pause',False);run(c,r,g,s,10);assert s.breakLeft==30 and s.supply.token==token
+ g.act(s,c,r,'pause',False);run(c,r,g,s,10);assert s.breakLeft==18 and s.supply.token==token
 
 def test_supply_replay_and_reroll_stale_tokens(env):
  l,c,r,g,s=mining(env);token=s.supply.token;old=s.ore

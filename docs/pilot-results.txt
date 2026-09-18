@@ -1,7 +1,0 @@
-NORMAL-STAT NUMERICAL PILOT. Not Roblox Studio or human playtesting.
-tutorial machine overtime False phase ended seconds 179.7 wave 3 hull 1140 kills 33 purchases 10
-  won True alloy 180 research 35
-standard machine overtime False phase ended seconds 607.9 wave 10 hull 1140 kills 159 purchases 20
-  won True alloy 646 research 142
-standard machine overtime True phase ended seconds 728.3 wave 12 hull 1140 kills 223 purchases 22
-  won True alloy 351 research 209

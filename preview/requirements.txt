@@ -1,0 +1,2 @@
+# Browser review server. Runtime rules come from the repository's Lua modules.
+lupa==2.8

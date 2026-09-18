@@ -1,5 +1,5 @@
 local C = {}
-C.Version = "0.7.0"
+C.Version = "0.9.0-first-contact"
 C.EnableCloudSave = false -- Set true ONLY in your published test/production experience.
 C.EnableAnalytics = false -- Opt-in server AnalyticsService; local diagnostics always work.
 C.TutorialWaves = 3
@@ -25,7 +25,7 @@ C.TotalWaves = 10
 C.EnemyCap = 28
 C.InitialOre = 120
 C.InitialHull = 900
-C.MiningDuration = 30
+C.MiningDuration = 18 -- RunSystems uses 18s for waves 1-2, then 14s.
 C.Robots = 2
 C.RobotCycle = 6
 C.RobotCargo = 28

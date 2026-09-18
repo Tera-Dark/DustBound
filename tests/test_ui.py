@@ -6,7 +6,7 @@ ROOT=Path(__file__).resolve().parents[1]
 def host(**options):
  lua=LuaRuntime(unpack_returned_tuples=True)
  source_root=Path(options.pop("sourceRoot",ROOT))
- names={**{x:x+'.lua' for x in ['Runtime','Config','RunSystems','ResearchWeb','Economy','BattleView','Rules','Core','Art','ArtData','Tech','Catalog','Panels','TechMap','Gallery','GalleryData','Animation','WeaponRig','Motion','UI','Guide','Audio']},'ProfileStore':'ProfileStore.lua','Telemetry':'Telemetry.lua','Server':'Server.server.lua'}
+ names={**{x:x+'.lua' for x in ['Runtime','Config','RunSystems','ResearchWeb','Economy','Encounters','BattleView','Frontier','Rules','Core','Art','ArtData','Tech','Catalog','Panels','TechMap','Gallery','GalleryData','Animation','WeaponRig','Motion','UI','Guide','Audio']},'ProfileStore':'ProfileStore.lua','Telemetry':'Telemetry.lua','Server':'Server.server.lua'}
  if options.pop('shippingOnly',False):
   shipped=json.loads((ROOT/'default.project.json').read_text())['tree']['ReplicatedStorage']['FrontierShared']
   names={k:v for k,v in names.items() if k in shipped or k in ['ProfileStore','Telemetry','Server']}

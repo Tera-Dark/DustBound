@@ -109,7 +109,7 @@ def test_callback_replay_does_not_double_research():
 def test_metrics_whitelist_and_first_deposit_once():
  l,t,p=host();t.action(p,'ui_ready','keyboard');t.action(p,'ui_ready','touch');t.action(p,'start','tutorial')
  s=t.session(p);assert s.telemetry.counts.ui_ready==1 and s.telemetry.input=='keyboard'
- for _ in range(350):
+ for _ in range(420):
   t.step(.1)
   if s.game.supply:t.action(p,'supply',l.table_from({'token':s.game.supply.token,'id':s.game.supply.options[1]}))
  assert s.telemetry.counts.first_robot_deposit==1

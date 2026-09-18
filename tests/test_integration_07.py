@@ -1,14 +1,14 @@
 """0.7 integration contracts. Synthetic fixtures are isolated from the ordinary campaign pilot."""
 import pytest
 from campaign_pilot import setup,run
-from test_ui import host,client,healthy
+from test_ui import host,client,healthy,click_name
 
 @pytest.mark.parametrize('last',range(3,21))
 def test_completed_wave_schedule_and_free_drafts(last):
  l,c,r,g,s=setup();m=c.RunSystems;run=m.new(17,None,1)
  for wave in range(1,last+1):
   run.phase='combat';assert m.waveCleared(run,wave,last)
-  expected=None if wave==last else 'weapon' if wave in (4,8,12,16) else 'relic' if wave in (1,5,9,13,17) else None
+  expected=None if wave==last else 'weapon' if wave in (1,4,8,12) else 'relic' if wave in (2,5,9,13,17) else None
   assert (run.offer.kind if run.offer else None)==expected
   if run.offer:
    assert len(set(run.offer.choices.values()))==3
@@ -17,7 +17,7 @@ def test_completed_wave_schedule_and_free_drafts(last):
    assert m.choose(run,token,pick);assert run.gold==old
    assert not m.choose(run,token,pick)
  assert run.phase=='ended' and not run.offer
- assert len(run.weapons)==sum(w<last for w in (4,8,12,16))
+ assert len(run.weapons)==sum(w<last for w in (1,4,8,12))
 
 def test_beginner_buffer_then_growth():
  l,c,r,g,s=setup()
@@ -95,13 +95,14 @@ def test_ordinary_full_campaign_without_resource_injection():
 @pytest.mark.parametrize('touch',[False,True])
 def test_actual_new_client_pages_battle_draft_and_mining(touch):
  l,t,p=host();client(t,p,touch);healthy(t,p)
- t.click(p,'研究网络');healthy(t,p)
- t.click(p,'返回前哨');t.click(p,'出发 · 第 1 关')
+ click_name(t,p,'Nav_Research');healthy(t,p)
+ click_name(t,p,'Nav_Home');click_name(t,p,'StartGame');click_name(t,p,'Depart')
  for _ in range(600):
   t.step(.1);t.render(.1)
   s=t.session(p).game
   if s.supply:break
- assert s.supply and s.supply.kind=='relic'
+ assert s.supply and s.supply.kind=='weapon'
+ t.step(.2);t.render(.1) # Wait for the next authoritative network snapshot.
  # Three equal captions: first choice is fine; server checks the offer token/id.
  t.click(p,'免费选择')
  for _ in range(80):t.step(.1);t.render(.1)

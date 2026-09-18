@@ -1,5 +1,5 @@
 {
-  "name": "Dustbound-0.7.0",
+  "name": "Dustbound-0.9.0",
   "tree": {
     "$className": "DataModel",
     "Workspace": {
@@ -39,8 +39,14 @@
         "Economy": {
           "$path": "src/Economy.lua"
         },
+        "Encounters": {
+          "$path": "src/Encounters.lua"
+        },
         "BattleView": {
           "$path": "src/BattleView.lua"
+        },
+        "Frontier": {
+          "$path": "src/Frontier.lua"
         },
         "Rules": {
           "$path": "src/Rules.lua"

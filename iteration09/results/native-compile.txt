@@ -1,0 +1,2 @@
+Compiled 3 KLOC into 2302 KB bytecode (read 0.00s, parse 0.01s, compile 0.02s)
+LuauCompileExit:0

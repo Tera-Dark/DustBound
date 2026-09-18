@@ -1,0 +1,3114 @@
+.......F............................F..........F..F.......FFFFF..F...... [ 20%]
+.....F..FFF..FFF.FFFFFFFFF..FFFFFFFF.......FFFFFFFFFFFF................. [ 41%]
+........................................................................ [ 61%]
+.......FF.FFFF....FFFFFFF.FFFFF..FFFFFFFFFFFFFFF..........F....FFFFF..FF [ 82%]
+FFFF.FFFFFFFFFFFFFFFFFFFFFFFFFFFF.F....FF.FF...........FF.FF.            [100%]
+=================================== FAILURES ===================================
+_______________________ test_five_mounts_only_two_active _______________________
+
+    def test_five_mounts_only_two_active():
+     l,t,p=motion_fixture()
+>    assert l.execute('M.sync(G.snapshot(S,C0,R));return #M.weapons.slots==5 and M.weapons.activeCount==2 and M.weapons.slots[3].empty.Visible and not M.weapons.slots[5].mount.Visible')
+E    AssertionError: assert False
+E     +  where False = execute('M.sync(G.snapshot(S,C0,R));return #M.weapons.slots==5 and M.weapons.activeCount==2 and M.weapons.slots[3].empty.Visible and not M.weapons.slots[5].mount.Visible')
+E     +    where execute = <lupa.lua55.LuaRuntime object at 0x7f0a1ad00c20>.execute
+
+tests/test_animation.py:16: AssertionError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+___________ test_all_24_nodes_ramp_without_wave_or_stat_backtracking ___________
+
+    def test_all_24_nodes_ramp_without_wave_or_stat_backtracking():
+     l,c,r,g,s=setup();last=None
+     for i in range(1,25):
+      n=c.Catalog.campaign[i]
+      assert n.id==i and n.node==(i-1)%8+1 and n.planet==(i-1)//8+1
+>     if last:assert 0<=n.waves-last.waves<=1 and n.hp>last.hp and n.attack>last.attack and n.density>last.density
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E     assert ((3 - 3) <= 1 and 1.0 > 1.0)
+E      +  where 3 = <Lua table at 0x564d4f153350>.waves
+E      +  and   3 = <Lua table at 0x564d4f947e50>.waves
+E      +  and   1.0 = <Lua table at 0x564d4f153350>.hp
+E      +  and   1.0 = <Lua table at 0x564d4f947e50>.hp
+
+tests/test_campaign.py:11: AssertionError
+________ test_failure_keeps_progress_rewards_but_no_core_and_no_unlock _________
+
+    def test_failure_keeps_progress_rewards_but_no_core_and_no_unlock():
+     l,c,r,g,s=setup();assert g.start(s,c,r,l.table_from({'node':1}))
+     s.wave=2;s.kills=13;s.hull=0;g.step(s,c,r,.1)
+>    assert s.result and not s.result.won and s.result.alloy>0 and s.result.research>0 and s.result.cores==0
+E    assert (<Lua table at 0x564d4f948e20> and not False and 3 > 0 and 0 > 0)
+E     +  where <Lua table at 0x564d4f948e20> = <Lua table at 0x564d4f457780>.result
+E     +  and   False = <Lua table at 0x564d4f948e20>.won
+E     +    where <Lua table at 0x564d4f948e20> = <Lua table at 0x564d4f457780>.result
+E     +  and   3 = <Lua table at 0x564d4f948e20>.alloy
+E     +    where <Lua table at 0x564d4f948e20> = <Lua table at 0x564d4f457780>.result
+E     +  and   0 = <Lua table at 0x564d4f948e20>.research
+E     +    where <Lua table at 0x564d4f948e20> = <Lua table at 0x564d4f457780>.result
+
+tests/test_campaign.py:32: AssertionError
+______ test_legacy_five_migration_preserves_wallet_tech_and_new_progress _______
+
+    def test_legacy_five_migration_preserves_wallet_tech_and_new_progress():
+     l,c,r,g,s=setup();p=r.cleanProfile(l.table_from({'schema':5,'alloy':888,'tech':{'energy_2':True},'loadout':'arc'},recursive=True))
+>    assert p.schema==6 and p.campaignCleared==0 and p.alloy==888 and p.tech.energy_2 and p.loadout=='arc'
+E    assert (7 == 6)
+E     +  where 7 = <Lua table at 0x564d4f3377d0>.schema
+
+tests/test_campaign.py:48: AssertionError
+__________ test_campaign_ui_navigation_launch_lock_and_rewards[False] __________
+
+touch = False
+
+    @pytest.mark.parametrize('touch',[False,True])
+    def test_campaign_ui_navigation_launch_lock_and_rewards(touch):
+>    l,t,p=host();client(t,p,touch);visit(t,p,'▶  星球远征 · 24 关');click_name(t,p,'Planet_3')
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_campaign.py:65: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: ▶  星球远征 · 24 关
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+__________ test_campaign_ui_navigation_launch_lock_and_rewards[True] ___________
+
+touch = True
+
+    @pytest.mark.parametrize('touch',[False,True])
+    def test_campaign_ui_navigation_launch_lock_and_rewards(touch):
+>    l,t,p=host();client(t,p,touch);visit(t,p,'▶  星球远征 · 24 关');click_name(t,p,'Planet_3')
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_campaign.py:65: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: ▶  星球远征 · 24 关
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+___________ test_gallery_lazy_load_reuse_and_native_fallback[False] ____________
+
+fallback = False
+
+    @pytest.mark.parametrize('fallback',[False,True])
+    def test_gallery_lazy_load_reuse_and_native_fallback(fallback):
+     l,t,p=host(imageDisabled=fallback,strictAPI=True);client(t,p)
+>    before=t.counters.pixelWrites;visit(t,p,'远征图鉴');t.step(.1);t.render(.1)
+                                   ^^^^^^^^^^^^^^^^^
+
+tests/test_campaign.py:75: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: 远征图鉴
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+____________ test_gallery_lazy_load_reuse_and_native_fallback[True] ____________
+
+fallback = True
+
+    @pytest.mark.parametrize('fallback',[False,True])
+    def test_gallery_lazy_load_reuse_and_native_fallback(fallback):
+     l,t,p=host(imageDisabled=fallback,strictAPI=True);client(t,p)
+>    before=t.counters.pixelWrites;visit(t,p,'远征图鉴');t.step(.1);t.render(.1)
+                                   ^^^^^^^^^^^^^^^^^
+
+tests/test_campaign.py:75: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: 远征图鉴
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+_____________ test_tech_map_all_dependency_edges_and_desktop_drag ______________
+
+    def test_tech_map_all_dependency_edges_and_desktop_drag():
+>    l,t,p=host(strictAPI=True);client(t,p);visit(t,p,'研究中心');
+                                            ^^^^^^^^^^^^^^^^^
+
+tests/test_campaign.py:84: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: 研究中心
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+____________ test_fit_restores_whole_tree_after_focusing_outer_node ____________
+
+    def test_fit_restores_whole_tree_after_focusing_outer_node():
+>    l,t,p=host();client(t,p);visit(t,p,'研究中心');click_name(t,p,'Tech_fort_8');click_name(t,p,'FocusTech');click_name(t,p,'FitTree')
+                              ^^^^^^^^^^^^^^^^^
+
+tests/test_campaign.py:118: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: 研究中心
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+______________________ test_buy_cost_cap_and_full_repair _______________________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b2df740>, <Lua table at 0x564d51479420>, <Lua table at 0x564d51aadcc0>, <Lua table at 0x564d509434a0>, <Lua table at 0x564d50951db0>)
+
+    def test_buy_cost_cap_and_full_repair(env):
+>    l,c,r,g,s=start(env);assert not g.act(s,c,r,'buy','repair');assert g.act(s,c,r,'buy','drill');assert s.ore==20
+                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    AssertionError: assert False
+E     +  where False = <Lua function at 0x564d509cd1c0>(<Lua table at 0x564d50951db0>, <Lua table at 0x564d51479420>, <Lua table at 0x564d51aadcc0>, 'buy', 'drill')
+E     +    where <Lua function at 0x564d509cd1c0> = <Lua table at 0x564d509434a0>.act
+
+tests/test_core.py:41: AssertionError
+_____________ test_supply_only_after_wave_and_halts_thirty_seconds _____________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b2184a0>, <Lua table at 0x564d4f60dfe0>, <Lua table at 0x564d509cbc30>, <Lua table at 0x564d4f64c6d0>, <Lua table at 0x564d4fa42a30>)
+
+    def test_supply_only_after_wave_and_halts_thirty_seconds(env):
+     l,c,r,g,s=start(env);s.wave=2;s.waveElapsed=14;g.step(s,c,r,.1);assert not s.supply
+>    mining(env,2);before=(s.elapsed,s.breakLeft,s.ore);run(c,r,g,s,100);assert before==(s.elapsed,s.breakLeft,s.ore)
+     ^^^^^^^^^^^^^
+
+tests/test_core.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b2184a0>, <Lua table at 0x564d4f60dfe0>, <Lua table at 0x564d509cbc30>, <Lua table at 0x564d4f64c6d0>, <Lua table at 0x564d4fa42a30>)
+wave = 2
+
+    def mining(env,wave=1):
+     l,c,r,g,s=env
+     if s.phase!='running':g.start(s,c,r)
+     s.wave=wave;s.groupIndex=99;s.planWave=wave;s.waveElapsed=c.WaveDuration;s.enemies=l.table();s.projectiles=l.table();g.step(s,c,r,.1)
+>    assert s.stage=='mining' and s.breakLeft==c.RunSystems.miningDuration(wave) and s.supply
+E    AssertionError: assert ('mining' == 'mining'
+E      
+E        mining and 0 == 18)
+E     +  where 0 = <Lua table at 0x564d4fa42a30>.breakLeft
+E     +  and   18 = <Lua function at 0x564d4f422c90>(2)
+E     +    where <Lua function at 0x564d4f422c90> = <Lua table at 0x564d50999a10>.miningDuration
+E     +      where <Lua table at 0x564d50999a10> = <Lua table at 0x564d4f60dfe0>.RunSystems
+
+tests/test_core.py:24: AssertionError
+____________________ test_mining_robot_cargo_not_continuous ____________________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b218ae0>, <Lua table at 0x564d509d2b90>, <Lua table at 0x564d509d8250>, <Lua table at 0x564d51b01120>, <Lua table at 0x564d50803a20>)
+
+    def test_mining_robot_cargo_not_continuous(env):
+>    l,c,r,g,s=mining(env);accept(env,'repair');ore=s.ore
+                           ^^^^^^^^^^^^^^^^^^^^
+
+tests/test_core.py:67: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b218ae0>, <Lua table at 0x564d509d2b90>, <Lua table at 0x564d509d8250>, <Lua table at 0x564d51b01120>, <Lua table at 0x564d50803a20>)
+id = 'repair'
+
+    def accept(env,id=None):
+>    l,c,r,g,s=env;assert g.act(s,c,r,'supply',table(l,token=s.supply.token,id=id or s.supply.options[1]))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    AssertionError: assert False
+E     +  where False = <Lua function at 0x564d50935330>(<Lua table at 0x564d50803a20>, <Lua table at 0x564d509d2b90>, <Lua table at 0x564d509d8250>, 'supply', <Lua table at 0x564d50805d40>)
+E     +    where <Lua function at 0x564d50935330> = <Lua table at 0x564d51b01120>.act
+E     +    and   <Lua table at 0x564d50805d40> = table(<lupa.lua55.LuaRuntime object at 0x7f0a1b218ae0>, token='1:1', id=('repair'))
+E     +      where '1:1' = <Lua table at 0x564d50805c50>.token
+E     +        where <Lua table at 0x564d50805c50> = <Lua table at 0x564d50803a20>.supply
+
+tests/test_core.py:27: AssertionError
+__________________ test_break_exactly_thirty_unpaused_seconds __________________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b218360>, <Lua table at 0x564d4f613ce0>, <Lua table at 0x564d51ad70c0>, <Lua table at 0x564d4fc93770>, <Lua table at 0x564d4f68ea40>)
+
+    def test_break_exactly_thirty_unpaused_seconds(env):
+>    l,c,r,g,s=mining(env);accept(env,'repair');run(c,r,g,s,14)
+                           ^^^^^^^^^^^^^^^^^^^^
+
+tests/test_core.py:74: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b218360>, <Lua table at 0x564d4f613ce0>, <Lua table at 0x564d51ad70c0>, <Lua table at 0x564d4fc93770>, <Lua table at 0x564d4f68ea40>)
+id = 'repair'
+
+    def accept(env,id=None):
+>    l,c,r,g,s=env;assert g.act(s,c,r,'supply',table(l,token=s.supply.token,id=id or s.supply.options[1]))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    AssertionError: assert False
+E     +  where False = <Lua function at 0x564d51ad86d0>(<Lua table at 0x564d4f68ea40>, <Lua table at 0x564d4f613ce0>, <Lua table at 0x564d51ad70c0>, 'supply', <Lua table at 0x564d4f690d30>)
+E     +    where <Lua function at 0x564d51ad86d0> = <Lua table at 0x564d4fc93770>.act
+E     +    and   <Lua table at 0x564d4f690d30> = table(<lupa.lua55.LuaRuntime object at 0x7f0a1b218360>, token='1:1', id=('repair'))
+E     +      where '1:1' = <Lua table at 0x564d4f690c40>.token
+E     +        where <Lua table at 0x564d4f690c40> = <Lua table at 0x564d4f68ea40>.supply
+
+tests/test_core.py:27: AssertionError
+____________________ test_buffs_only_consume_relevant_phase ____________________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b2193a0>, <Lua table at 0x564d5046c360>, <Lua table at 0x564d4fcb9240>, <Lua table at 0x564d504716a0>, <Lua table at 0x564d50463490>)
+
+    def test_buffs_only_consume_relevant_phase(env):
+>    l,c,r,g,s=mining(env);accept(env,'ammo');s.effects.drill=30
+                           ^^^^^^^^^^^^^^^^^^
+
+tests/test_core.py:93: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b2193a0>, <Lua table at 0x564d5046c360>, <Lua table at 0x564d4fcb9240>, <Lua table at 0x564d504716a0>, <Lua table at 0x564d50463490>)
+id = 'ammo'
+
+    def accept(env,id=None):
+>    l,c,r,g,s=env;assert g.act(s,c,r,'supply',table(l,token=s.supply.token,id=id or s.supply.options[1]))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    AssertionError: assert False
+E     +  where False = <Lua function at 0x564d51974110>(<Lua table at 0x564d50463490>, <Lua table at 0x564d5046c360>, <Lua table at 0x564d4fcb9240>, 'supply', <Lua table at 0x564d509a5e90>)
+E     +    where <Lua function at 0x564d51974110> = <Lua table at 0x564d504716a0>.act
+E     +    and   <Lua table at 0x564d509a5e90> = table(<lupa.lua55.LuaRuntime object at 0x7f0a1b2193a0>, token='1:1', id=('ammo'))
+E     +      where '1:1' = <Lua table at 0x564d509a5da0>.token
+E     +        where <Lua table at 0x564d509a5da0> = <Lua table at 0x564d50463490>.supply
+
+tests/test_core.py:27: AssertionError
+__________________ test_tenth_and_twelfth_wave_include_mining __________________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b219940>, <Lua table at 0x564d4fa525f0>, <Lua table at 0x564d4fa58b20>, <Lua table at 0x564d5197b990>, <Lua table at 0x564d4fb85df0>)
+
+    def test_tenth_and_twelfth_wave_include_mining(env):
+>    l,c,r,g,s=mining(env,10);assert s.phase=='running';accept(env);run(c,r,g,s,30);assert s.phase=='decision'
+               ^^^^^^^^^^^^^^
+
+tests/test_core.py:99: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b219940>, <Lua table at 0x564d4fa525f0>, <Lua table at 0x564d4fa58b20>, <Lua table at 0x564d5197b990>, <Lua table at 0x564d4fb85df0>)
+wave = 10
+
+    def mining(env,wave=1):
+     l,c,r,g,s=env
+     if s.phase!='running':g.start(s,c,r)
+     s.wave=wave;s.groupIndex=99;s.planWave=wave;s.waveElapsed=c.WaveDuration;s.enemies=l.table();s.projectiles=l.table();g.step(s,c,r,.1)
+>    assert s.stage=='mining' and s.breakLeft==c.RunSystems.miningDuration(wave) and s.supply
+E    AssertionError: assert ('mining' == 'mining'
+E      
+E        mining and 0 == 14)
+E     +  where 0 = <Lua table at 0x564d4fb85df0>.breakLeft
+E     +  and   14 = <Lua function at 0x564d4f5889d0>(10)
+E     +    where <Lua function at 0x564d4f5889d0> = <Lua table at 0x564d4f584a90>.miningDuration
+E     +      where <Lua table at 0x564d4f584a90> = <Lua table at 0x564d4fa525f0>.RunSystems
+
+tests/test_core.py:24: AssertionError
+_________________ test_settlement_once_and_abandon_zero_reward _________________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1ad037e0>, <Lua table at 0x564d4f9e6520>, <Lua table at 0x564d51ba47e0>, <Lua table at 0x564d4f053d40>, <Lua table at 0x564d509137a0>)
+
+    def test_settlement_once_and_abandon_zero_reward(env):
+     l,c,r,g,s=start(env);s.ore=9000;s.runCrystals=10;s.runCores=3;r.record(s.profile,'enemies','crawler')
+     assert g.act(s,c,r,'abandon','confirm');assert s.phase=='menu'
+     assert s.profile.alloy==0 and s.profile.crystals==0 and s.profile.runs==0 and s.profile.codex.enemies.crawler==1
+     assert not g.act(s,c,r,'abandon','confirm')
+>    mining(env,10);accept(env);run(c,r,g,s,30);assert g.act(s,c,r,'decision','leave')
+     ^^^^^^^^^^^^^^
+
+tests/test_core.py:109: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1ad037e0>, <Lua table at 0x564d4f9e6520>, <Lua table at 0x564d51ba47e0>, <Lua table at 0x564d4f053d40>, <Lua table at 0x564d509137a0>)
+wave = 10
+
+    def mining(env,wave=1):
+     l,c,r,g,s=env
+     if s.phase!='running':g.start(s,c,r)
+     s.wave=wave;s.groupIndex=99;s.planWave=wave;s.waveElapsed=c.WaveDuration;s.enemies=l.table();s.projectiles=l.table();g.step(s,c,r,.1)
+>    assert s.stage=='mining' and s.breakLeft==c.RunSystems.miningDuration(wave) and s.supply
+E    AssertionError: assert ('mining' == 'mining'
+E      
+E        mining and 0 == 14)
+E     +  where 0 = <Lua table at 0x564d509137a0>.breakLeft
+E     +  and   14 = <Lua function at 0x564d4edf1d30>(10)
+E     +    where <Lua function at 0x564d4edf1d30> = <Lua table at 0x564d4f349550>.miningDuration
+E     +      where <Lua table at 0x564d4f349550> = <Lua table at 0x564d4f9e6520>.RunSystems
+
+tests/test_core.py:24: AssertionError
+_______________________ test_machine_projectile_deferred _______________________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1ad02fc0>, <Lua table at 0x564d4f6c3810>, <Lua table at 0x564d4f4adb40>, <Lua table at 0x564d4f516e00>, <Lua table at 0x564d4f4a2e50>)
+
+    def test_machine_projectile_deferred(env):
+     l,c,r,g,s=start(env);e=enemy(l);s.enemies=l.table_from([e]);s.gunClock=100;s.spawnClock=-100
+>    g.step(s,c,r,.1);assert e.hp==1000 and s.projectiles[1].weapon=='machine'
+                                            ^^^^^^^^^^^^^^^^^^^^^^^
+E    AttributeError: 'NoneType' object has no attribute 'weapon'
+
+tests/test_core.py:121: AttributeError
+_________________ test_weapon_unlock_real_damage[arc-energy_2] _________________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1ad03d80>, <Lua table at 0x564d4f58f000>, <Lua table at 0x564d4fb1ea10>, <Lua table at 0x564d4fb57050>, <Lua table at 0x564d4fe62780>)
+weapon = 'arc', tech = 'energy_2'
+
+    @pytest.mark.parametrize('weapon,tech',[('arc','energy_2'),('rail','ballistics_4'),('flame','energy_4'),('mortar','expedition_3')])
+    def test_weapon_unlock_real_damage(env,weapon,tech):
+     l,c,r,g,s=env;assert not g.act(s,c,r,'loadout',weapon);s.profile.tech[tech]=True
+>    assert g.act(s,c,r,'loadout',weapon);g.start(s,c,r)
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    AssertionError: assert False
+E     +  where False = <Lua function at 0x564d4f3d00a0>(<Lua table at 0x564d4fe62780>, <Lua table at 0x564d4f58f000>, <Lua table at 0x564d4fb1ea10>, 'loadout', 'arc')
+E     +    where <Lua function at 0x564d4f3d00a0> = <Lua table at 0x564d4fb57050>.act
+
+tests/test_core.py:127: AssertionError
+______________ test_weapon_unlock_real_damage[rail-ballistics_4] _______________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1ad03f60>, <Lua table at 0x564d4f96f8a0>, <Lua table at 0x564d4fec62a0>, <Lua table at 0x564d4fdcb550>, <Lua table at 0x564d5091f870>)
+weapon = 'rail', tech = 'ballistics_4'
+
+    @pytest.mark.parametrize('weapon,tech',[('arc','energy_2'),('rail','ballistics_4'),('flame','energy_4'),('mortar','expedition_3')])
+    def test_weapon_unlock_real_damage(env,weapon,tech):
+     l,c,r,g,s=env;assert not g.act(s,c,r,'loadout',weapon);s.profile.tech[tech]=True
+>    assert g.act(s,c,r,'loadout',weapon);g.start(s,c,r)
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    AssertionError: assert False
+E     +  where False = <Lua function at 0x564d4fdcb500>(<Lua table at 0x564d5091f870>, <Lua table at 0x564d4f96f8a0>, <Lua table at 0x564d4fec62a0>, 'loadout', 'rail')
+E     +    where <Lua function at 0x564d4fdcb500> = <Lua table at 0x564d4fdcb550>.act
+
+tests/test_core.py:127: AssertionError
+________________ test_weapon_unlock_real_damage[flame-energy_4] ________________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b219a80>, <Lua table at 0x564d4fec0470>, <Lua table at 0x564d51ba4e60>, <Lua table at 0x564d50973de0>, <Lua table at 0x564d4fb20870>)
+weapon = 'flame', tech = 'energy_4'
+
+    @pytest.mark.parametrize('weapon,tech',[('arc','energy_2'),('rail','ballistics_4'),('flame','energy_4'),('mortar','expedition_3')])
+    def test_weapon_unlock_real_damage(env,weapon,tech):
+     l,c,r,g,s=env;assert not g.act(s,c,r,'loadout',weapon);s.profile.tech[tech]=True
+>    assert g.act(s,c,r,'loadout',weapon);g.start(s,c,r)
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    AssertionError: assert False
+E     +  where False = <Lua function at 0x564d4f6a3820>(<Lua table at 0x564d4fb20870>, <Lua table at 0x564d4fec0470>, <Lua table at 0x564d51ba4e60>, 'loadout', 'flame')
+E     +    where <Lua function at 0x564d4f6a3820> = <Lua table at 0x564d50973de0>.act
+
+tests/test_core.py:127: AssertionError
+_____________ test_weapon_unlock_real_damage[mortar-expedition_3] ______________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b219ee0>, <Lua table at 0x564d509cb8b0>, <Lua table at 0x564d5093a7a0>, <Lua table at 0x564d50945dc0>, <Lua table at 0x564d5196cef0>)
+weapon = 'mortar', tech = 'expedition_3'
+
+    @pytest.mark.parametrize('weapon,tech',[('arc','energy_2'),('rail','ballistics_4'),('flame','energy_4'),('mortar','expedition_3')])
+    def test_weapon_unlock_real_damage(env,weapon,tech):
+     l,c,r,g,s=env;assert not g.act(s,c,r,'loadout',weapon);s.profile.tech[tech]=True
+>    assert g.act(s,c,r,'loadout',weapon);g.start(s,c,r)
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    AssertionError: assert False
+E     +  where False = <Lua function at 0x564d4f615d00>(<Lua table at 0x564d5196cef0>, <Lua table at 0x564d509cb8b0>, <Lua table at 0x564d5093a7a0>, 'loadout', 'mortar')
+E     +    where <Lua function at 0x564d4f615d00> = <Lua table at 0x564d50945dc0>.act
+
+tests/test_core.py:127: AssertionError
+_________________ test_spitter_acid_travels_before_base_damage _________________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b219e40>, <Lua table at 0x564d4fa469e0>, <Lua table at 0x564d50bbfa80>, <Lua table at 0x564d504e0540>, <Lua table at 0x564d51a8df20>)
+
+    def test_spitter_acid_travels_before_base_damage(env):
+     l,c,r,g,s=start(env);e=enemy(l,kind='spitter',x=925);e.attack=0;s.enemies=l.table_from([e]);s.gunClock=100;s.secondaryClock=100;s.spawnClock=-100
+>    g.step(s,c,r,.1);assert s.hull==900 and s.projectiles[1].weapon=='acid'
+                                             ^^^^^^^^^^^^^^^^^^^^^^^
+E    AttributeError: 'NoneType' object has no attribute 'weapon'
+
+tests/test_core.py:135: AttributeError
+___________________ test_all_enemy_types_spawn_at_safe_edges ___________________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b219120>, <Lua table at 0x564d51bae7a0>, <Lua table at 0x564d4f49c600>, <Lua table at 0x564d51a1f240>, <Lua table at 0x564d4f4b7070>)
+
+    def test_all_enemy_types_spawn_at_safe_edges(env):
+     l,c,r,g,s=start(env);s.wave=10;s.gunClock=100;s.secondaryClock=100
+     seen=set()
+     for _ in range(280):
+      g.step(s,c,r,.1)
+>     for e in s.enemies.values():seen.add(e.kind);assert e.x<=1347
+                                                   ^^^^^^^^^^^^^^^^
+E     assert 1475.9 <= 1347
+E      +  where 1475.9 = <Lua table at 0x564d5095d5d0>.x
+
+tests/test_core.py:143: AssertionError
+________________ test_tech_48_nodes_no_cycles_and_real_effects _________________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b2184a0>, <Lua table at 0x564d51adc0a0>, <Lua table at 0x564d4f391c40>, <Lua table at 0x564d5190f1c0>, <Lua table at 0x564d4fba4c70>)
+
+    def test_tech_48_nodes_no_cycles_and_real_effects(env):
+     l,c,r,g,s=env;nodes=c.Tech.nodes;assert len(list(nodes.keys()))==48
+     visiting=set();done=set()
+     def visit(id):
+      assert id not in visiting
+      if id in done:return
+      visiting.add(id)
+      for dep in nodes[id].prereqs.values():assert nodes[dep];visit(dep)
+      visiting.remove(id);done.add(id)
+     for id in nodes.keys():visit(id)
+     source=(ROOT/'src/Core.lua').read_text()+(ROOT/'src/Rules.lua').read_text()
+     for n in nodes.values():
+      for key in n.effects.keys():
+       if key.startswith('unlock'):continue # consumed through Catalog.tech / profile membership
+>      assert '.'+key in source, key
+E      AssertionError: robotMove
+E      assert ('.' + 'robotMove') in '-- 0.9 authored encounter groups, early drafts, explicit mining recall. Server authoritative.\nlocal G={}\nlocal func...th.floor(out.research*(1+(refinery or 0)*.2))\n out.cores=won and node.reward.cores or 0\n return out\nend\nreturn R\n'
+
+tests/test_core.py:161: AssertionError
+___________ test_research_atomic_prereq_wave_and_rare_currency_gates ___________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b2193a0>, <Lua table at 0x564d51b799e0>, <Lua table at 0x564d51acf7e0>, <Lua table at 0x564d51a5e4d0>, <Lua table at 0x564d51a32dc0>)
+
+    def test_research_atomic_prereq_wave_and_rare_currency_gates(env):
+     l,c,r,g,s=env;p=s.profile;p.alloy=100000;p.research=10000;p.crystals=100;p.cores=100
+     assert r.techState(p,'fort_2',c)[0]=='locked'
+>    ok,msg=r.research(p,'fort_1',c);assert ok and p.tech.fort_1 and p.alloy==100000-78
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    assert (True and True and 99938 == (100000 - 78))
+E     +  where True = <Lua table at 0x564d4f3c40e0>.fort_1
+E     +    where <Lua table at 0x564d4f3c40e0> = <Lua table at 0x564d4f8aa280>.tech
+E     +  and   99938 = <Lua table at 0x564d4f8aa280>.alloy
+
+tests/test_core.py:166: AssertionError
+____________ test_research_applied_next_start[logistics_1-ore-160] _____________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b21a2a0>, <Lua table at 0x564d4f6713b0>, <Lua table at 0x564d51a33a60>, <Lua table at 0x564d51676300>, <Lua table at 0x564d4fe8efa0>)
+id = 'logistics_1', attribute = 'ore', expected = 160
+
+    @pytest.mark.parametrize('id,attribute,expected',[('fort_1','maxHull',990),('logistics_1','ore',160)])
+    def test_research_applied_next_start(env,id,attribute,expected):
+>    l,c,r,g,s=env;s.profile.tech[id]=True;g.start(s,c,r);assert s[attribute]==expected
+                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    assert 120 == 160
+
+tests/test_core.py:183: AssertionError
+________________ test_robot_count_speed_yield_and_remote_unload ________________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b21aa20>, <Lua table at 0x564d4f7b5a60>, <Lua table at 0x564d51b9ee70>, <Lua table at 0x564d51b144d0>, <Lua table at 0x564d51af8030>)
+
+    def test_robot_count_speed_yield_and_remote_unload(env):
+     l,c,r,g,s=env
+     for id in ['industry_1','industry_3','industry_4','industry_6','industry_8']:s.profile.tech[id]=True
+     mining(env);assert len(s.robots)==4 and g.stats(s,c).cycle<6 and g.stats(s,c).cargo>28
+>    accept(env);s.breakLeft=.1;s.robots[1].cargo=17;old=s.ore;g.step(s,c,r,.1);assert s.ore>=old+17
+                                                                                ^^^^^^^^^^^^^^^^^^^^
+E    assert 120 >= (120 + 17)
+E     +  where 120 = <Lua table at 0x564d51af8030>.ore
+
+tests/test_core.py:189: AssertionError
+__________________ test_repair_shield_revive_and_reroll_tech ___________________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1ad03f60>, <Lua table at 0x564d5097aa30>, <Lua table at 0x564d4f06a2d0>, <Lua table at 0x564d4efe8740>, <Lua table at 0x564d509579a0>)
+
+    def test_repair_shield_revive_and_reroll_tech(env):
+     l,c,r,g,s=env
+     for id in ['fort_6','fort_8','energy_7','logistics_3','logistics_7']:s.profile.tech[id]=True
+     g.start(s,c,r);s.ore=1000;s.hull=100;g.act(s,c,r,'buy','repair');assert s.hull==325
+     s.hull=1;s.effects.shield=35;e=enemy(l,x=650,kind='elite');e.attack=0;s.enemies=l.table_from([e]);g.step(s,c,r,.1)
+     assert s.revived and s.hull==s.maxHull*.15
+     s.hull=1;e.attack=0;g.step(s,c,r,.1);assert s.phase=='ended' and not s.result.won
+>    mining(env);assert g.rerollCost(s)==0;s.rerolls=1;assert g.rerollCost(s)==0;s.rerolls=2;assert g.rerollCost(s)==56
+                        ^^^^^^^^^^^^^^^
+
+tests/test_core.py:198: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:76: attempt to index a nil value (local 'C')
+E   stack traceback:
+E   	[string "<python>"]:76: in function <[string "<python>"]:74>
+
+lupa/lua55.pyx:1819: LuaError
+________________ test_unlock_supplies_discovered_and_functional ________________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b21ac00>, <Lua table at 0x564d4fb52be0>, <Lua table at 0x564d50540570>, <Lua table at 0x564d4f5e3d80>, <Lua table at 0x564d51b91a90>)
+
+    def test_unlock_supplies_discovered_and_functional(env):
+     l,c,r,g,s=env;s.profile.tech.logistics_4=True;s.profile.tech.logistics_8=True;mining(env)
+>    s.supply.options=l.table_from(['drones','overclock','ore']);accept(env,'drones');assert len(s.robots)==3 and s.profile.codex.supplies.drones==1
+                                                                 ^^^^^^^^^^^^^^^^^^^^
+
+tests/test_core.py:202: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b21ac00>, <Lua table at 0x564d4fb52be0>, <Lua table at 0x564d50540570>, <Lua table at 0x564d4f5e3d80>, <Lua table at 0x564d51b91a90>)
+id = 'drones'
+
+    def accept(env,id=None):
+>    l,c,r,g,s=env;assert g.act(s,c,r,'supply',table(l,token=s.supply.token,id=id or s.supply.options[1]))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    AssertionError: assert False
+E     +  where False = <Lua function at 0x564d4f0b5f40>(<Lua table at 0x564d51b91a90>, <Lua table at 0x564d4fb52be0>, <Lua table at 0x564d50540570>, 'supply', <Lua table at 0x564d4fac0810>)
+E     +    where <Lua function at 0x564d4f0b5f40> = <Lua table at 0x564d4f5e3d80>.act
+E     +    and   <Lua table at 0x564d4fac0810> = table(<lupa.lua55.LuaRuntime object at 0x7f0a1b21ac00>, token='1:1', id=('drones'))
+E     +      where '1:1' = <Lua table at 0x564d4fac0610>.token
+E     +        where <Lua table at 0x564d4fac0610> = <Lua table at 0x564d51b91a90>.supply
+
+tests/test_core.py:27: AssertionError
+________________ test_profile_sanitizes_nested_and_legacy[nan] _________________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b21a520>, <Lua table at 0x564d509cd250>, <Lua table at 0x564d51b24060>, <Lua table at 0x564d51b53500>, <Lua table at 0x564d4f7a07f0>)
+bad = nan
+
+    @pytest.mark.parametrize('bad',[float('nan'),float('inf'),-50,'oops'])
+    def test_profile_sanitizes_nested_and_legacy(env,bad):
+     l,c,r,g,s=env;p=r.cleanProfile(table(l,alloy=bad,armor=2,drill=1,power=2,tech=table(l,fort_8='true',fake_1=True),codex=table(l,enemies=table(l,crawler=bad))))
+>    assert p.alloy==0 and p.schema==6 and p.tech.fort_1 and p.tech.fort_2 and p.tech.industry_1 and p.tech.ballistics_2
+E    assert (0 == 0 and 7 == 6)
+E     +  where 0 = <Lua table at 0x564d51abdf80>.alloy
+E     +  and   7 = <Lua table at 0x564d51abdf80>.schema
+
+tests/test_core.py:207: AssertionError
+________________ test_profile_sanitizes_nested_and_legacy[inf] _________________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b21a7a0>, <Lua table at 0x564d4fe62f70>, <Lua table at 0x564d4f66d3b0>, <Lua table at 0x564d507447a0>, <Lua table at 0x564d4f8ce1b0>)
+bad = inf
+
+    @pytest.mark.parametrize('bad',[float('nan'),float('inf'),-50,'oops'])
+    def test_profile_sanitizes_nested_and_legacy(env,bad):
+     l,c,r,g,s=env;p=r.cleanProfile(table(l,alloy=bad,armor=2,drill=1,power=2,tech=table(l,fort_8='true',fake_1=True),codex=table(l,enemies=table(l,crawler=bad))))
+>    assert p.alloy==0 and p.schema==6 and p.tech.fort_1 and p.tech.fort_2 and p.tech.industry_1 and p.tech.ballistics_2
+E    assert (0 == 0 and 7 == 6)
+E     +  where 0 = <Lua table at 0x564d51a37ed0>.alloy
+E     +  and   7 = <Lua table at 0x564d51a37ed0>.schema
+
+tests/test_core.py:207: AssertionError
+________________ test_profile_sanitizes_nested_and_legacy[-50] _________________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b2184a0>, <Lua table at 0x564d51b39690>, <Lua table at 0x564d4f6c1c10>, <Lua table at 0x564d4fb12500>, <Lua table at 0x564d5098ddd0>)
+bad = -50
+
+    @pytest.mark.parametrize('bad',[float('nan'),float('inf'),-50,'oops'])
+    def test_profile_sanitizes_nested_and_legacy(env,bad):
+     l,c,r,g,s=env;p=r.cleanProfile(table(l,alloy=bad,armor=2,drill=1,power=2,tech=table(l,fort_8='true',fake_1=True),codex=table(l,enemies=table(l,crawler=bad))))
+>    assert p.alloy==0 and p.schema==6 and p.tech.fort_1 and p.tech.fort_2 and p.tech.industry_1 and p.tech.ballistics_2
+E    assert (0 == 0 and 7 == 6)
+E     +  where 0 = <Lua table at 0x564d4fcca5d0>.alloy
+E     +  and   7 = <Lua table at 0x564d4fcca5d0>.schema
+
+tests/test_core.py:207: AssertionError
+________________ test_profile_sanitizes_nested_and_legacy[oops] ________________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b219e40>, <Lua table at 0x564d4fdf9e90>, <Lua table at 0x564d509b0fe0>, <Lua table at 0x564d51abd290>, <Lua table at 0x564d502bb7c0>)
+bad = 'oops'
+
+    @pytest.mark.parametrize('bad',[float('nan'),float('inf'),-50,'oops'])
+    def test_profile_sanitizes_nested_and_legacy(env,bad):
+     l,c,r,g,s=env;p=r.cleanProfile(table(l,alloy=bad,armor=2,drill=1,power=2,tech=table(l,fort_8='true',fake_1=True),codex=table(l,enemies=table(l,crawler=bad))))
+>    assert p.alloy==0 and p.schema==6 and p.tech.fort_1 and p.tech.fort_2 and p.tech.industry_1 and p.tech.ballistics_2
+E    assert (0 == 0 and 7 == 6)
+E     +  where 0 = <Lua table at 0x564d502bbb90>.alloy
+E     +  and   7 = <Lua table at 0x564d502bbb90>.schema
+
+tests/test_core.py:207: AssertionError
+________________ test_export_contains_current_sources_and_boot _________________
+
+    def test_export_contains_current_sources_and_boot():
+     project=json.loads((ROOT/'default.project.json').read_text())
+>    root=ET.parse(ROOT/(project['name']+'.rbxlx')).getroot()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_core.py:227: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.13/xml/etree/ElementTree.py:1223: in parse
+    tree.parse(source, parser)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <xml.etree.ElementTree.ElementTree object at 0x7f0a1b54fe00>
+source = PosixPath('/home/user/DustBound/Dustbound-0.9.0.rbxlx'), parser = None
+
+    def parse(self, source, parser=None):
+        """Load external XML document into element tree.
+    
+        *source* is a file name or file object, *parser* is an optional
+        parser instance that defaults to XMLParser.
+    
+        ParseError is raised if the parser fails to parse the document.
+    
+        Returns the root element of the given source document.
+    
+        """
+        close_source = False
+        if not hasattr(source, "read"):
+>           source = open(source, "rb")
+                     ^^^^^^^^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory: '/home/user/DustBound/Dustbound-0.9.0.rbxlx'
+
+/usr/local/lib/python3.13/xml/etree/ElementTree.py:566: FileNotFoundError
+____________ test_legacy_bonuses_migrate_without_double_application ____________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b219bc0>, <Lua table at 0x564d4f6ce5e0>, <Lua table at 0x564d4fa497d0>, <Lua table at 0x564d4fa49190>, <Lua table at 0x564d509d2850>)
+
+    def test_legacy_bonuses_migrate_without_double_application(env):
+     l,c,r,g,s=env;s.profile=r.cleanProfile(table(l,armor=2,drill=2,power=2,alloy=77,research=22));g.start(s,c,r)
+>    stats=g.stats(s,c);assert s.maxHull==1080 and stats.cargo==pytest.approx(28*1.2) and stats.damage==pytest.approx(24*1.16)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    assert (1080 == 1080 and 30 == 33.6 ± 3.4e-05
+E     +  where 1080 = <Lua table at 0x564d509d2850>.maxHull
+E      
+E      comparison failed
+E      Obtained: 30
+E      Expected: 33.6 ± 3.4e-05)
+
+tests/test_core.py:234: AssertionError
+_______________ test_mitigation_regen_and_start_shield_durations _______________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b21bb00>, <Lua table at 0x564d4f8d3230>, <Lua table at 0x564d4fb97ff0>, <Lua table at 0x564d51971270>, <Lua table at 0x564d51b26eb0>)
+
+    def test_mitigation_regen_and_start_shield_durations(env):
+     l,c,r,g,s=env
+     for id in ['fort_3','fort_4','fort_7','expedition_8','energy_7']:s.profile.tech[id]=True
+>    g.start(s,c,r);assert s.effects.shield==pytest.approx(14.4)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    assert None == 14.4 ± 1.4e-05
+E      
+E      comparison failed
+E      Obtained: None
+E      Expected: 14.4 ± 1.4e-05
+
+tests/test_core.py:240: AssertionError
+____________________ test_fifth_shot_and_ballistic_velocity ____________________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b21bec0>, <Lua table at 0x564d4f6d20e0>, <Lua table at 0x564d4f695ce0>, <Lua table at 0x564d4fe65fc0>, <Lua table at 0x564d5051f420>)
+
+    def test_fifth_shot_and_ballistic_velocity(env):
+     l,c,r,g,s=env;s.profile.tech.ballistics_5=True;s.profile.tech.ballistics_8=True;g.start(s,c,r)
+     e=enemy(l);s.enemies=l.table_from([e]);s.spawnClock=-100;s.secondaryClock=100;s.shotSerial=4;g.step(s,c,r,.1)
+     p=s.projectiles[1];assert p.damage==pytest.approx(24*1.75)
+>    assert p.duration==pytest.approx(math.hypot(1000-558,420-22-145)/(850*1.25))
+E    assert 0.29807818114737045 == 0.47932871168002283 ± 4.8e-07
+E      
+E      comparison failed
+E      Obtained: 0.29807818114737045
+E      Expected: 0.47932871168002283 ± 4.8e-07
+
+tests/test_core.py:248: AssertionError
+____________ test_crystals_cores_rewards_and_expedition_multipliers ____________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b22c180>, <Lua table at 0x564d50515d90>, <Lua table at 0x564d4f44e290>, <Lua table at 0x564d4f6bff00>, <Lua table at 0x564d4f8a9c20>)
+
+    def test_crystals_cores_rewards_and_expedition_multipliers(env):
+     l,c,r,g,s=env
+     for id in ['expedition_1','expedition_2','expedition_4','expedition_5','expedition_6','expedition_7']:s.profile.tech[id]=True
+>    mining(env,12);s.overtime=True;s.runCrystals=8;s.runCores=2;s.ore=1000
+     ^^^^^^^^^^^^^^
+
+tests/test_core.py:253: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b22c180>, <Lua table at 0x564d50515d90>, <Lua table at 0x564d4f44e290>, <Lua table at 0x564d4f6bff00>, <Lua table at 0x564d4f8a9c20>)
+wave = 12
+
+    def mining(env,wave=1):
+     l,c,r,g,s=env
+     if s.phase!='running':g.start(s,c,r)
+     s.wave=wave;s.groupIndex=99;s.planWave=wave;s.waveElapsed=c.WaveDuration;s.enemies=l.table();s.projectiles=l.table();g.step(s,c,r,.1)
+>    assert s.stage=='mining' and s.breakLeft==c.RunSystems.miningDuration(wave) and s.supply
+E    AssertionError: assert ('mining' == 'mining'
+E      
+E        mining and 0 == 14)
+E     +  where 0 = <Lua table at 0x564d4f8a9c20>.breakLeft
+E     +  and   14 = <Lua function at 0x564d4fd3c3c0>(12)
+E     +    where <Lua function at 0x564d4fd3c3c0> = <Lua table at 0x564d4f3d8cb0>.miningDuration
+E     +      where <Lua table at 0x564d4f3d8cb0> = <Lua table at 0x564d50515d90>.RunSystems
+
+tests/test_core.py:24: AssertionError
+______________________ test_burn_arc_bonus_and_aux_damage ______________________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b21bec0>, <Lua table at 0x564d4f171610>, <Lua table at 0x564d4feb05c0>, <Lua table at 0x564d4f1a6180>, <Lua table at 0x564d4f41cb00>)
+
+    def test_burn_arc_bonus_and_aux_damage(env):
+     l,c,r,g,s=env
+     for id in ['energy_1','energy_2','energy_6']:s.profile.tech[id]=True
+     g.act(s,c,r,'loadout','arc');g.start(s,c,r)
+     es=[enemy(l,id=i+1,x=900+i*10) for i in range(5)];s.enemies=l.table_from(es);s.spawnClock=-100;s.gunClock=100
+     g.step(s,c,r,.1)
+>    assert sum(e.hp<1000 for e in es)==4
+E    assert 0 == 4
+E     +  where 0 = sum(<generator object test_burn_arc_bonus_and_aux_damage.<locals>.<genexpr> at 0x7f0a1b2d2dc0>)
+
+tests/test_core.py:267: AssertionError
+________________ test_reroll_unlock_pool_and_overclock_duration ________________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b21a0c0>, <Lua table at 0x564d4f454dd0>, <Lua table at 0x564d4f5c6da0>, <Lua table at 0x564d51b18010>, <Lua table at 0x564d509d4b00>)
+
+    def test_reroll_unlock_pool_and_overclock_duration(env):
+>    l,c,r,g,s=env;s.profile.tech.logistics_8=True;s.profile.tech.energy_5=True;mining(env,5)
+                                                                                ^^^^^^^^^^^^^
+
+tests/test_core.py:271: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b21a0c0>, <Lua table at 0x564d4f454dd0>, <Lua table at 0x564d4f5c6da0>, <Lua table at 0x564d51b18010>, <Lua table at 0x564d509d4b00>)
+wave = 5
+
+    def mining(env,wave=1):
+     l,c,r,g,s=env
+     if s.phase!='running':g.start(s,c,r)
+     s.wave=wave;s.groupIndex=99;s.planWave=wave;s.waveElapsed=c.WaveDuration;s.enemies=l.table();s.projectiles=l.table();g.step(s,c,r,.1)
+>    assert s.stage=='mining' and s.breakLeft==c.RunSystems.miningDuration(wave) and s.supply
+E    AssertionError: assert ('mining' == 'mining'
+E      
+E        mining and 0 == 14)
+E     +  where 0 = <Lua table at 0x564d509d4b00>.breakLeft
+E     +  and   14 = <Lua function at 0x564d51910480>(5)
+E     +    where <Lua function at 0x564d51910480> = <Lua table at 0x564d4f7cca90>.miningDuration
+E     +      where <Lua table at 0x564d4f7cca90> = <Lua table at 0x564d4f454dd0>.RunSystems
+
+tests/test_core.py:24: AssertionError
+_____________ test_no_investment_policy_is_not_guaranteed_victory ______________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b21ba60>, <Lua table at 0x564d5042a000>, <Lua table at 0x564d4f452190>, <Lua table at 0x564d4fd4fa90>, <Lua table at 0x564d50953660>)
+
+    def test_no_investment_policy_is_not_guaranteed_victory(env):
+     l,c,r,g,s=start(env)
+     for tick in range(12000):
+      if s.phase=='ended':break
+      if s.phase=='decision':g.act(s,c,r,'decision','leave');continue
+      if s.supply:accept(env)
+      g.step(s,c,r,.1);s.events=l.table()
+>    assert s.phase=='ended' and not s.result.won
+E    AssertionError: assert ('ended' == 'ended'
+E      
+E        ended and not True)
+E     +  where True = <Lua table at 0x564d51a38a50>.won
+E     +    where <Lua table at 0x564d51a38a50> = <Lua table at 0x564d50953660>.result
+
+tests/test_core.py:283: AssertionError
+____ test_grid_has_short_axis_aligned_edges_and_cross_prerequisite_markers _____
+
+    def test_grid_has_short_axis_aligned_edges_and_cross_prerequisite_markers():
+>    l,t,p=host();client(t,p);visit(t,p,'研究中心');tree=modal(p).TechTree
+                              ^^^^^^^^^^^^^^^^^
+
+tests/test_demo.py:4: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: 研究中心
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+___________________ test_ready_jump_and_precise_resource_gap ___________________
+
+    def test_ready_jump_and_precise_resource_gap():
+>    l,t,p=host();client(t,p);visit(t,p,'研究中心')
+                              ^^^^^^^^^^^^^^^^^
+
+tests/test_demo.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: 研究中心
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+_______________ test_lobby_campaign_resumes_next_unfinished_node _______________
+
+    def test_lobby_campaign_resumes_next_unfinished_node():
+     l,t,p=host();client(t,p);s=t.session(p).game;s.profile.campaignCleared=9;t.action(p,'ready');t.render(.3)
+>    visit(t,p,'▶  星球远征 · 24 关')
+
+tests/test_demo.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: ▶  星球远征 · 24 关
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+________________ test_mobile_codex_reduces_portrait_scroll_cost ________________
+
+    def test_mobile_codex_reduces_portrait_scroll_cost():
+>    l,t,p=host();client(t,p,True);visit(t,p,'远征图鉴')
+                                   ^^^^^^^^^^^^^^^^^
+
+tests/test_demo.py:29: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: 远征图鉴
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+____ test_planner_retains_controls_and_scroll_position_while_values_update _____
+
+    def test_planner_retains_controls_and_scroll_position_while_values_update():
+>       l,t,p=host(strictAPI=True);client(t,p);visit(t,p,'▶  开始标准远征')
+                                               ^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_performance.py:80: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: ▶  开始标准远征
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+_____ test_retained_allocation_button_uses_latest_state_not_captured_state _____
+
+    def test_retained_allocation_button_uses_latest_state_not_captured_state():
+>       l,t,p=host();client(t,p);visit(t,p,'▶  开始标准远征');click_name(t,p,'Planner')
+                                 ^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_performance.py:92: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: ▶  开始标准远征
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+__ test_idle_render_frames_do_not_rebuild_or_animate_hidden_battlefield[True] __
+
+paused = True
+
+    @pytest.mark.parametrize('paused',[False,True])
+    def test_idle_render_frames_do_not_rebuild_or_animate_hidden_battlefield(paused):
+        l,t,p=host();client(t,p)
+>       if paused:visit(t,p,'▶  开始标准远征');visit(t,p,'Ⅱ')
+                  ^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_performance.py:102: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: ▶  开始标准远征
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+___________ test_packet_burst_coalesces_hud_paints_until_next_render ___________
+
+    def test_packet_burst_coalesces_hud_paints_until_next_render():
+>       l,t,p=host();client(t,p);visit(t,p,'▶  开始标准远征')
+                                 ^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_performance.py:110: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: ▶  开始标准远征
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+________________ test_f6_diagnostics_toggle_does_not_pause_game ________________
+
+    def test_f6_diagnostics_toggle_does_not_pause_game():
+>       l,t,p=host(strictAPI=True);client(t,p);visit(t,p,'▶  开始标准远征')
+                                               ^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_performance.py:119: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: ▶  开始标准远征
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+_________ test_settings_diagnostics_refresh_does_not_rebuild_settings __________
+
+    def test_settings_diagnostics_refresh_does_not_rebuild_settings():
+>       l,t,p=host();client(t,p);visit(t,p,'设置');click_name(t,p,'SettingsTab_advanced')
+                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_performance.py:129: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+t = <Lua table at 0x564d5150f000>, p = <Lua table at 0x564d5150f9b0>
+name = 'SettingsTab_advanced'
+
+    def click_name(t,p,name):
+>    b=by_name(p.PlayerGui,name);assert b is not None and b.Active is not False,name
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    AssertionError: SettingsTab_advanced
+E    assert (None is not None)
+
+tests/test_ui.py:39: AssertionError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+____________ test_recommendation_skips_capped_and_full_hull_repairs ____________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b044180>, <Lua table at 0x564d4f67b2a0>, <Lua table at 0x564d4f9961b0>, <Lua table at 0x564d4f674030>, <Lua table at 0x564d50b956c0>)
+
+    def test_recommendation_skips_capped_and_full_hull_repairs(env):
+        l,c,r,g,s=start(env)
+        s.ore=100000
+        for key in c.Upgrades.keys(): s.upgrades[key]=c.Upgrades[key].cap
+        s.upgrades.regen=0
+        rec=guide(l).recommend(g.snapshot(s,c,r),c,r)
+>       assert rec.id=='regen' and rec.info.can
+E       AssertionError: assert ('cargo' == 'regen'
+E         
+E         - regen
+E         + cargo)
+
+tests/test_polish.py:18: AssertionError
+_________ test_recommendation_no_affordable_upgrade_still_explains_gap _________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b044c20>, <Lua table at 0x564d50b8e540>, <Lua table at 0x564d4fdec960>, <Lua table at 0x564d507c85b0>, <Lua table at 0x564d504e48a0>)
+
+    def test_recommendation_no_affordable_upgrade_still_explains_gap(env):
+        l,c,r,g,s=start(env);s.ore=0
+        rec=guide(l).recommend(g.snapshot(s,c,r),c,r)
+>       assert not rec.info.can and rec.info.gap>0 and '还差' in rec.info.reason
+E       assert (not True)
+E        +  where True = <Lua table at 0x564d4fba3bc0>.can
+E        +    where <Lua table at 0x564d4fba3bc0> = <Lua table at 0x564d4fba3d90>.info
+
+tests/test_polish.py:23: AssertionError
+_______ test_recommendation_all_capped_does_not_require_another_purchase _______
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b044f40>, <Lua table at 0x564d51870dc0>, <Lua table at 0x564d5186f950>, <Lua table at 0x564d503d9e00>, <Lua table at 0x564d51868090>)
+
+    def test_recommendation_all_capped_does_not_require_another_purchase(env):
+        l,c,r,g,s=start(env)
+        for key in c.Upgrades.keys(): s.upgrades[key]=c.Upgrades[key].cap
+        rec=guide(l).recommend(g.snapshot(s,c,r),c,r)
+>       assert not rec.info.can and '保留矿料' in rec.reason
+E       assert (not True)
+E        +  where True = <Lua table at 0x564d50417900>.can
+E        +    where <Lua table at 0x564d50417900> = <Lua table at 0x564d50417ad0>.info
+
+tests/test_polish.py:29: AssertionError
+_________________ test_supply_default_avoids_full_hull_repair __________________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b0451c0>, <Lua table at 0x564d507079b0>, <Lua table at 0x564d507f0a70>, <Lua table at 0x564d506e91d0>, <Lua table at 0x564d51454a50>)
+
+    def test_supply_default_avoids_full_hull_repair(env):
+        l,c,r,g,s=mining(env)
+        ss=g.snapshot(s,c,r);h=guide(l)
+>       assert h.supplyChoice(ss,c,r)=='drill'
+               ^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_polish.py:34: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:72: attempt to index a nil value (local 'd')
+E   stack traceback:
+E   	[string "<python>"]:93: in function <[string "<python>"]:90>
+E   	[string "<python>"]:72: in field 'supply'
+
+lupa/lua55.pyx:1819: LuaError
+___________ test_supply_heal_preview_respects_tech_and_missing_hull ____________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b22dda0>, <Lua table at 0x564d4f9c50f0>, <Lua table at 0x564d4f8f7420>, <Lua table at 0x564d4fa40ba0>, <Lua table at 0x564d4fead590>)
+
+    def test_supply_heal_preview_respects_tech_and_missing_hull(env):
+        l,c,r,g,s=mining(env);s.hull=s.maxHull-27
+>       text=guide(l).supply('repair',g.snapshot(s,c,r),c,r).detail
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_polish.py:40: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:72: attempt to index a nil value (local 'd')
+E   stack traceback:
+E   	[string "<python>"]:72: in function <[string "<python>"]:69>
+
+lupa/lua55.pyx:1819: LuaError
+___________ test_last_tutorial_supply_does_not_recommend_combat_buff ___________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b22e020>, <Lua table at 0x564d51b2c5f0>, <Lua table at 0x564d51aa8c80>, <Lua table at 0x564d50af5a40>, <Lua table at 0x564d50b9ef00>)
+
+    def test_last_tutorial_supply_does_not_recommend_combat_buff(env):
+>       l,c,r,g,s=env;g.start(s,c,r,'tutorial');mining(env,3)
+                                                ^^^^^^^^^^^^^
+
+tests/test_polish.py:44: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b22e020>, <Lua table at 0x564d51b2c5f0>, <Lua table at 0x564d51aa8c80>, <Lua table at 0x564d50af5a40>, <Lua table at 0x564d50b9ef00>)
+wave = 3
+
+    def mining(env,wave=1):
+     l,c,r,g,s=env
+     if s.phase!='running':g.start(s,c,r)
+     s.wave=wave;s.groupIndex=99;s.planWave=wave;s.waveElapsed=c.WaveDuration;s.enemies=l.table();s.projectiles=l.table();g.step(s,c,r,.1)
+>    assert s.stage=='mining' and s.breakLeft==c.RunSystems.miningDuration(wave) and s.supply
+E    AssertionError: assert ('mining' == 'mining'
+E      
+E        mining and 0 == 14)
+E     +  where 0 = <Lua table at 0x564d50b9ef00>.breakLeft
+E     +  and   14 = <Lua function at 0x564d4fac3120>(3)
+E     +    where <Lua function at 0x564d4fac3120> = <Lua table at 0x564d4f73edc0>.miningDuration
+E     +      where <Lua table at 0x564d4f73edc0> = <Lua table at 0x564d51b2c5f0>.RunSystems
+
+tests/test_core.py:24: AssertionError
+_______________ test_wave_ten_supply_explains_overtime_only_use ________________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b22d6c0>, <Lua table at 0x564d51abb0a0>, <Lua table at 0x564d4f52cda0>, <Lua table at 0x564d4f437840>, <Lua table at 0x564d5149d200>)
+
+    def test_wave_ten_supply_explains_overtime_only_use(env):
+>       l,c,r,g,s=mining(env,10)
+                  ^^^^^^^^^^^^^^
+
+tests/test_polish.py:51: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b22d6c0>, <Lua table at 0x564d51abb0a0>, <Lua table at 0x564d4f52cda0>, <Lua table at 0x564d4f437840>, <Lua table at 0x564d5149d200>)
+wave = 10
+
+    def mining(env,wave=1):
+     l,c,r,g,s=env
+     if s.phase!='running':g.start(s,c,r)
+     s.wave=wave;s.groupIndex=99;s.planWave=wave;s.waveElapsed=c.WaveDuration;s.enemies=l.table();s.projectiles=l.table();g.step(s,c,r,.1)
+>    assert s.stage=='mining' and s.breakLeft==c.RunSystems.miningDuration(wave) and s.supply
+E    AssertionError: assert ('mining' == 'mining'
+E      
+E        mining and 0 == 14)
+E     +  where 0 = <Lua table at 0x564d5149d200>.breakLeft
+E     +  and   14 = <Lua function at 0x564d4f9bb330>(10)
+E     +    where <Lua function at 0x564d4f9bb330> = <Lua table at 0x564d506f14d0>.miningDuration
+E     +      where <Lua table at 0x564d506f14d0> = <Lua table at 0x564d51abb0a0>.RunSystems
+
+tests/test_core.py:24: AssertionError
+_________________ test_buffs_identify_waiting_and_active_phase _________________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b045620>, <Lua table at 0x564d50508b50>, <Lua table at 0x564d50730d70>, <Lua table at 0x564d51ab34b0>, <Lua table at 0x564d4f5fdfc0>)
+
+    def test_buffs_identify_waiting_and_active_phase(env):
+        l,c,r,g,s=mining(env);s.effects.ammo=35;s.effects.drill=30
+        h=guide(l);text=h.buffs(g.snapshot(s,c,r),c)
+>       assert '钻机加速 30s·待机' in text and '强化弹药 35s·待机' in text
+E       AssertionError: assert ('钻机加速 30s·待机' in '无临时增益 · 补给可强化下一阶段')
+
+tests/test_polish.py:62: AssertionError
+_________ test_run_ledger_tracks_purchases_rerolls_airdrops_and_resets _________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b045940>, <Lua table at 0x564d507828a0>, <Lua table at 0x564d509c2ea0>, <Lua table at 0x564d4fb7ca60>, <Lua table at 0x564d51b46f20>)
+
+    def test_run_ledger_tracks_purchases_rerolls_airdrops_and_resets(env):
+        l,c,r,g,s=start(env)
+        assert g.act(s,c,r,'buy','damage');assert s.ledger.spent==110
+        mining(env);s.ore=500
+        assert g.act(s,c,r,'reroll',s.supply.token)
+        # First reroll exposes ore; no fabricated pickup accounting.
+>       accept(env,'ore');assert s.ledger.airdrop==180 and s.totalMined==0
+        ^^^^^^^^^^^^^^^^^
+
+tests/test_polish.py:72: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b045940>, <Lua table at 0x564d507828a0>, <Lua table at 0x564d509c2ea0>, <Lua table at 0x564d4fb7ca60>, <Lua table at 0x564d51b46f20>)
+id = 'ore'
+
+    def accept(env,id=None):
+>    l,c,r,g,s=env;assert g.act(s,c,r,'supply',table(l,token=s.supply.token,id=id or s.supply.options[1]))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    AssertionError: assert False
+E     +  where False = <Lua function at 0x564d4f9a02f0>(<Lua table at 0x564d51b46f20>, <Lua table at 0x564d507828a0>, <Lua table at 0x564d509c2ea0>, 'supply', <Lua table at 0x564d4f3859c0>)
+E     +    where <Lua function at 0x564d4f9a02f0> = <Lua table at 0x564d4fb7ca60>.act
+E     +    and   <Lua table at 0x564d4f3859c0> = table(<lupa.lua55.LuaRuntime object at 0x7f0a1b045940>, token='1:2', id=('ore'))
+E     +      where '1:2' = <Lua table at 0x564d5095f320>.token
+E     +        where <Lua table at 0x564d5095f320> = <Lua table at 0x564d51b46f20>.supply
+
+tests/test_core.py:27: AssertionError
+___________________ test_salvage_ledger_tracks_actual_reward ___________________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b044b80>, <Lua table at 0x564d509d1970>, <Lua table at 0x564d50b9e880>, <Lua table at 0x564d4f4aa3a0>, <Lua table at 0x564d4f46f720>)
+
+    def test_salvage_ledger_tracks_actual_reward(env):
+        l,c,r,g,s=start(env);s.spawnClock=-100
+        s.enemies=l.table_from([enemy(l,hp=1,x=950)])
+        run(c,r,g,s,2)
+>       assert s.kills==1 and s.ledger.salvaged==8
+E       assert (1 == 1 and 0 == 8)
+E        +  where 1 = <Lua table at 0x564d4f46f720>.kills
+E        +  and   0 = <Lua table at 0x564d4f8d6260>.salvaged
+E        +    where <Lua table at 0x564d4f8d6260> = <Lua table at 0x564d4f46f720>.ledger
+
+tests/test_polish.py:80: AssertionError
+____________ test_wave_reports_preserved_and_lost_cargo_not_income _____________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b044cc0>, <Lua table at 0x564d50450bf0>, <Lua table at 0x564d4f73a640>, <Lua table at 0x564d509ce020>, <Lua table at 0x564d4f4036d0>)
+
+    def test_wave_reports_preserved_and_lost_cargo_not_income(env):
+        l,c,r,g,s=mining(env)
+        assert len(s.reports)==1 and s.reports[1].wave==1
+        accept(env);run(c,r,g,s,30)
+>       assert s.ledger.lostCargo>0 and s.totalMined>0
+E       assert (0 > 0)
+E        +  where 0 = <Lua table at 0x564d4f93c710>.lostCargo
+E        +    where <Lua table at 0x564d4f93c710> = <Lua table at 0x564d4f4036d0>.ledger
+
+tests/test_polish.py:86: AssertionError
+____________ test_five_second_warning_once_and_paused_timer_frozen _____________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b045d00>, <Lua table at 0x564d4f967670>, <Lua table at 0x564d4f403890>, <Lua table at 0x564d4fb0e3d0>, <Lua table at 0x564d4fdd5a80>)
+
+    def test_five_second_warning_once_and_paused_timer_frozen(env):
+        l,c,r,g,s=mining(env);accept(env)
+        s.breakLeft=5.1;s.events=l.table()
+        run(c,r,g,s,1)
+        count=sum(e.kind=='readywave' for e in s.events.values())
+>       assert count==1
+E       assert 0 == 1
+
+tests/test_polish.py:94: AssertionError
+_________________ test_effective_hull_damage_excludes_overkill _________________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b044360>, <Lua table at 0x564d4f41d950>, <Lua table at 0x564d4f446690>, <Lua table at 0x564d4fcba440>, <Lua table at 0x564d4f453ff0>)
+
+    def test_effective_hull_damage_excludes_overkill(env):
+        l,c,r,g,s=start(env);s.hull=3;s.spawnClock=-100
+        e=enemy(l,x=650);e.attack=0;s.enemies=l.table_from([e])
+        g.step(s,c,r,.1)
+>       assert s.waveTaken==3 and s.result.hull==0
+E       assert (None == 3)
+E        +  where None = <Lua table at 0x564d4f453ff0>.waveTaken
+
+tests/test_polish.py:113: AssertionError
+_______________ test_low_hull_warning_does_not_repeat_every_tick _______________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b22d620>, <Lua table at 0x564d4f409500>, <Lua table at 0x564d5092b660>, <Lua table at 0x564d510c26f0>, <Lua table at 0x564d51a23220>)
+
+    def test_low_hull_warning_does_not_repeat_every_tick(env):
+        l,c,r,g,s=start(env);s.hull=200;s.spawnClock=-100
+        run(c,r,g,s,1)
+>       assert sum(e.kind=='lowhull' for e in s.events.values())==1
+E       assert 0 == 1
+E        +  where 0 = sum(<generator object test_low_hull_warning_does_not_repeat_every_tick.<locals>.<genexpr> at 0x7f0a1b0d3ed0>)
+
+tests/test_polish.py:118: AssertionError
+_______________ test_failure_settlement_explains_loss_retention ________________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b22de40>, <Lua table at 0x564d51935010>, <Lua table at 0x564d504d7370>, <Lua table at 0x564d4f757930>, <Lua table at 0x564d4fa82f10>)
+
+    def test_failure_settlement_explains_loss_retention(env):
+        l,c,r,g,s=start(env);s.hull=0;g.step(s,c,r,.1)
+>       assert '35%' in guide(l).settlement(g.snapshot(s,c,r),c,r)
+E       AssertionError: assert '35%' in '节点结算：首通 180% / 重打 80% 基准奖励，另计永久研究加成。\n精炼提高研究数据；失败按推进进度保留部分材料；核心仅胜利获得。剩余矿料不直接兑换。'
+E        +  where '节点结算：首通 180% / 重打 80% 基准奖励，另计永久研究加成。\n精炼提高研究数据；失败按推进进度保留部分材料；核心仅胜利获得。剩余矿料不直接兑换。' = <Lua function at 0x564d4f998c40>(<Lua table at 0x564d51b35f30>, <Lua table at 0x564d51935010>, <Lua table at 0x564d504d7370>)
+E        +    where <Lua function at 0x564d4f998c40> = <Lua table at 0x564d51b68a50>.settlement
+E        +      where <Lua table at 0x564d51b68a50> = guide(<lupa.lua55.LuaRuntime object at 0x7f0a1b22de40>)
+E        +    and   <Lua table at 0x564d51b35f30> = <Lua function at 0x564d4f54bc30>(<Lua table at 0x564d4fa82f10>, <Lua table at 0x564d51935010>, <Lua table at 0x564d504d7370>)
+E        +      where <Lua function at 0x564d4f54bc30> = <Lua table at 0x564d4f757930>.snapshot
+
+tests/test_polish.py:124: AssertionError
+________ test_help_panel_opens_and_closes_without_starting_game[False] _________
+
+touch = False
+
+    @pytest.mark.parametrize('touch',[False,True])
+    def test_help_panel_opens_and_closes_without_starting_game(touch):
+        l,t,p=host(strictAPI=True);client(t,p,touch)
+>       click_name(t,p,'Help')
+
+tests/test_polish.py:130: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+t = <Lua table at 0x564d4f9a6230>, p = <Lua table at 0x564d51b9c670>
+name = 'Help'
+
+    def click_name(t,p,name):
+>    b=by_name(p.PlayerGui,name);assert b is not None and b.Active is not False,name
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    AssertionError: Help
+E    assert (None is not None)
+
+tests/test_ui.py:39: AssertionError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+_________ test_help_panel_opens_and_closes_without_starting_game[True] _________
+
+touch = True
+
+    @pytest.mark.parametrize('touch',[False,True])
+    def test_help_panel_opens_and_closes_without_starting_game(touch):
+        l,t,p=host(strictAPI=True);client(t,p,touch)
+>       click_name(t,p,'Help')
+
+tests/test_polish.py:130: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+t = <Lua table at 0x564d51b2f290>, p = <Lua table at 0x564d51b2fb70>
+name = 'Help'
+
+    def click_name(t,p,name):
+>    b=by_name(p.PlayerGui,name);assert b is not None and b.Active is not False,name
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    AssertionError: Help
+E    assert (None is not None)
+
+tests/test_ui.py:39: AssertionError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+_______________ test_contextual_supply_is_selected_in_ui[False] ________________
+
+touch = False
+
+    @pytest.mark.parametrize('touch',[False,True])
+    def test_contextual_supply_is_selected_in_ui(touch):
+        l,t,p=host(strictAPI=True);client(t,p,touch)
+>       visit(t,p,'3 波教学 · 推荐');s=to_mining(l,t,p)
+        ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_polish.py:138: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: 3 波教学 · 推荐
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+________________ test_contextual_supply_is_selected_in_ui[True] ________________
+
+touch = True
+
+    @pytest.mark.parametrize('touch',[False,True])
+    def test_contextual_supply_is_selected_in_ui(touch):
+        l,t,p=host(strictAPI=True);client(t,p,touch)
+>       visit(t,p,'3 波教学 · 推荐');s=to_mining(l,t,p)
+        ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_polish.py:138: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: 3 波教学 · 推荐
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+____________ test_compact_upgrade_text_does_not_overlap_buy_button _____________
+
+    def test_compact_upgrade_text_does_not_overlap_buy_button():
+        l,t,p=host(width=844,height=390);client(t,p,True)
+>       visit(t,p,'▶  开始标准远征')
+
+tests/test_polish.py:145: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: ▶  开始标准远征
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+_______________ test_combat_planner_does_not_claim_mining_income _______________
+
+    def test_combat_planner_does_not_claim_mining_income():
+>       l,t,p=host();client(t,p);visit(t,p,'▶  开始标准远征')
+                                 ^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_polish.py:151: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: ▶  开始标准远征
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+_________________ test_failed_tutorial_retry_stays_in_tutorial _________________
+
+    def test_failed_tutorial_retry_stays_in_tutorial():
+>       l,t,p=host();client(t,p);visit(t,p,'3 波教学 · 推荐')
+                                 ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_polish.py:158: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: 3 波教学 · 推荐
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+___________ test_server_returns_specific_rejection_not_generic_error ___________
+
+    def test_server_returns_specific_rejection_not_generic_error():
+        l,t,p=host();t.action(p,'start','standard');t.action(p,'buy','repair')
+>       assert t.session(p).actionResult=='耐久已满'
+E       AssertionError: assert '操作未生效：请检查状态、资源或解锁条件' == '耐久已满'
+E         
+E         - 耐久已满
+E         + 操作未生效：请检查状态、资源或解锁条件
+
+tests/test_polish.py:166: AssertionError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+________________ test_result_contains_ledger_and_debrief[False] ________________
+
+touch = False
+
+    @pytest.mark.parametrize('touch',[False,True])
+    def test_result_contains_ledger_and_debrief(touch):
+>       l,t,p=host(strictAPI=True);client(t,p,touch);visit(t,p,'▶  开始标准远征')
+                                                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_polish.py:170: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: ▶  开始标准远征
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+________________ test_result_contains_ledger_and_debrief[True] _________________
+
+touch = True
+
+    @pytest.mark.parametrize('touch',[False,True])
+    def test_result_contains_ledger_and_debrief(touch):
+>       l,t,p=host(strictAPI=True);client(t,p,touch);visit(t,p,'▶  开始标准远征')
+                                                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_polish.py:170: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: ▶  开始标准远征
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+_________ test_energy_allocation_highlight_tracks_authoritative_state __________
+
+    def test_energy_allocation_highlight_tracks_authoritative_state():
+>       l,t,p=host();client(t,p);visit(t,p,'▶  开始标准远征')
+                                 ^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_polish.py:178: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: ▶  开始标准远征
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+______________ test_workshop_exposes_existing_second_preset_slot _______________
+
+    def test_workshop_exposes_existing_second_preset_slot():
+        l,t,p=host(strictAPI=True);client(t,p)
+        s=t.session(p).game;s.profile.tech.energy_2=True;t.action(p,'ready')
+>       visit(t,p,'武器工坊');click_name(t,p,'Weapon_arc');click_name(t,p,'Equip_arc')
+        ^^^^^^^^^^^^^^^^^
+
+tests/test_polish.py:188: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: 武器工坊
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+____ test_old_schema_five_keeps_existing_preferences_and_adds_safe_defaults ____
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b044fe0>, <Lua table at 0x564d51857880>, <Lua table at 0x564d5194a830>, <Lua table at 0x564d4fdb10c0>, <Lua table at 0x564d5194c590>)
+
+    def test_old_schema_five_keeps_existing_preferences_and_adds_safe_defaults(env):
+        l,c,r,g,s=env
+        p=r.cleanProfile(l.table_from({'schema':5,'alloy':543,'tech':{'energy_2':True},'settings':{'sfx':.2,'reducedMotion':True,'damageNumbers':False,'autoPause':'true','masterMuted':17}},recursive=True))
+>       assert p.schema==6 and p.alloy==543 and p.tech.energy_2
+E       assert (7 == 6)
+E        +  where 7 = <Lua table at 0x564d4f8cbef0>.schema
+
+tests/test_qol.py:21: AssertionError
+______ test_settings_open_on_general_with_advanced_out_of_the_way[False] _______
+
+touch = False
+
+    @pytest.mark.parametrize('touch',[False,True])
+    def test_settings_open_on_general_with_advanced_out_of_the_way(touch):
+        l,t,p=host(strictAPI=True);client(t,p,touch);visit(t,p,'设置')
+>       assert by_name(modal(p),'ShowTips') and by_name(modal(p),'AutoPause')
+                       ^^^^^^^^
+
+tests/test_qol.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+p = <Lua table at 0x564d5082ebe0>
+
+>   def modal(p):return p.PlayerGui.DustboundPanels.SafeCanvas.ModalStage.Modal
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'NoneType' object has no attribute 'SafeCanvas'
+
+tests/test_ui.py:25: AttributeError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+_______ test_settings_open_on_general_with_advanced_out_of_the_way[True] _______
+
+touch = True
+
+    @pytest.mark.parametrize('touch',[False,True])
+    def test_settings_open_on_general_with_advanced_out_of_the_way(touch):
+        l,t,p=host(strictAPI=True);client(t,p,touch);visit(t,p,'设置')
+>       assert by_name(modal(p),'ShowTips') and by_name(modal(p),'AutoPause')
+                       ^^^^^^^^
+
+tests/test_qol.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+p = <Lua table at 0x564d51aaf380>
+
+>   def modal(p):return p.PlayerGui.DustboundPanels.SafeCanvas.ModalStage.Modal
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'NoneType' object has no attribute 'SafeCanvas'
+
+tests/test_ui.py:25: AttributeError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+_____________ test_reset_dialog_cancel_then_confirm_from_settings ______________
+
+    def test_reset_dialog_cancel_then_confirm_from_settings():
+>       l,t,p=host();client(t,p);visit(t,p,'设置');click_name(t,p,'ShowTips')
+                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_qol.py:68: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+t = <Lua table at 0x564d4f6afd30>, p = <Lua table at 0x564d51b13710>
+name = 'ShowTips'
+
+    def click_name(t,p,name):
+>    b=by_name(p.PlayerGui,name);assert b is not None and b.Active is not False,name
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    AssertionError: ShowTips
+E    assert (None is not None)
+
+tests/test_ui.py:39: AssertionError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+______ test_focus_loss_pauses_immediately_and_return_does_not_auto_resume ______
+
+    def test_focus_loss_pauses_immediately_and_return_does_not_auto_resume():
+>       l,t,p=host(strictAPI=True);client(t,p);visit(t,p,'▶  开始标准远征')
+                                               ^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_qol.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: ▶  开始标准远征
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+__________________ test_focus_loss_does_not_pause_by_default ___________________
+
+    def test_focus_loss_does_not_pause_by_default():
+>       l,t,p=host();client(t,p);visit(t,p,'▶  开始标准远征')
+                                 ^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_qol.py:90: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: ▶  开始标准远征
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+________ test_optional_tips_hide_but_tutorial_and_danger_notices_remain ________
+
+    def test_optional_tips_hide_but_tutorial_and_danger_notices_remain():
+>       l,t,p=host();client(t,p);visit(t,p,'▶  开始标准远征')
+                                 ^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_qol.py:112: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: ▶  开始标准远征
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+____ test_shortcuts_can_be_disabled_without_disabling_mouse_or_diagnostics _____
+
+    def test_shortcuts_can_be_disabled_without_disabling_mouse_or_diagnostics():
+>       l,t,p=host(strictAPI=True);client(t,p);visit(t,p,'▶  开始标准远征')
+                                               ^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_qol.py:121: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: ▶  开始标准远征
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+____________ test_back_returns_to_parent_but_close_dismisses_stack _____________
+
+    def test_back_returns_to_parent_but_close_dismisses_stack():
+>       l,t,p=host();client(t,p);visit(t,p,'武器工坊');click_name(t,p,'Weapon_arc');click_name(t,p,'GoUnlock')
+                                 ^^^^^^^^^^^^^^^^^
+
+tests/test_qol.py:130: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: 武器工坊
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+_______________ test_paid_reroll_is_not_charged_until_confirmed ________________
+
+    def test_paid_reroll_is_not_charged_until_confirmed():
+>       l,t,p=host();client(t,p);visit(t,p,'▶  开始标准远征');s=to_mining(l,t,p)
+                                 ^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_qol.py:137: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: ▶  开始标准远征
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+______________ test_stale_paid_reroll_confirmation_cannot_charge _______________
+
+    def test_stale_paid_reroll_confirmation_cannot_charge():
+>       l,t,p=host();client(t,p);visit(t,p,'▶  开始标准远征');s=to_mining(l,t,p)
+                                 ^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_qol.py:148: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: ▶  开始标准远征
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+______ test_advanced_view_retains_live_diagnostics_after_settings_change _______
+
+    def test_advanced_view_retains_live_diagnostics_after_settings_change():
+>       l,t,p=host();client(t,p);visit(t,p,'设置');click_name(t,p,'SettingsTab_display');click_name(t,p,'EnemyHealth')
+                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_qol.py:154: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+t = <Lua table at 0x564d4fc552d0>, p = <Lua table at 0x564d4fc55bb0>
+name = 'SettingsTab_display'
+
+    def click_name(t,p,name):
+>    b=by_name(p.PlayerGui,name);assert b is not None and b.Active is not False,name
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    AssertionError: SettingsTab_display
+E    assert (None is not None)
+
+tests/test_ui.py:39: AssertionError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+____________ test_main_cta_and_navigation_do_not_overlap[1440-810] _____________
+
+width = 1440, height = 810
+
+    @pytest.mark.parametrize('width,height',[(1440,810),(844,390),(667,375)])
+    def test_main_cta_and_navigation_do_not_overlap(width,height):
+        l,t,p=host(width=width,height=height);client(t,p,width<1000)
+        rail=by_name(p.PlayerGui,'NavigationRail');play=by_name(p.PlayerGui,'PlayCard')
+>       assert rail.Position.xo+rail.Size.xo<play.Position.xo
+               ^^^^^^^^^^^^^
+E       AttributeError: 'NoneType' object has no attribute 'Position'
+
+tests/test_qol.py:176: AttributeError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+_____________ test_main_cta_and_navigation_do_not_overlap[844-390] _____________
+
+width = 844, height = 390
+
+    @pytest.mark.parametrize('width,height',[(1440,810),(844,390),(667,375)])
+    def test_main_cta_and_navigation_do_not_overlap(width,height):
+        l,t,p=host(width=width,height=height);client(t,p,width<1000)
+        rail=by_name(p.PlayerGui,'NavigationRail');play=by_name(p.PlayerGui,'PlayCard')
+>       assert rail.Position.xo+rail.Size.xo<play.Position.xo
+               ^^^^^^^^^^^^^
+E       AttributeError: 'NoneType' object has no attribute 'Position'
+
+tests/test_qol.py:176: AttributeError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+_____________ test_main_cta_and_navigation_do_not_overlap[667-375] _____________
+
+width = 667, height = 375
+
+    @pytest.mark.parametrize('width,height',[(1440,810),(844,390),(667,375)])
+    def test_main_cta_and_navigation_do_not_overlap(width,height):
+        l,t,p=host(width=width,height=height);client(t,p,width<1000)
+        rail=by_name(p.PlayerGui,'NavigationRail');play=by_name(p.PlayerGui,'PlayCard')
+>       assert rail.Position.xo+rail.Size.xo<play.Position.xo
+               ^^^^^^^^^^^^^
+E       AttributeError: 'NoneType' object has no attribute 'Position'
+
+tests/test_qol.py:176: AttributeError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+_____________ test_boot_modes_purchase_and_local_mode[False-False] _____________
+
+touch = False, fallback = False
+
+    @pytest.mark.parametrize('touch',[False,True])
+    @pytest.mark.parametrize('fallback',[False,True])
+    def test_boot_modes_purchase_and_local_mode(touch,fallback):
+     _,t,p=host(unpublished=True,constructorError=True,imageDisabled=fallback);client(t,p,touch)
+>    visit(t,p,'▶  开始标准远征');visit(t,p,'采矿');visit(t,p,'投入 100 矿料')
+     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_ui.py:46: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: ▶  开始标准远征
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+_____________ test_boot_modes_purchase_and_local_mode[False-True] ______________
+
+touch = True, fallback = False
+
+    @pytest.mark.parametrize('touch',[False,True])
+    @pytest.mark.parametrize('fallback',[False,True])
+    def test_boot_modes_purchase_and_local_mode(touch,fallback):
+     _,t,p=host(unpublished=True,constructorError=True,imageDisabled=fallback);client(t,p,touch)
+>    visit(t,p,'▶  开始标准远征');visit(t,p,'采矿');visit(t,p,'投入 100 矿料')
+     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_ui.py:46: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: ▶  开始标准远征
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+_____________ test_boot_modes_purchase_and_local_mode[True-False] ______________
+
+touch = False, fallback = True
+
+    @pytest.mark.parametrize('touch',[False,True])
+    @pytest.mark.parametrize('fallback',[False,True])
+    def test_boot_modes_purchase_and_local_mode(touch,fallback):
+     _,t,p=host(unpublished=True,constructorError=True,imageDisabled=fallback);client(t,p,touch)
+>    visit(t,p,'▶  开始标准远征');visit(t,p,'采矿');visit(t,p,'投入 100 矿料')
+     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_ui.py:46: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: ▶  开始标准远征
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+______________ test_boot_modes_purchase_and_local_mode[True-True] ______________
+
+touch = True, fallback = True
+
+    @pytest.mark.parametrize('touch',[False,True])
+    @pytest.mark.parametrize('fallback',[False,True])
+    def test_boot_modes_purchase_and_local_mode(touch,fallback):
+     _,t,p=host(unpublished=True,constructorError=True,imageDisabled=fallback);client(t,p,touch)
+>    visit(t,p,'▶  开始标准远征');visit(t,p,'采矿');visit(t,p,'投入 100 矿料')
+     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_ui.py:46: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: ▶  开始标准远征
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+__________ test_tech_target_research_and_early_function_unlock[False] __________
+
+touch = False
+
+    @pytest.mark.parametrize('touch',[False,True])
+    def test_tech_target_research_and_early_function_unlock(touch):
+     _,t,p=host();client(t,p,touch);s=t.session(p).game;s.profile.alloy=500;s.profile.research=100;t.action(p,'ready')
+>    visit(t,p,'研究中心');click_name(t,p,'Tech_energy_2');visit(t,p,'固定研究目标');assert s.profile.targetResearch=='energy_2'
+     ^^^^^^^^^^^^^^^^^
+
+tests/test_ui.py:53: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: 研究中心
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+__________ test_tech_target_research_and_early_function_unlock[True] ___________
+
+touch = True
+
+    @pytest.mark.parametrize('touch',[False,True])
+    def test_tech_target_research_and_early_function_unlock(touch):
+     _,t,p=host();client(t,p,touch);s=t.session(p).game;s.profile.alloy=500;s.profile.research=100;t.action(p,'ready')
+>    visit(t,p,'研究中心');click_name(t,p,'Tech_energy_2');visit(t,p,'固定研究目标');assert s.profile.targetResearch=='energy_2'
+     ^^^^^^^^^^^^^^^^^
+
+tests/test_ui.py:53: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: 研究中心
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+________________ test_desktop_has_48_nodes_and_preserves_scroll ________________
+
+    def test_desktop_has_48_nodes_and_preserves_scroll():
+>    lua,t,p=host();client(t,p);visit(t,p,'研究中心');tree=modal(p).TechTree
+                                ^^^^^^^^^^^^^^^^^
+
+tests/test_ui.py:59: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: 研究中心
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+___________________ test_mobile_tech_is_full_pan_zoom_graph ____________________
+
+    def test_mobile_tech_is_full_pan_zoom_graph():
+>    _,t,p=host();client(t,p,True);visit(t,p,'研究中心');tree=modal(p).TechTree
+                                   ^^^^^^^^^^^^^^^^^
+
+tests/test_ui.py:66: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: 研究中心
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+___________________ test_mobile_paged_investment_navigation ____________________
+
+    def test_mobile_paged_investment_navigation():
+>    _,t,p=host();client(t,p,True);visit(t,p,'▶  开始标准远征')
+                                   ^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_ui.py:76: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: ▶  开始标准远征
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+__________ test_codex_search[weapons-\u6b66\u5668-\u78c1\u8f68\u67aa] __________
+
+category = 'weapons', label = '武器', entry = '磁轨枪'
+
+    @pytest.mark.parametrize('category,label,entry',[('weapons','武器','磁轨枪'),('supplies','补给','超载核心'),('enemies','怪物','矿巢守卫')])
+    def test_codex_search(category,label,entry):
+>    _,t,p=host();client(t,p,True);visit(t,p,'远征图鉴');click_name(t,p,'Codex_'+category)
+                                   ^^^^^^^^^^^^^^^^^
+
+tests/test_ui.py:83: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: 远征图鉴
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+______ test_codex_search[supplies-\u8865\u7ed9-\u8d85\u8f7d\u6838\u5fc3] _______
+
+category = 'supplies', label = '补给', entry = '超载核心'
+
+    @pytest.mark.parametrize('category,label,entry',[('weapons','武器','磁轨枪'),('supplies','补给','超载核心'),('enemies','怪物','矿巢守卫')])
+    def test_codex_search(category,label,entry):
+>    _,t,p=host();client(t,p,True);visit(t,p,'远征图鉴');click_name(t,p,'Codex_'+category)
+                                   ^^^^^^^^^^^^^^^^^
+
+tests/test_ui.py:83: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: 远征图鉴
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+_______ test_codex_search[enemies-\u602a\u7269-\u77ff\u5de2\u5b88\u536b] _______
+
+category = 'enemies', label = '怪物', entry = '矿巢守卫'
+
+    @pytest.mark.parametrize('category,label,entry',[('weapons','武器','磁轨枪'),('supplies','补给','超载核心'),('enemies','怪物','矿巢守卫')])
+    def test_codex_search(category,label,entry):
+>    _,t,p=host();client(t,p,True);visit(t,p,'远征图鉴');click_name(t,p,'Codex_'+category)
+                                   ^^^^^^^^^^^^^^^^^
+
+tests/test_ui.py:83: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: 远征图鉴
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+________________ test_pause_settings_persist_and_resume[False] _________________
+
+touch = False
+
+    @pytest.mark.parametrize('touch',[False,True])
+    def test_pause_settings_persist_and_resume(touch):
+>    _,t,p=host();client(t,p,touch);visit(t,p,'3 波教学 · 推荐');t.step(10);t.render(.2)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_ui.py:91: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: 3 波教学 · 推荐
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+_________________ test_pause_settings_persist_and_resume[True] _________________
+
+touch = True
+
+    @pytest.mark.parametrize('touch',[False,True])
+    def test_pause_settings_persist_and_resume(touch):
+>    _,t,p=host();client(t,p,touch);visit(t,p,'3 波教学 · 推荐');t.step(10);t.render(.2)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_ui.py:91: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: 3 波教学 · 推荐
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+_________________ test_supply_invest_drawer_and_robot_progress _________________
+
+    def test_supply_invest_drawer_and_robot_progress():
+>    lua,t,p=host();client(t,p,True);visit(t,p,'3 波教学 · 推荐');s=to_mining(lua,t,p)
+                                     ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_ui.py:100: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: 3 波教学 · 推荐
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+____________________ test_abandon_confirmation_zero_rewards ____________________
+
+    def test_abandon_confirmation_zero_rewards():
+>    _,t,p=host();client(t,p);visit(t,p,'▶  开始标准远征');s=t.session(p).game;s.ore=9999
+                              ^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_ui.py:110: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: ▶  开始标准远征
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+________ test_tutorial_result_direct_research_workshop_next_run[False] _________
+
+touch = False
+
+    @pytest.mark.parametrize('touch',[False,True])
+    def test_tutorial_result_direct_research_workshop_next_run(touch):
+>    lua,t,p=host();client(t,p,touch);visit(t,p,'3 波教学 · 推荐');s=to_mining(lua,t,p,3)
+                                      ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_ui.py:117: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: 3 波教学 · 推荐
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+_________ test_tutorial_result_direct_research_workshop_next_run[True] _________
+
+touch = True
+
+    @pytest.mark.parametrize('touch',[False,True])
+    def test_tutorial_result_direct_research_workshop_next_run(touch):
+>    lua,t,p=host();client(t,p,touch);visit(t,p,'3 波教学 · 推荐');s=to_mining(lua,t,p,3)
+                                      ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_ui.py:117: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: 3 波教学 · 推荐
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+___________ test_cloud_read_failure_is_blocked_until_explicit_guest ____________
+
+    def test_cloud_read_failure_is_blocked_until_explicit_guest():
+     _,t,p=host(cloud=True,constructorError=True);client(t,p)
+     s=t.session(p);assert s.profile.blocked
+     t.action(p,'start','standard');assert s.game.phase=='menu'
+>    visit(t,p,'确认进入不保存的试玩');assert s.profile.mode=='guest' and not s.profile.persistent
+     ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_ui.py:128: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: 确认进入不保存的试玩
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+_____________ test_cloud_saved_settings_loadout_target_and_presets _____________
+
+    def test_cloud_saved_settings_loadout_target_and_presets():
+     lua,t,p=host(cloud=True);client(t,p);s=t.session(p).game;s.profile.alloy=500;s.profile.research=100
+     t.action(p,'research','energy_2');t.action(p,'loadout','arc');t.action(p,'target','fort_3')
+     t.action(p,'settings',lua.table_from({'key':'sfx','value':.2}));t.action(p,'preset',lua.table_from({'slot':1,'mode':'save'}))
+     t.leave(p);p2=t.join(42);r=t.session(p2).profile
+>    assert r.persistent and r.data.loadout=='arc' and r.data.settings.sfx==.2 and r.data.targetResearch=='fort_3' and r.data.presets[1]=='arc'
+E    AssertionError: assert (True and 'machine' == 'arc'
+E     +  where True = <Lua table at 0x564d56a72cd0>.persistent
+E      
+E      - arc
+E      + machine)
+
+tests/test_ui.py:136: AssertionError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+______________ test_settings_diagnostics_and_audio_are_real_calls ______________
+
+    def test_settings_diagnostics_and_audio_are_real_calls():
+>    lua,t,p=host();client(t,p);visit(t,p,'设置');click_name(t,p,'SettingsTab_audio');visit(t,p,'试听反馈音')
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_ui.py:139: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+t = <Lua table at 0x564d576be750>, p = <Lua table at 0x564d564abec0>
+name = 'SettingsTab_audio'
+
+    def click_name(t,p,name):
+>    b=by_name(p.PlayerGui,name);assert b is not None and b.Active is not False,name
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    AssertionError: SettingsTab_audio
+E    assert (None is not None)
+
+tests/test_ui.py:39: AssertionError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+________________ test_api_contract_all_panels_and_battle[False] ________________
+
+touch = False
+
+    @pytest.mark.parametrize('touch',[False,True])
+    def test_api_contract_all_panels_and_battle(touch):
+     lua,t,p=host(strictAPI=True);client(t,p,touch)
+>    for name in ['研究中心','武器工坊','远征图鉴','设置']:visit(t,p,name);healthy(t,p);visit(t,p,'×')
+                                             ^^^^^^^^^^^^^^^
+
+tests/test_ui.py:149: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: 研究中心
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+________________ test_api_contract_all_panels_and_battle[True] _________________
+
+touch = True
+
+    @pytest.mark.parametrize('touch',[False,True])
+    def test_api_contract_all_panels_and_battle(touch):
+     lua,t,p=host(strictAPI=True);client(t,p,touch)
+>    for name in ['研究中心','武器工坊','远征图鉴','设置']:visit(t,p,name);healthy(t,p);visit(t,p,'×')
+                                             ^^^^^^^^^^^^^^^
+
+tests/test_ui.py:149: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: 研究中心
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+___________________ test_unpublished_cloud_optin_stays_local ___________________
+
+    def test_unpublished_cloud_optin_stays_local():
+>    _,t,p=host(cloud=True,unpublished=True);client(t,p);visit(t,p,'3 波教学 · 推荐')
+                                                         ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_ui.py:157: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ui.py:27: in visit
+    def visit(t,p,label):t.click(p,label);t.render(.2)
+                         ^^^^^^^^^^^^^^^^
+lupa/lua55.pyx:946: in lupa.lua55._LuaObject.__call__
+    ???
+lupa/lua55.pyx:1911: in lupa.lua55.call_lua
+    ???
+lupa/lua55.pyx:1938: in lupa.lua55.execute_lua_call
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   lupa.lua55.LuaError: [string "<python>"]:259: GUI not found: 3 波教学 · 推荐
+E   stack traceback:
+E   	[string "<python>"]:259: in function <[string "<python>"]:258>
+E   	[C]: in global 'assert'
+
+lupa/lua55.pyx:1819: LuaError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+_________________ test_dynamic_safe_areas_and_fullscreen_shade _________________
+
+    def test_dynamic_safe_areas_and_fullscreen_shade():
+     _,t,p=host();client(t,p)
+     assert p.PlayerGui.DustboundHUD.ScreenInsets=='CoreUISafeInsets'
+>    assert p.PlayerGui.DustboundPanels.ScreenInsets=='CoreUISafeInsets'
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    AttributeError: 'NoneType' object has no attribute 'ScreenInsets'
+
+tests/test_ui.py:163: AttributeError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+______________ test_tutorial_three_breaks_first_reward_only_once _______________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b0453a0>, <Lua table at 0x564d4fb3e090>, <Lua table at 0x564d502bbd60>, <Lua table at 0x564d4fc92ba0>, <Lua table at 0x564d53265fe0>)
+
+    def test_tutorial_three_breaks_first_reward_only_once(env):
+     l,c,r,g,s=env;g.start(s,c,r,'tutorial');breaks=0
+     for _ in range(4000):
+      if s.phase=='ended':break
+      if s.supply:breaks+=1;accept(env)
+      g.step(s,c,r,.1);s.events=l.table()
+>    assert s.result and s.result.won and s.result.firstClear and breaks==3
+E    assert (<Lua table at 0x564d4fa6a9d0> and True and True and 2 == 3)
+E     +  where <Lua table at 0x564d4fa6a9d0> = <Lua table at 0x564d53265fe0>.result
+E     +  and   True = <Lua table at 0x564d4fa6a9d0>.won
+E     +    where <Lua table at 0x564d4fa6a9d0> = <Lua table at 0x564d53265fe0>.result
+E     +  and   True = <Lua table at 0x564d4fa6a9d0>.firstClear
+E     +    where <Lua table at 0x564d4fa6a9d0> = <Lua table at 0x564d53265fe0>.result
+
+tests/test_v05.py:11: AssertionError
+_______________ test_explicit_request_ids_deduplicate_purchases ________________
+
+    def test_explicit_request_ids_deduplicate_purchases():
+     l,t,p=host();a=t.network().Action;s=t.session(p).game
+     a.OnServerEvent.Fire(a.OnServerEvent,p,'start','standard',1);t.advanceClock(.3)
+>    a.OnServerEvent.Fire(a.OnServerEvent,p,'buy','drill',2);assert s.ore==20
+                                                             ^^^^^^^^^^^^^^^^
+E    assert 120 == 20
+E     +  where 120 = <Lua table at 0x564d4fcaf3d0>.ore
+
+tests/test_v05.py:33: AssertionError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+_____________ test_settings_sanitize_and_presets_unlock_validation _____________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b000540>, <Lua table at 0x564d51b3fb60>, <Lua table at 0x564d527d6480>, <Lua table at 0x564d4f792360>, <Lua table at 0x564d5193d3c0>)
+
+    def test_settings_sanitize_and_presets_unlock_validation(env):
+     l,c,r,g,s=env
+     assert not g.act(s,c,r,'settings',table(l,key='sfx',value=float('nan')))
+     assert g.act(s,c,r,'settings',table(l,key='sfx',value=10));assert s.profile.settings.sfx==1
+     assert g.act(s,c,r,'settings',table(l,key='music',value=-1));assert s.profile.settings.music==0
+     assert not g.act(s,c,r,'settings',table(l,key='alloy',value=100000))
+     s.profile.presets[1]='arc';assert not g.act(s,c,r,'preset',table(l,slot=1,mode='equip'))
+>    s.profile.tech.energy_2=True;assert g.act(s,c,r,'preset',table(l,slot=1,mode='equip')) and s.loadout=='arc'
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    AssertionError: assert (False)
+E     +  where False = <Lua function at 0x564d504f0c20>(<Lua table at 0x564d5193d3c0>, <Lua table at 0x564d51b3fb60>, <Lua table at 0x564d527d6480>, 'preset', <Lua table at 0x564d5193d8d0>)
+E     +    where <Lua function at 0x564d504f0c20> = <Lua table at 0x564d4f792360>.act
+E     +    and   <Lua table at 0x564d5193d8d0> = table(<lupa.lua55.LuaRuntime object at 0x7f0a1b000540>, slot=1, mode='equip')
+
+tests/test_v05.py:43: AssertionError
+_______________ test_forecast_no_income_and_upgrade_explanations _______________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b0004a0>, <Lua table at 0x564d50f5c640>, <Lua table at 0x564d5185de80>, <Lua table at 0x564d5050b050>, <Lua table at 0x564d56c45240>)
+
+    def test_forecast_no_income_and_upgrade_explanations(env):
+     from pathlib import Path
+     l,c,r,g,s=mining(env);guide=l.execute((Path(__file__).resolve().parents[1]/'src/Guide.lua').read_text());ss=g.snapshot(s,c,r)
+>    f=guide.forecast(ss);assert f.expected>0 and f.cargo==0 and f.eta==6
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    assert (168 > 0 and 0 == 0 and 0 == 6)
+E     +  where 168 = <Lua table at 0x564d529811c0>.expected
+E     +  and   0 = <Lua table at 0x564d529811c0>.cargo
+E     +  and   0 = <Lua table at 0x564d529811c0>.eta
+
+tests/test_v05.py:53: AssertionError
+___________________ test_wave_report_tracks_effective_damage ___________________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b0013a0>, <Lua table at 0x564d5142db30>, <Lua table at 0x564d4f4705b0>, <Lua table at 0x564d51ca77d0>, <Lua table at 0x564d56d7a340>)
+
+    def test_wave_report_tracks_effective_damage(env):
+     l,c,r,g,s=start(env);e=enemy(l,hp=10,x=950);s.enemies=l.table_from([e]);s.spawnClock=-100
+     run(c,r,g,s,2);s.enemies=l.table();s.projectiles=l.table();s.waveElapsed=28;g.step(s,c,r,.1)
+>    assert s.waveReport.kills==1 and s.waveReport.damage<=10 and s.waveReport.damage>0
+            ^^^^^^^^^^^^^^^^^^
+E    AttributeError: 'NoneType' object has no attribute 'kills'
+
+tests/test_v05.py:61: AttributeError
+________ test_tutorial_fixed_grant_and_unproductive_investment_blocked _________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b000f40>, <Lua table at 0x564d517fd860>, <Lua table at 0x564d50fe38a0>, <Lua table at 0x564d4f9c21f0>, <Lua table at 0x564d4fc567b0>)
+
+    def test_tutorial_fixed_grant_and_unproductive_investment_blocked(env):
+     l,c,r,g,s=env;g.start(s,c,r,'tutorial');s.ore=999999
+     assert not g.act(s,c,r,'buy','refinery') and s.ore==999999
+>    mining(env,3);accept(env);run(c,r,g,s,30)
+     ^^^^^^^^^^^^^
+
+tests/test_v05.py:127: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b000f40>, <Lua table at 0x564d517fd860>, <Lua table at 0x564d50fe38a0>, <Lua table at 0x564d4f9c21f0>, <Lua table at 0x564d4fc567b0>)
+wave = 3
+
+    def mining(env,wave=1):
+     l,c,r,g,s=env
+     if s.phase!='running':g.start(s,c,r)
+     s.wave=wave;s.groupIndex=99;s.planWave=wave;s.waveElapsed=c.WaveDuration;s.enemies=l.table();s.projectiles=l.table();g.step(s,c,r,.1)
+>    assert s.stage=='mining' and s.breakLeft==c.RunSystems.miningDuration(wave) and s.supply
+E    AssertionError: assert ('mining' == 'mining'
+E      
+E        mining and 0 == 14)
+E     +  where 0 = <Lua table at 0x564d4fc567b0>.breakLeft
+E     +  and   14 = <Lua function at 0x564d51b1c910>(3)
+E     +    where <Lua function at 0x564d51b1c910> = <Lua table at 0x564d518a6eb0>.miningDuration
+E     +      where <Lua table at 0x564d518a6eb0> = <Lua table at 0x564d517fd860>.RunSystems
+
+tests/test_core.py:24: AssertionError
+_______________ test_old_arc_owner_tutorial_targets_new_research _______________
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b000fe0>, <Lua table at 0x564d4f3d8dd0>, <Lua table at 0x564d50f13750>, <Lua table at 0x564d50ac74c0>, <Lua table at 0x564d5147d3e0>)
+
+    def test_old_arc_owner_tutorial_targets_new_research(env):
+     l,c,r,g,s=env;s.profile.tech.energy_2=True;g.start(s,c,r,'tutorial')
+>    mining(env,3);accept(env);run(c,r,g,s,30)
+     ^^^^^^^^^^^^^
+
+tests/test_v05.py:132: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+env = (<lupa.lua55.LuaRuntime object at 0x7f0a1b000fe0>, <Lua table at 0x564d4f3d8dd0>, <Lua table at 0x564d50f13750>, <Lua table at 0x564d50ac74c0>, <Lua table at 0x564d5147d3e0>)
+wave = 3
+
+    def mining(env,wave=1):
+     l,c,r,g,s=env
+     if s.phase!='running':g.start(s,c,r)
+     s.wave=wave;s.groupIndex=99;s.planWave=wave;s.waveElapsed=c.WaveDuration;s.enemies=l.table();s.projectiles=l.table();g.step(s,c,r,.1)
+>    assert s.stage=='mining' and s.breakLeft==c.RunSystems.miningDuration(wave) and s.supply
+E    AssertionError: assert ('mining' == 'mining'
+E      
+E        mining and 0 == 14)
+E     +  where 0 = <Lua table at 0x564d5147d3e0>.breakLeft
+E     +  and   14 = <Lua function at 0x564d4f60cca0>(3)
+E     +    where <Lua function at 0x564d4f60cca0> = <Lua table at 0x564d4fcbc420>.miningDuration
+E     +      where <Lua table at 0x564d4fcbc420> = <Lua table at 0x564d4f3d8dd0>.RunSystems
+
+tests/test_core.py:24: AssertionError
+______________ test_zero_viewport_waits_without_claiming_ui_ready ______________
+
+    def test_zero_viewport_waits_without_claiming_ui_ready():
+     from pathlib import Path
+     l,t,p=host(width=0,height=0);t.enableClient(p,(Path(__file__).resolve().parents[1]/'src/Client.client.lua').read_text(),False)
+>    t.render(.1);assert p.PlayerGui.GetAttribute(p.PlayerGui,'FrontierClientPhase')=='WAITING_FOR_VIEWPORT'
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    AssertionError: assert 'WAITING_FOR_2D_STATE' == 'WAITING_FOR_VIEWPORT'
+E      
+E      - WAITING_FOR_VIEWPORT
+E      + WAITING_FOR_2D_STATE
+
+tests/test_v05.py:145: AssertionError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+_________ test_pending_modal_blocks_double_click_and_timeout_recovers __________
+
+    def test_pending_modal_blocks_double_click_and_timeout_recovers():
+     from test_ui import click_name,by_name
+>    l,t,p=host();client(t,p);visit(t,p,'设置');click_name(t,p,'SettingsTab_audio')
+                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_v05.py:152: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+t = <Lua table at 0x564d51b98d70>, p = <Lua table at 0x564d512c7e20>
+name = 'SettingsTab_audio'
+
+    def click_name(t,p,name):
+>    b=by_name(p.PlayerGui,name);assert b is not None and b.Active is not False,name
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    AssertionError: SettingsTab_audio
+E    assert (None is not None)
+
+tests/test_ui.py:39: AssertionError
+----------------------------- Captured stdout call -----------------------------
+[DUSTBOUND 0.9.0] encounters + early drafts + safe recall ready
+=========================== short test summary info ============================
+FAILED tests/test_animation.py::test_five_mounts_only_two_active - AssertionE...
+FAILED tests/test_campaign.py::test_all_24_nodes_ramp_without_wave_or_stat_backtracking
+FAILED tests/test_campaign.py::test_failure_keeps_progress_rewards_but_no_core_and_no_unlock
+FAILED tests/test_campaign.py::test_legacy_five_migration_preserves_wallet_tech_and_new_progress
+FAILED tests/test_campaign.py::test_campaign_ui_navigation_launch_lock_and_rewards[False]
+FAILED tests/test_campaign.py::test_campaign_ui_navigation_launch_lock_and_rewards[True]
+FAILED tests/test_campaign.py::test_gallery_lazy_load_reuse_and_native_fallback[False]
+FAILED tests/test_campaign.py::test_gallery_lazy_load_reuse_and_native_fallback[True]
+FAILED tests/test_campaign.py::test_tech_map_all_dependency_edges_and_desktop_drag
+FAILED tests/test_campaign.py::test_fit_restores_whole_tree_after_focusing_outer_node
+FAILED tests/test_core.py::test_buy_cost_cap_and_full_repair - AssertionError...
+FAILED tests/test_core.py::test_supply_only_after_wave_and_halts_thirty_seconds
+FAILED tests/test_core.py::test_mining_robot_cargo_not_continuous - Assertion...
+FAILED tests/test_core.py::test_break_exactly_thirty_unpaused_seconds - Asser...
+FAILED tests/test_core.py::test_buffs_only_consume_relevant_phase - Assertion...
+FAILED tests/test_core.py::test_tenth_and_twelfth_wave_include_mining - Asser...
+FAILED tests/test_core.py::test_settlement_once_and_abandon_zero_reward - Ass...
+FAILED tests/test_core.py::test_machine_projectile_deferred - AttributeError:...
+FAILED tests/test_core.py::test_weapon_unlock_real_damage[arc-energy_2] - Ass...
+FAILED tests/test_core.py::test_weapon_unlock_real_damage[rail-ballistics_4]
+FAILED tests/test_core.py::test_weapon_unlock_real_damage[flame-energy_4] - A...
+FAILED tests/test_core.py::test_weapon_unlock_real_damage[mortar-expedition_3]
+FAILED tests/test_core.py::test_spitter_acid_travels_before_base_damage - Att...
+FAILED tests/test_core.py::test_all_enemy_types_spawn_at_safe_edges - assert ...
+FAILED tests/test_core.py::test_tech_48_nodes_no_cycles_and_real_effects - As...
+FAILED tests/test_core.py::test_research_atomic_prereq_wave_and_rare_currency_gates
+FAILED tests/test_core.py::test_research_applied_next_start[logistics_1-ore-160]
+FAILED tests/test_core.py::test_robot_count_speed_yield_and_remote_unload - a...
+FAILED tests/test_core.py::test_repair_shield_revive_and_reroll_tech - lupa.l...
+FAILED tests/test_core.py::test_unlock_supplies_discovered_and_functional - A...
+FAILED tests/test_core.py::test_profile_sanitizes_nested_and_legacy[nan] - as...
+FAILED tests/test_core.py::test_profile_sanitizes_nested_and_legacy[inf] - as...
+FAILED tests/test_core.py::test_profile_sanitizes_nested_and_legacy[-50] - as...
+FAILED tests/test_core.py::test_profile_sanitizes_nested_and_legacy[oops] - a...
+FAILED tests/test_core.py::test_export_contains_current_sources_and_boot - Fi...
+FAILED tests/test_core.py::test_legacy_bonuses_migrate_without_double_application
+FAILED tests/test_core.py::test_mitigation_regen_and_start_shield_durations
+FAILED tests/test_core.py::test_fifth_shot_and_ballistic_velocity - assert 0....
+FAILED tests/test_core.py::test_crystals_cores_rewards_and_expedition_multipliers
+FAILED tests/test_core.py::test_burn_arc_bonus_and_aux_damage - assert 0 == 4
+FAILED tests/test_core.py::test_reroll_unlock_pool_and_overclock_duration - A...
+FAILED tests/test_core.py::test_no_investment_policy_is_not_guaranteed_victory
+FAILED tests/test_demo.py::test_grid_has_short_axis_aligned_edges_and_cross_prerequisite_markers
+FAILED tests/test_demo.py::test_ready_jump_and_precise_resource_gap - lupa.lu...
+FAILED tests/test_demo.py::test_lobby_campaign_resumes_next_unfinished_node
+FAILED tests/test_demo.py::test_mobile_codex_reduces_portrait_scroll_cost - l...
+FAILED tests/test_performance.py::test_planner_retains_controls_and_scroll_position_while_values_update
+FAILED tests/test_performance.py::test_retained_allocation_button_uses_latest_state_not_captured_state
+FAILED tests/test_performance.py::test_idle_render_frames_do_not_rebuild_or_animate_hidden_battlefield[True]
+FAILED tests/test_performance.py::test_packet_burst_coalesces_hud_paints_until_next_render
+FAILED tests/test_performance.py::test_f6_diagnostics_toggle_does_not_pause_game
+FAILED tests/test_performance.py::test_settings_diagnostics_refresh_does_not_rebuild_settings
+FAILED tests/test_polish.py::test_recommendation_skips_capped_and_full_hull_repairs
+FAILED tests/test_polish.py::test_recommendation_no_affordable_upgrade_still_explains_gap
+FAILED tests/test_polish.py::test_recommendation_all_capped_does_not_require_another_purchase
+FAILED tests/test_polish.py::test_supply_default_avoids_full_hull_repair - lu...
+FAILED tests/test_polish.py::test_supply_heal_preview_respects_tech_and_missing_hull
+FAILED tests/test_polish.py::test_last_tutorial_supply_does_not_recommend_combat_buff
+FAILED tests/test_polish.py::test_wave_ten_supply_explains_overtime_only_use
+FAILED tests/test_polish.py::test_buffs_identify_waiting_and_active_phase - A...
+FAILED tests/test_polish.py::test_run_ledger_tracks_purchases_rerolls_airdrops_and_resets
+FAILED tests/test_polish.py::test_salvage_ledger_tracks_actual_reward - asser...
+FAILED tests/test_polish.py::test_wave_reports_preserved_and_lost_cargo_not_income
+FAILED tests/test_polish.py::test_five_second_warning_once_and_paused_timer_frozen
+FAILED tests/test_polish.py::test_effective_hull_damage_excludes_overkill - a...
+FAILED tests/test_polish.py::test_low_hull_warning_does_not_repeat_every_tick
+FAILED tests/test_polish.py::test_failure_settlement_explains_loss_retention
+FAILED tests/test_polish.py::test_help_panel_opens_and_closes_without_starting_game[False]
+FAILED tests/test_polish.py::test_help_panel_opens_and_closes_without_starting_game[True]
+FAILED tests/test_polish.py::test_contextual_supply_is_selected_in_ui[False]
+FAILED tests/test_polish.py::test_contextual_supply_is_selected_in_ui[True]
+FAILED tests/test_polish.py::test_compact_upgrade_text_does_not_overlap_buy_button
+FAILED tests/test_polish.py::test_combat_planner_does_not_claim_mining_income
+FAILED tests/test_polish.py::test_failed_tutorial_retry_stays_in_tutorial - l...
+FAILED tests/test_polish.py::test_server_returns_specific_rejection_not_generic_error
+FAILED tests/test_polish.py::test_result_contains_ledger_and_debrief[False]
+FAILED tests/test_polish.py::test_result_contains_ledger_and_debrief[True] - ...
+FAILED tests/test_polish.py::test_energy_allocation_highlight_tracks_authoritative_state
+FAILED tests/test_polish.py::test_workshop_exposes_existing_second_preset_slot
+FAILED tests/test_qol.py::test_old_schema_five_keeps_existing_preferences_and_adds_safe_defaults
+FAILED tests/test_qol.py::test_settings_open_on_general_with_advanced_out_of_the_way[False]
+FAILED tests/test_qol.py::test_settings_open_on_general_with_advanced_out_of_the_way[True]
+FAILED tests/test_qol.py::test_reset_dialog_cancel_then_confirm_from_settings
+FAILED tests/test_qol.py::test_focus_loss_pauses_immediately_and_return_does_not_auto_resume
+FAILED tests/test_qol.py::test_focus_loss_does_not_pause_by_default - lupa.lu...
+FAILED tests/test_qol.py::test_optional_tips_hide_but_tutorial_and_danger_notices_remain
+FAILED tests/test_qol.py::test_shortcuts_can_be_disabled_without_disabling_mouse_or_diagnostics
+FAILED tests/test_qol.py::test_back_returns_to_parent_but_close_dismisses_stack
+FAILED tests/test_qol.py::test_paid_reroll_is_not_charged_until_confirmed - l...
+FAILED tests/test_qol.py::test_stale_paid_reroll_confirmation_cannot_charge
+FAILED tests/test_qol.py::test_advanced_view_retains_live_diagnostics_after_settings_change
+FAILED tests/test_qol.py::test_main_cta_and_navigation_do_not_overlap[1440-810]
+FAILED tests/test_qol.py::test_main_cta_and_navigation_do_not_overlap[844-390]
+FAILED tests/test_qol.py::test_main_cta_and_navigation_do_not_overlap[667-375]
+FAILED tests/test_ui.py::test_boot_modes_purchase_and_local_mode[False-False]
+FAILED tests/test_ui.py::test_boot_modes_purchase_and_local_mode[False-True]
+FAILED tests/test_ui.py::test_boot_modes_purchase_and_local_mode[True-False]
+FAILED tests/test_ui.py::test_boot_modes_purchase_and_local_mode[True-True]
+FAILED tests/test_ui.py::test_tech_target_research_and_early_function_unlock[False]
+FAILED tests/test_ui.py::test_tech_target_research_and_early_function_unlock[True]
+FAILED tests/test_ui.py::test_desktop_has_48_nodes_and_preserves_scroll - lup...
+FAILED tests/test_ui.py::test_mobile_tech_is_full_pan_zoom_graph - lupa.lua55...
+FAILED tests/test_ui.py::test_mobile_paged_investment_navigation - lupa.lua55...
+FAILED tests/test_ui.py::test_codex_search[weapons-\u6b66\u5668-\u78c1\u8f68\u67aa]
+FAILED tests/test_ui.py::test_codex_search[supplies-\u8865\u7ed9-\u8d85\u8f7d\u6838\u5fc3]
+FAILED tests/test_ui.py::test_codex_search[enemies-\u602a\u7269-\u77ff\u5de2\u5b88\u536b]
+FAILED tests/test_ui.py::test_pause_settings_persist_and_resume[False] - lupa...
+FAILED tests/test_ui.py::test_pause_settings_persist_and_resume[True] - lupa....
+FAILED tests/test_ui.py::test_supply_invest_drawer_and_robot_progress - lupa....
+FAILED tests/test_ui.py::test_abandon_confirmation_zero_rewards - lupa.lua55....
+FAILED tests/test_ui.py::test_tutorial_result_direct_research_workshop_next_run[False]
+FAILED tests/test_ui.py::test_tutorial_result_direct_research_workshop_next_run[True]
+FAILED tests/test_ui.py::test_cloud_read_failure_is_blocked_until_explicit_guest
+FAILED tests/test_ui.py::test_cloud_saved_settings_loadout_target_and_presets
+FAILED tests/test_ui.py::test_settings_diagnostics_and_audio_are_real_calls
+FAILED tests/test_ui.py::test_api_contract_all_panels_and_battle[False] - lup...
+FAILED tests/test_ui.py::test_api_contract_all_panels_and_battle[True] - lupa...
+FAILED tests/test_ui.py::test_unpublished_cloud_optin_stays_local - lupa.lua5...
+FAILED tests/test_ui.py::test_dynamic_safe_areas_and_fullscreen_shade - Attri...
+FAILED tests/test_v05.py::test_tutorial_three_breaks_first_reward_only_once
+FAILED tests/test_v05.py::test_explicit_request_ids_deduplicate_purchases - a...
+FAILED tests/test_v05.py::test_settings_sanitize_and_presets_unlock_validation
+FAILED tests/test_v05.py::test_forecast_no_income_and_upgrade_explanations - ...
+FAILED tests/test_v05.py::test_wave_report_tracks_effective_damage - Attribut...
+FAILED tests/test_v05.py::test_tutorial_fixed_grant_and_unproductive_investment_blocked
+FAILED tests/test_v05.py::test_old_arc_owner_tutorial_targets_new_research - ...
+FAILED tests/test_v05.py::test_zero_viewport_waits_without_claiming_ui_ready
+FAILED tests/test_v05.py::test_pending_modal_blocks_double_click_and_timeout_recovers
+128 failed, 221 passed in 37.06s
